@@ -1,0 +1,770 @@
+<title>Business Dashboards — UiPath Maestro</title>
+<style>
+:root{
+  --ground:#F5F6F8;--surface:#fff;
+  --text:#111827;--muted:#6B7280;--dim:#9CA3AF;
+  --border:#E5E7EB;--border-inner:#F3F4F6;
+  --tab-blue:#0067DF;
+  --badge-blue:#3B82F6;--badge-red:#EF4444;--badge-green:#10B981;
+  --chart-blue:#6B8DC8;--bar-orange:#F97316;--bar-green:#22C55E;
+  --th:#F9FAFB;
+  --shadow:0 1px 2px rgba(0,0,0,.06);
+  --r:8px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+  --mono:'SF Mono',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);background:var(--ground);}
+
+/* ── ROOT LAYOUT ── */
+.root{display:flex;height:100vh;overflow:hidden;}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;overflow-y:auto;background:var(--ground);}
+
+/* ── SIDENAV ── */
+.sidenav{width:178px;flex-shrink:0;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow-y:auto;}
+.sn-hdr{display:flex;align-items:center;gap:9px;padding:14px 12px 12px;border-bottom:1px solid var(--border-inner);}
+.sn-m{width:26px;height:26px;border-radius:5px;background:#4F46E5;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sn-name{font-size:14px;font-weight:600;color:var(--text);}
+.sn-nav{display:flex;flex-direction:column;padding:8px 8px;gap:1px;}
+.sn-i{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:6px;border:none;background:none;color:var(--text);font-size:13px;font-family:var(--font);cursor:pointer;text-align:left;width:100%;}
+.sn-i:hover{background:var(--ground);}
+.sn-i.active{background:#EEF2FF;color:#3730A3;}
+.sn-i.active svg{color:#3730A3;}
+.sn-i svg{flex-shrink:0;color:var(--muted);}
+.sn-i.active .sn-ico{color:#3730A3;}
+.sn-label{flex:1;}
+.preview-pill{font-size:10px;font-weight:500;padding:1px 6px;border-radius:10px;background:#F3F4F6;color:var(--muted);margin-left:auto;flex-shrink:0;}
+
+/* ── TOPBAR ── */
+.topbar{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:100;flex-shrink:0;}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--text);text-decoration:none;}
+.bc{display:flex;align-items:center;gap:2px;font-size:13px;color:var(--muted);}
+.bc a{color:var(--muted);text-decoration:none;padding:3px 6px;border-radius:4px;}
+.bc a:hover{background:var(--ground);}
+.bc-sep{color:var(--border);margin:0 2px;}
+.bc-cur{color:var(--text);}
+.topbar-r{display:flex;align-items:center;gap:8px;}
+.btn{cursor:pointer;font-family:var(--font);font-size:13px;font-weight:500;padding:6px 14px;border-radius:4px;}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+.btn-outline:hover{background:var(--ground);}
+.btn-primary{background:var(--tab-blue);color:#fff;border:none;}
+.btn-primary:hover{background:#0057C4;}
+.ico-btn{background:none;border:none;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;color:var(--muted);}
+.ico-btn:hover{background:var(--ground);}
+
+/* ── LIST PAGE ── */
+.list-hdr{background:#fff;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.list-title{font-size:15px;font-weight:600;color:var(--text);}
+.list-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.list-hdr-r{display:flex;align-items:center;gap:8px;}
+.list-search{border:1px solid var(--border);border-radius:4px;padding:6px 10px;font-size:13px;font-family:var(--font);outline:none;width:220px;color:var(--text);}
+.list-search:focus{border-color:var(--tab-blue);}
+.list-body{padding:16px 24px;}
+.list-tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.list-tbl th{background:var(--th);padding:9px 14px;font-size:11px;font-weight:600;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+.list-tbl td{padding:11px 14px;border-bottom:1px solid var(--border-inner);font-size:13px;vertical-align:middle;}
+.list-tbl tr:last-child td{border-bottom:none;}
+.list-tbl tbody tr{cursor:pointer;}
+.list-tbl tbody tr:hover td{background:#FAFBFF;}
+.chip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;}
+.chip-bpmn{background:#EFF6FF;color:#1D4ED8;}
+.chip-flow{background:#F0FDF4;color:#15803D;}
+.chip-case{background:#FFF7ED;color:#C2410C;}
+.chip-caseapp{background:#FAF5FF;color:#6D28D9;}
+.status-dot{display:inline-flex;align-items:center;gap:5px;font-size:12px;}
+.dot-green{width:7px;height:7px;border-radius:50%;background:var(--badge-green);flex-shrink:0;}
+.num-val{font-size:13px;font-weight:600;color:var(--text);}
+.num-muted{font-size:12px;color:var(--muted);}
+.row-action{opacity:0;font-size:12px;color:var(--tab-blue);font-weight:500;}
+.list-tbl tbody tr:hover .row-action{opacity:1;}
+
+/* ── PLACEHOLDER PAGE ── */
+.pg-ph{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted);text-align:center;padding:40px;}
+.pg-ph strong{display:block;font-size:15px;color:var(--text);}
+.pg-ph a{color:var(--tab-blue);cursor:pointer;font-size:13px;}
+
+/* ── TAB + FILTER BAR ── */
+.tabnav{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:stretch;justify-content:space-between;padding:0 24px;z-index:99;flex-shrink:0;}
+.tabs{display:flex;align-items:stretch;}
+.tab{padding:0 16px;height:44px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
+.tab-filters{display:flex;align-items:center;gap:14px;}
+.fc{display:flex;align-items:center;gap:3px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--font);padding:0;}
+.fc:hover{color:var(--text);}
+.fc-val{font-weight:600;color:var(--text);}
+.fc-caret{font-size:10px;color:var(--muted);}
+.fc-sep{width:1px;height:16px;background:var(--border);}
+.fc-all{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--font);}
+.fc-all:hover{color:var(--text);}
+
+/* ── DASHBOARD PAGE ── */
+.dash-page{padding:16px 24px;}
+.view-panel{display:none;}
+.view-panel.active{display:block;}
+.tab-ph{padding:80px 24px;text-align:center;color:var(--muted);}
+.tab-ph strong{display:block;margin-bottom:6px;font-size:14px;color:var(--text);}
+
+/* ── KPI BAR ── */
+.kpi-bar{background:#fff;border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;height:48px;padding:0 16px;margin-bottom:16px;box-shadow:var(--shadow);overflow-x:auto;}
+.kpi-label{font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap;padding-right:16px;border-right:1px solid var(--border);margin-right:16px;flex-shrink:0;}
+.kpi-stat{display:flex;align-items:center;gap:5px;padding:0 12px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+.kpi-stat:last-of-type{border-right:none;}
+.kpi-n{font-size:12px;color:var(--muted);}
+.kpi-v{font-size:13px;font-weight:600;color:var(--text);}
+.kpi-t{font-size:11px;}
+.tg{color:#10B981;}.tb{color:#EF4444;}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 6px;border-radius:10px;font-size:12px;font-weight:600;color:#fff;line-height:1;}
+.bb{background:var(--badge-blue);}.bg{background:var(--badge-green);}.br{background:var(--badge-red);}
+.kpi-bar-r{margin-left:auto;display:flex;align-items:center;gap:4px;padding-left:12px;flex-shrink:0;}
+.sm-ico{background:none;border:none;cursor:pointer;color:var(--dim);padding:3px;border-radius:3px;display:flex;align-items:center;}
+.sm-ico:hover{background:var(--ground);color:var(--muted);}
+
+/* ── KPI TOOLTIP ── */
+.kpi-tw{position:relative;display:inline-flex;align-items:center;}
+.kpi-ib{font-size:11px;color:var(--dim);cursor:help;background:none;border:none;padding:0;font-family:var(--font);line-height:1;margin-left:1px;}
+.kpi-ib:hover{color:var(--tab-blue);}
+.kpi-tt{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1D2028;color:#F0F4FF;font-size:11px;line-height:1.5;padding:8px 10px;border-radius:5px;white-space:normal;width:210px;z-index:300;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.28);}
+.kpi-tw:hover .kpi-tt{display:block;}
+
+/* ── GRID + CARD ── */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.row2t{display:grid;grid-template-columns:1fr 1.55fr;gap:16px;margin-bottom:16px;}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+.card-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px;}
+.card-title{font-size:14px;font-weight:600;color:var(--text);}
+.card-hd-actions{display:flex;align-items:center;gap:4px;}
+.bell{background:none;border:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;padding:2px;}
+.bell:hover{color:var(--text);}
+.info-btn{background:none;border:none;cursor:pointer;color:var(--dim);display:flex;align-items:center;padding:2px;border-radius:3px;}
+.info-btn:hover,.info-btn.info-active{color:var(--tab-blue);}
+.help-bar{background:#F0F4FE;border-top:1px solid #DDE5FB;padding:9px 16px;font-size:12px;color:var(--muted);line-height:1.55;}
+
+/* ── CHART ── */
+.chart-wrap{padding:0 14px 12px;display:flex;gap:6px;}
+.y-label-rot{writing-mode:vertical-lr;transform:rotate(180deg);font-size:10px;color:var(--dim);white-space:nowrap;flex-shrink:0;display:flex;align-items:center;}
+.y-label-nums{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;font-size:10px;color:var(--dim);padding-bottom:18px;min-width:24px;flex-shrink:0;}
+.chart-inner-wrap{flex:1;min-width:0;}
+.chart-svg{width:100%;display:block;overflow:visible;}
+.x-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:3px;padding:0 2px;}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{background:var(--th);padding:8px 12px;font-size:11px;font-weight:600;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+.tbl th .si{color:var(--dim);margin-left:2px;font-size:9px;}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--border-inner);font-size:13px;vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.mono{font-family:var(--mono);font-size:12px;}
+.cell-muted{color:var(--muted);font-size:12px;}
+.ibar{display:flex;align-items:center;}
+.ibar-fill{display:inline-flex;align-items:center;justify-content:flex-end;height:22px;border-radius:2px;min-width:6px;}
+.ibar-blu{background:var(--chart-blue);}
+.ibar-val{font-size:12px;font-weight:500;color:#fff;padding:0 7px;white-space:nowrap;}
+.ibar-vout{font-size:12px;color:var(--muted);padding-left:6px;white-space:nowrap;}
+.duration-val{font-size:13px;font-weight:600;color:var(--text);}
+.duration-avg{font-size:11px;color:var(--muted);}
+
+@media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-bar{height:auto;flex-wrap:wrap;padding:10px 12px;gap:8px;}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+
+<div class="root">
+
+<!-- ══ SIDENAV ══ -->
+<aside class="sidenav">
+  <div class="sn-hdr">
+    <div class="sn-m">M</div>
+    <span class="sn-name">Maestro</span>
+  </div>
+  <nav class="sn-nav">
+    <button class="sn-i" data-key="home" onclick="navTo('home')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M2 7L8 2l6 5v7a1 1 0 01-1 1H3a1 1 0 01-1-1V7z" stroke="currentColor" stroke-width="1.3"/><path d="M6 15V9.5h4V15" stroke="currentColor" stroke-width="1.3"/></svg>
+      <span class="sn-label">Home</span>
+    </button>
+    <button class="sn-i active" data-key="proc-inst" onclick="navTo('proc-list')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5.5h6M5 8.5h6M5 11.5h3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <span class="sn-label">Process Instances</span>
+    </button>
+    <button class="sn-i" data-key="proc-inc" onclick="navTo('proc-incidents')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M7.1 2.8a1 1 0 011.8 0l4.9 9A1 1 0 0113 13H3a1 1 0 01-.9-1.2l4.9-9z" stroke="currentColor" stroke-width="1.3"/><path d="M8 6.5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="sn-label">Process Incidents</span>
+    </button>
+    <button class="sn-i" data-key="case-app" onclick="navTo('case-app')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2" y="2" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 9v5M9 11.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <span class="sn-label">Case app</span>
+      <span class="preview-pill">Preview</span>
+    </button>
+    <button class="sn-i" data-key="case-inst" onclick="navTo('case-list')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="2.5" y1="5.5" x2="13.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M5 8.5h6M5 11h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <span class="sn-label">Case Instances</span>
+      <span class="preview-pill">Preview</span>
+    </button>
+    <button class="sn-i" data-key="case-inc" onclick="navTo('case-incidents')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M7.1 2.8a1 1 0 011.8 0l4.9 9A1 1 0 0113 13H3a1 1 0 01-.9-1.2l4.9-9z" stroke="currentColor" stroke-width="1.3"/><path d="M8 6.5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="sn-label">Case Incidents</span>
+      <span class="preview-pill">Preview</span>
+    </button>
+    <button class="sn-i" data-key="flow-inst" onclick="navTo('flow-instances')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><circle cx="8" cy="3.5" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="12.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="13" cy="12.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><path d="M8 5.5v3.5M8 9L4.5 11M8 9l3.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <span class="sn-label">Flow Instances</span>
+      <span class="preview-pill">Preview</span>
+    </button>
+    <button class="sn-i" data-key="flow-inc" onclick="navTo('flow-incidents')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M7.1 2.8a1 1 0 011.8 0l4.9 9A1 1 0 0113 13H3a1 1 0 01-.9-1.2l4.9-9z" stroke="currentColor" stroke-width="1.3"/><path d="M8 6.5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="sn-label">Flow Incidents</span>
+      <span class="preview-pill">Preview</span>
+    </button>
+  </nav>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <a class="logo" href="#">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect width="26" height="26" rx="5" fill="#FA4616"/><circle cx="13" cy="13" r="5.5" stroke="#fff" stroke-width="2.5" fill="none"/></svg>
+      UiPath Maestro
+    </a>
+    <div class="bc" id="bc"></div>
+    <div class="topbar-r" id="topbar-r"></div>
+  </div>
+
+  <!-- ── PAGE: PROCESS LIST ── -->
+  <div id="pg-pl" style="display:flex;flex-direction:column;flex:1;">
+    <div class="list-hdr">
+      <div>
+        <div class="list-title">Process Instances</div>
+        <div class="list-sub">5 processes</div>
+      </div>
+      <div class="list-hdr-r">
+        <input class="list-search" placeholder="Search processes…" oninput="filterList(this,'proc-list-body')">
+        <button class="btn btn-outline">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:4px;vertical-align:middle;"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Filter
+        </button>
+      </div>
+    </div>
+    <div class="list-body">
+      <table class="list-tbl">
+        <thead><tr>
+          <th>Name</th><th>Type</th><th>Status</th>
+          <th>Started this month</th><th>Completed this month</th><th>Open</th><th></th>
+        </tr></thead>
+        <tbody id="proc-list-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PAGE: CASE LIST ── -->
+  <div id="pg-cl" style="display:none;flex-direction:column;flex:1;">
+    <div class="list-hdr">
+      <div>
+        <div class="list-title">Case Instances</div>
+        <div class="list-sub">3 case apps</div>
+      </div>
+      <div class="list-hdr-r">
+        <input class="list-search" placeholder="Search case apps…" oninput="filterList(this,'case-list-body')">
+        <button class="btn btn-outline">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:4px;vertical-align:middle;"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Filter
+        </button>
+      </div>
+    </div>
+    <div class="list-body">
+      <table class="list-tbl">
+        <thead><tr>
+          <th>Name</th><th>Status</th>
+          <th>Open cases</th><th>Closed this month</th><th>Opened this month</th><th></th>
+        </tr></thead>
+        <tbody id="case-list-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PAGE: BUSINESS DASHBOARD DETAIL ── -->
+  <div id="pg-detail" style="display:none;flex-direction:column;flex:1;">
+
+    <!-- TAB NAV (no View toggle) -->
+    <div class="tabnav">
+      <div class="tabs">
+        <button class="tab" onclick="switchTab('im',this)">Instance management</button>
+        <button class="tab" onclick="switchTab('mon',this)">Monitoring</button>
+        <button class="tab" onclick="switchTab('opt',this)">Optimize</button>
+        <button class="tab active" onclick="switchTab('biz',this)">Business Dashboards</button>
+      </div>
+      <div class="tab-filters">
+        <button class="fc"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc-all"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>&nbsp;All filters</button>
+      </div>
+    </div>
+
+    <div class="tab-ph" id="tab-ph" style="display:none;">
+      <strong id="tab-ph-name"></strong>
+      This tab is not part of the prototype. <a href="#" onclick="restoreBiz();return false;" style="color:var(--tab-blue);">Switch to Business Dashboards →</a>
+    </div>
+
+    <div class="dash-page" id="biz-page">
+
+      <!-- ═ INSTANCES PANEL ═ -->
+      <div class="view-panel" id="panel-inst">
+        <div class="kpi-bar">
+          <span class="kpi-label">Business overview</span>
+          <div class="kpi-stat">
+            <span class="kpi-n">Number of process instances</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new instances of this process started during the selected period.</span></span>
+            <span class="kpi-v">847</span><span class="kpi-t tg">↑ 5.8%</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Completed</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many instances were successfully completed during the selected period.</span></span>
+            <span class="badge bg">712</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Open</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many instances are running right now, regardless of when they started.</span></span>
+            <span class="badge bb">203</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Completion rate</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of instances that finished successfully this period. A drop is an early warning sign.</span></span>
+            <span class="badge bg">84.1%</span><span class="kpi-t tg">↑ 1.8pp</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Median cycle time</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The typical time it takes an instance to go from start to finish.</span></span>
+            <span class="kpi-v">4.2 d</span><span class="kpi-t tg">↓ 0.2d</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Exception rate</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The percentage of instances that needed a person to step in instead of completing on their own.</span></span>
+            <span class="kpi-v">7.3%</span><span class="kpi-t tg">↓ 0.7pp</span>
+          </div>
+          <div class="kpi-bar-r">
+            <button class="sm-ico" title="Layout"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg></button>
+            <button class="sm-ico" title="Edit"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5l2 2-7 7H2.5v-2l7-7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Process instances over time</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>How many new instances of this process started during the selected period.</div>
+            <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ni"></div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Median cycle time</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>The typical time it takes an instance to go from start to finish.</div>
+            <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-cy"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-cy" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-cy"></div></div></div>
+          </div>
+        </div>
+
+        <div class="row2t">
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Stuck process instances</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
+            <table class="tbl"><thead><tr><th>Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
+            <tbody>
+              <tr><td class="mono">INS-2024-0892</td><td class="cell-muted">Document Verification</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 0.8 d</div></td></tr>
+              <tr><td class="mono">INS-2024-1147</td><td class="cell-muted">Fraud Review</td><td><div class="duration-val">14.7 days</div><div class="duration-avg">avg: 2.1 d</div></td></tr>
+              <tr><td class="mono">INS-2024-1203</td><td class="cell-muted">Approval Gate</td><td><div class="duration-val">12.1 days</div><div class="duration-avg">avg: 0.5 d</div></td></tr>
+              <tr><td class="mono">INS-2024-0984</td><td class="cell-muted">Fraud Review</td><td><div class="duration-val">11.4 days</div><div class="duration-avg">avg: 2.1 d</div></td></tr>
+              <tr><td class="mono">INS-2024-1089</td><td class="cell-muted">Manual Triage</td><td><div class="duration-val">9.8 days</div><div class="duration-avg">avg: 1.2 d</div></td></tr>
+            </tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Bottleneck steps</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>The top 3 steps causing the most delays and backlog right now. These are the best places to focus improvement efforts.</div>
+            <table class="tbl"><thead><tr><th>Step name<span class="si">⇅</span></th><th>Instances queued<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
+            <tbody id="bn-inst-rows"></tbody></table>
+          </div>
+        </div>
+      </div><!-- /panel-inst -->
+
+      <!-- ═ CASES PANEL ═ -->
+      <div class="view-panel" id="panel-case">
+        <div class="kpi-bar">
+          <span class="kpi-label">Business overview</span>
+          <div class="kpi-stat">
+            <span class="kpi-n">Number of cases</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new cases were opened during the selected period.</span></span>
+            <span class="kpi-v">847</span><span class="kpi-t tg">↑ 5.8%</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Closed</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases were resolved and closed during the selected period.</span></span>
+            <span class="badge bg">712</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Open</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases are currently open, regardless of when they started.</span></span>
+            <span class="badge bb">203</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Resolution rate</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of cases that got resolved this period. A dropping number is an early warning sign.</span></span>
+            <span class="badge bg">84.1%</span><span class="kpi-t tg">↑ 1.8pp</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Median case age</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The typical time it takes a case to go from open to close.</span></span>
+            <span class="kpi-v">4.2 d</span><span class="kpi-t tg">↓ 0.2d</span>
+          </div>
+          <div class="kpi-stat">
+            <span class="kpi-n">Exception rate</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The percentage of cases that needed a person to step in and handle a problem, rather than following the standard case path.</span></span>
+            <span class="kpi-v">7.3%</span><span class="kpi-t tg">↓ 0.7pp</span>
+          </div>
+          <div class="kpi-bar-r">
+            <button class="sm-ico" title="Layout"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg></button>
+            <button class="sm-ico" title="Edit"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5l2 2-7 7H2.5v-2l7-7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Cases over time</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>How many new cases were opened during the selected period.</div>
+            <div class="chart-wrap"><div class="y-label-rot">Case count</div><div class="y-label-nums" id="yl-nc"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-nc" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-nc"></div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Median case age at close</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>The typical time it takes a case to go from open to close.</div>
+            <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-ca"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ca" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ca"></div></div></div>
+          </div>
+        </div>
+
+        <div class="row2t">
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Cases stuck in stage</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>Cases that are taking noticeably longer than usual in their current stage, compared to how long that stage normally takes. These are the best ones to check on first.</div>
+            <table class="tbl"><thead><tr><th>Case ID<span class="si">⇅</span></th><th>Current stage<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
+            <tbody>
+              <tr><td class="mono">CLM-2024-0892</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
+              <tr><td class="mono">CLM-2024-1147</td><td class="cell-muted">Document Validation</td><td><div class="duration-val">14.7 days</div><div class="duration-avg">avg: 0.8 d</div></td></tr>
+              <tr><td class="mono">CLM-2024-1203</td><td class="cell-muted">Approval</td><td><div class="duration-val">12.1 days</div><div class="duration-avg">avg: 0.5 d</div></td></tr>
+              <tr><td class="mono">CLM-2024-0984</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">11.4 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
+              <tr><td class="mono">CLM-2024-1089</td><td class="cell-muted">Initial Triage</td><td><div class="duration-val">9.8 days</div><div class="duration-avg">avg: 1.2 d</div></td></tr>
+            </tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Bottleneck stages</span>
+              <div class="card-hd-actions">
+                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="bell" title="Configure alert"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+            </div>
+            <div class="help-bar" hidden>The top 3 stages that are most often the cause of delays and backlog right now. This is the best place to focus improvement efforts.</div>
+            <table class="tbl"><thead><tr><th>Stage name<span class="si">⇅</span></th><th>Cases in stage<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
+            <tbody id="bn-case-rows"></tbody></table>
+          </div>
+        </div>
+      </div><!-- /panel-case -->
+
+    </div><!-- /biz-page -->
+  </div><!-- /pg-detail -->
+
+  <!-- ── PAGE: PLACEHOLDER ── -->
+  <div id="pg-ph" style="display:none;flex:1;" class="pg-ph">
+    <strong id="pg-ph-name"></strong>
+    <p>This section is not part of the prototype.</p>
+    <a onclick="navTo(lastListPage);return false;">← Back to Process Instances</a>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /root -->
+
+<script>
+// ── STATE ──
+let detailType = 'inst';
+let detailName = '';
+let detailFrom = 'proc-list';
+let lastListPage = 'proc-list';
+let chartsReady = false;
+
+const PROC_DATA = [
+  {name:'Claim Processing',                type:'BPMN',  started:847,  completed:712,  open:203},
+  {name:'Employee Onboarding',             type:'Flow',  started:523,  completed:489,  open:67},
+  {name:'Invoice Approval Process',        type:'BPMN',  started:2103, completed:1891, open:312},
+  {name:'Loan Processing',                 type:'BPMN',  started:456,  completed:378,  open:89},
+  {name:'Customer Complaint Resolution',   type:'Case',  started:318,  completed:267,  open:56},
+];
+
+const CASE_DATA = [
+  {name:'Claim Processing',     open:203, closed:712, opened:847},
+  {name:'Mortgage Origination', open:156, closed:540, opened:712},
+  {name:'Customer Onboarding',  open:89,  closed:301, opened:412},
+];
+
+const CHIP = {BPMN:'chip-bpmn',Flow:'chip-flow',Case:'chip-case',CaseApp:'chip-caseapp'};
+
+// ── RENDER LISTS ──
+function renderProcList() {
+  document.getElementById('proc-list-body').innerHTML = PROC_DATA.map(p => `
+    <tr onclick="openProcess('${p.name.replace(/'/g,"\\'")}')">
+      <td><strong style="font-size:13px;">${p.name}</strong></td>
+      <td><span class="chip ${CHIP[p.type]||''}">${p.type}</span></td>
+      <td><span class="status-dot"><span class="dot-green"></span>Active</span></td>
+      <td><span class="num-val">${p.started.toLocaleString()}</span></td>
+      <td><span class="num-val">${p.completed.toLocaleString()}</span></td>
+      <td><span class="badge bb">${p.open}</span></td>
+      <td><span class="row-action">Open →</span></td>
+    </tr>`).join('');
+}
+
+function renderCaseList() {
+  document.getElementById('case-list-body').innerHTML = CASE_DATA.map(c => `
+    <tr onclick="openCase('${c.name.replace(/'/g,"\\'")}')">
+      <td><strong style="font-size:13px;">${c.name}</strong></td>
+      <td><span class="status-dot"><span class="dot-green"></span>Active</span></td>
+      <td><span class="badge bb">${c.open}</span></td>
+      <td><span class="num-val">${c.closed.toLocaleString()}</span></td>
+      <td><span class="num-val">${c.opened.toLocaleString()}</span></td>
+      <td><span class="row-action">Open →</span></td>
+    </tr>`).join('');
+}
+
+function filterList(input, tbodyId) {
+  const q = input.value.toLowerCase();
+  document.querySelectorAll('#'+tbodyId+' tr').forEach(tr => {
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ── NAVIGATION ──
+function navTo(page, name) {
+  // hide all pages
+  ['pg-pl','pg-cl','pg-detail','pg-ph'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+
+  // update sidenav active
+  const keyMap = {
+    'home':'home','proc-list':'proc-inst','proc-incidents':'proc-inc',
+    'case-app':'case-app','case-list':'case-inst','case-incidents':'case-inc',
+    'flow-instances':'flow-inst','flow-incidents':'flow-inc',
+    'proc-detail':'proc-inst','case-detail':'case-inst',
+  };
+  const activeKey = keyMap[page] || '';
+  document.querySelectorAll('.sn-i').forEach(el => {
+    el.classList.toggle('active', el.dataset.key === activeKey);
+  });
+
+  updateTopbar(page, name);
+
+  if (page === 'proc-list') {
+    lastListPage = 'proc-list';
+    document.getElementById('pg-pl').style.display = 'flex';
+  } else if (page === 'case-list') {
+    lastListPage = 'case-list';
+    document.getElementById('pg-cl').style.display = 'flex';
+  } else if (page === 'proc-detail') {
+    detailType = 'inst'; detailName = name||''; detailFrom = 'proc-list';
+    showDetail('inst');
+  } else if (page === 'case-detail') {
+    detailType = 'case'; detailName = name||''; detailFrom = 'case-list';
+    showDetail('case');
+  } else {
+    // placeholder pages
+    const labels = {
+      home:'Home','proc-incidents':'Process Incidents','case-app':'Case app',
+      'case-incidents':'Case Incidents','flow-instances':'Flow Instances','flow-incidents':'Flow Incidents'
+    };
+    document.getElementById('pg-ph-name').textContent = labels[page] || page;
+    document.getElementById('pg-ph').style.display = 'flex';
+  }
+}
+
+function openProcess(name) { navTo('proc-detail', name); }
+function openCase(name)    { navTo('case-detail', name); }
+
+function showDetail(type) {
+  // Reset to Business Dashboards tab
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===3));
+  document.getElementById('biz-page').style.display = '';
+  document.getElementById('tab-ph').style.display = 'none';
+
+  // Show correct panel
+  document.getElementById('panel-inst').classList.toggle('active', type==='inst');
+  document.getElementById('panel-case').classList.toggle('active', type==='case');
+
+  const detail = document.getElementById('pg-detail');
+  detail.style.display = 'flex';
+
+  if (!chartsReady) { chartsReady = true; drawAllCharts(); }
+}
+
+function updateTopbar(page, name) {
+  const bc = document.getElementById('bc');
+  const tr = document.getElementById('topbar-r');
+
+  if (page === 'proc-list') {
+    bc.innerHTML = '<span class="bc-cur">Process Instances</span>';
+    tr.innerHTML = '<button class="btn btn-outline">Configure filtering</button>';
+  } else if (page === 'case-list') {
+    bc.innerHTML = '<span class="bc-cur">Case Instances</span>';
+    tr.innerHTML = '<button class="btn btn-outline">Configure filtering</button>';
+  } else if (page === 'proc-detail' || page === 'case-detail') {
+    const listKey = page==='proc-detail' ? 'proc-list' : 'case-list';
+    const listLabel = page==='proc-detail' ? 'Process Instances' : 'Case Instances';
+    const n = name || detailName;
+    bc.innerHTML = `
+      <a href="#" onclick="navTo('${listKey}');return false;">← Back</a>
+      <span class="bc-sep">|</span>
+      <a href="#" onclick="navTo('${listKey}');return false;">${listLabel}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-cur">${n}</span>`;
+    tr.innerHTML = `
+      <button class="btn btn-outline">Configure filtering</button>
+      <button class="btn btn-primary">Run</button>
+      <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
+  } else {
+    bc.innerHTML = '';
+    tr.innerHTML = '';
+  }
+}
+
+// ── TAB SWITCHING (detail page) ──
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const isBiz = tab === 'biz';
+  document.getElementById('biz-page').style.display = isBiz ? '' : 'none';
+  const ph = document.getElementById('tab-ph');
+  ph.style.display = isBiz ? 'none' : '';
+  if (!isBiz) {
+    const names = {im:'Instance Management',mon:'Monitoring',opt:'Optimize'};
+    document.getElementById('tab-ph-name').textContent = names[tab]||tab;
+  }
+}
+
+function restoreBiz() {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===3));
+  document.getElementById('biz-page').style.display = '';
+  document.getElementById('tab-ph').style.display = 'none';
+}
+
+function toggleHelp(btn) {
+  const hb = btn.closest('.card').querySelector('.help-bar');
+  if (!hb) return;
+  hb.hidden = !hb.hidden;
+  btn.classList.toggle('info-active', !hb.hidden);
+}
+
+// ── CHARTS ──
+function drawBar(svgId, ylId, xlId, data, labels) {
+  const svg = document.getElementById(svgId);
+  const ylEl = document.getElementById(ylId);
+  const xlEl = document.getElementById(xlId);
+  if (!svg) return;
+  const W=400,H=140,pL=4,pR=4,pT=8,pB=4,cW=W-pL-pR,cH=H-pT-pB;
+  const max=Math.max(...data), yMax=Math.ceil(max*1.15/100)*100||10, yMid=Math.round(yMax/2);
+  const bW=cW/data.length*0.55, bG=cW/data.length;
+  const y0=pT+cH, yM=pT+cH-(yMid/yMax)*cH;
+  let s=`<line x1="${pL}" y1="${y0}" x2="${W-pR}" y2="${y0}" stroke="#E5E7EB" stroke-width="1"/>
+    <line x1="${pL}" y1="${yM}" x2="${W-pR}" y2="${yM}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="${pL}" y1="${pT}" x2="${W-pR}" y2="${pT}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>`;
+  data.forEach((v,i)=>{const bH=(v/yMax)*cH,x=pL+i*bG+(bG-bW)/2,y=pT+cH-bH;s+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bW.toFixed(1)}" height="${bH.toFixed(1)}" fill="#6B8DC8" rx="1"/>`;});
+  svg.innerHTML=s;
+  ylEl.innerHTML=`<span>${yMax}</span><span>${yMid}</span><span>0</span>`;
+  xlEl.innerHTML=labels.map(l=>`<span>${l}</span>`).join('');
+}
+
+function drawLine(svgId, ylId, xlId, data, labels) {
+  const svg=document.getElementById(svgId),ylEl=document.getElementById(ylId),xlEl=document.getElementById(xlId);
+  if(!svg)return;
+  const W=400,H=140,pL=4,pR=8,pT=8,pB=4,cW=W-pL-pR,cH=H-pT-pB;
+  const mn=Math.floor(Math.min(...data)*0.85*2)/2, mx=Math.ceil(Math.max(...data)*1.1*2)/2;
+  const rng=mx-mn||1, mid=(mn+mx)/2;
+  const px=i=>pL+(i/(data.length-1))*cW, py=v=>pT+cH-((v-mn)/rng)*cH;
+  const y0=py(mn);
+  let els=`<line x1="${pL}" y1="${y0.toFixed(1)}" x2="${W-pR}" y2="${y0.toFixed(1)}" stroke="#E5E7EB" stroke-width="1"/>
+    <line x1="${pL}" y1="${py(mid).toFixed(1)}" x2="${W-pR}" y2="${py(mid).toFixed(1)}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="${pL}" y1="${py(mx).toFixed(1)}" x2="${W-pR}" y2="${py(mx).toFixed(1)}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>`;
+  const pts=data.map((v,i)=>[px(i),py(v)]);
+  let lp=`M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for(let i=1;i<pts.length;i++){const[x0,y0p]=pts[i-1],[x1,y1]=pts[i],cx=(x1-x0)/3;lp+=` C${(x0+cx).toFixed(1)},${y0p.toFixed(1)} ${(x1-cx).toFixed(1)},${y1.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;}
+  const ap=lp+` L${pts[pts.length-1][0].toFixed(1)},${y0.toFixed(1)} L${pts[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
+  els+=`<defs><linearGradient id="g${svgId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6B8DC8" stop-opacity="0.15"/><stop offset="100%" stop-color="#6B8DC8" stop-opacity="0"/></linearGradient></defs>`;
+  els+=`<path d="${ap}" fill="url(#g${svgId})"/><path d="${lp}" stroke="#6B8DC8" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  pts.forEach(([x,y])=>{els+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="#6B8DC8"/>`;});
+  svg.innerHTML=els;
+  ylEl.innerHTML=`<span>${mx.toFixed(1)}</span><span>${mid.toFixed(1)}</span><span>${mn.toFixed(1)}</span>`;
+  xlEl.innerHTML=labels.map(l=>`<span>${l}</span>`).join('');
+}
+
+function drawBnTable(tbodyId, rows) {
+  const tbody=document.getElementById(tbodyId);
+  if(!tbody)return;
+  const maxV=Math.max(...rows.map(r=>r.wait)), maxW=180;
+  tbody.innerHTML=rows.map(r=>{
+    const w=Math.max(6,(r.wait/maxV)*maxW), inside=w>60;
+    return`<tr><td>${r.name}</td><td class="cell-muted">${r.queued}</td><td><div class="ibar"><div class="ibar-fill ibar-blu" style="width:${w.toFixed(0)}px;">${inside?`<span class="ibar-val">${r.label}</span>`:''}</div>${!inside?`<span class="ibar-vout">${r.label}</span>`:''}</div></td></tr>`;
+  }).join('');
+}
+
+function drawAllCharts() {
+  const mo=['Jan','Feb','Mar','Apr','May','Jun'];
+  const nd=[621,589,743,801,912,847], cd=[5.8,5.4,5.1,4.8,4.4,4.2];
+  drawBar('ch-ni','yl-ni','xl-ni',nd,mo);
+  drawLine('ch-cy','yl-cy','xl-cy',cd,mo);
+  drawBar('ch-nc','yl-nc','xl-nc',nd,mo);
+  drawLine('ch-ca','yl-ca','xl-ca',cd,mo);
+  drawBnTable('bn-inst-rows',[
+    {name:'Document Verification',queued:67,wait:19.4,label:'19.4 h'},
+    {name:'Fraud Review',queued:24,wait:7.2,label:'7.2 h'},
+    {name:'Approval Gate',queued:18,wait:4.8,label:'4.8 h'},
+  ]);
+  drawBnTable('bn-case-rows',[
+    {name:'Underwriting Review',queued:52,wait:19.4,label:'19.4 h'},
+    {name:'Document Validation',queued:24,wait:7.2,label:'7.2 h'},
+    {name:'Approval',queued:18,wait:4.8,label:'4.8 h'},
+  ]);
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', () => {
+  renderProcList();
+  renderCaseList();
+  navTo('proc-list');
+});
+</script>
