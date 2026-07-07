@@ -142,6 +142,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .kpi-ib:hover{color:var(--tab-blue);}
 .kpi-tt{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1D2028;color:#F0F4FF;font-size:11px;line-height:1.5;padding:8px 10px;border-radius:5px;white-space:normal;width:210px;z-index:300;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.28);}
 .kpi-tw:hover .kpi-tt{display:block;}
+.kpi-tt.kpi-tt-r{left:auto;right:0;transform:none;}
 
 /* ── GRID + CARD ── */
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
@@ -316,7 +317,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <button class="tab active" onclick="switchTab('biz',this)">Business Dashboards</button>
       </div>
       <div class="tab-filters">
-        <button class="fc"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val" id="range-val">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
         <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
@@ -339,7 +340,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
               <span class="kpi-card-name">Number of process instances</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new instances of this process started during the selected period.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">847</span><span class="kpi-t tg">↑ 5.8%</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">317</span><span class="kpi-t tg">↑ 3.2%</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
@@ -347,7 +348,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
               <span class="kpi-card-name">Completed</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many instances were successfully completed during the selected period.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">712</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">267</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
@@ -355,31 +356,31 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
               <span class="kpi-card-name">Open</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many instances are running right now, regardless of when they started.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue">203</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue">42</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">Completion rate</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of instances that finished successfully this period. A drop is an early warning sign.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of instances that finished successfully this period. The ↑/↓ indicator shows change vs the previous period — a sustained drop is an early warning sign.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">84.1%</span><span class="kpi-t tg">↑ 1.8pp</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">84.2%</span><span class="kpi-t tg">↑ 1.4pp</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">Median cycle time</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The typical time it takes an instance to go from start to finish.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The typical time it takes an instance to go from start to finish.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val">4.2 d</span><span class="kpi-t tg">↓ 0.2d</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val">3.8 d</span><span class="kpi-t tg">↓ 0.4d</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">Exception rate</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The percentage of instances that needed a person to step in instead of completing on their own.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The percentage of instances that needed a person to step in instead of completing on their own.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val">7.3%</span><span class="kpi-t tg">↓ 0.7pp</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val">6.1%</span><span class="kpi-t tg">↓ 0.5pp</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
         </div>
@@ -447,7 +448,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
               <span class="kpi-card-name">Number of cases</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new cases were opened during the selected period.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">847</span><span class="kpi-t tg">↑ 5.8%</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">198</span><span class="kpi-t tg">↑ 2.8%</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
@@ -455,7 +456,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
               <span class="kpi-card-name">Closed</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases were resolved and closed during the selected period.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">712</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">168</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
@@ -463,31 +464,31 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
               <span class="kpi-card-name">Open</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases are currently open, regardless of when they started.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue">203</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue">27</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">Resolution rate</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of cases that got resolved this period. A dropping number is an early warning sign.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of cases that got resolved this period. The ↑/↓ indicator shows change vs the previous period — a sustained drop is an early warning sign.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">84.1%</span><span class="kpi-t tg">↑ 1.8pp</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">84.8%</span><span class="kpi-t tg">↑ 1.2pp</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">Median case age</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The typical time it takes a case to go from open to close.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The typical time it takes a case to go from open to close.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val">4.2 d</span><span class="kpi-t tg">↓ 0.2d</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val">4.1 d</span><span class="kpi-t tg">↓ 0.3d</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">Exception rate</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">The percentage of cases that needed a person to step in and handle a problem, rather than following the standard case path.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The percentage of cases that needed a person to step in and handle a problem, rather than following the standard case path.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val">7.3%</span><span class="kpi-t tg">↓ 0.7pp</span></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val">5.8%</span><span class="kpi-t tg">↓ 0.4pp</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
         </div>
@@ -583,6 +584,38 @@ const CASE_DATA = [
 ];
 
 const CHIP = {BPMN:'chip-bpmn',Flow:'chip-flow',Case:'chip-case',CaseApp:'chip-caseapp'};
+
+const RANGES = ['Last month', 'Last 3 months', 'Last 6 months'];
+let currentRange = 'Last month';
+
+// June 2026 daily data (30 days, total=317). Weekends show near-zero traffic.
+const RANGE_CHARTS = {
+  'Last month': {
+    instCounts: [15,14,15,16,12,2,0, 14,15,13,17,11,1,0, 16,14,13,15,12,3,0, 14,16,15,13,11,2,0, 15,13],
+    instLabels: ['Jun 1','','','','','Jun 6','','','','','Jun 11','','','','','Jun 16','','','','','Jun 21','','','','','Jun 26','','','',''],
+    cycleDays:  [4.0,3.9,4.1,3.8,3.9,3.7,3.8,3.6,3.8],
+    cycleLabels:['Jun 2','Jun 5','Jun 9','Jun 12','Jun 16','Jun 19','Jun 23','Jun 26','Jun 30'],
+  },
+  'Last 3 months': {
+    instCounts: [68,72,74,77, 71,74,77,83, 63,72,74,81],
+    instLabels: ['Apr wk1','','Apr wk3','', 'May wk1','','May wk3','', 'Jun wk1','','Jun wk3',''],
+    cycleDays:  [4.9,4.7,4.5,4.3, 4.2,4.0,3.9,3.8],
+    cycleLabels:['Apr wk1','Apr wk2','May wk1','May wk2','Jun wk1','Jun wk2','Jun wk3','Jun wk4'],
+  },
+  'Last 6 months': {
+    instCounts: [161,198,267,291,305,317],
+    instLabels: ['Jan','Feb','Mar','Apr','May','Jun'],
+    cycleDays:  [5.8,5.4,5.1,4.8,4.4,3.8],
+    cycleLabels:['Jan','Feb','Mar','Apr','May','Jun'],
+  },
+};
+
+function cycleRange() {
+  const idx = (RANGES.indexOf(currentRange) + 1) % RANGES.length;
+  currentRange = RANGES[idx];
+  document.getElementById('range-val').textContent = currentRange;
+  if (chartsReady) drawAllCharts();
+}
 
 // ── RENDER LISTS ──
 function renderProcList() {
@@ -754,7 +787,9 @@ function drawBar(svgId, ylId, xlId, data, labels) {
   const xlEl = document.getElementById(xlId);
   if (!svg) return;
   const W=400,H=140,pL=4,pR=4,pT=8,pB=4,cW=W-pL-pR,cH=H-pT-pB;
-  const max=Math.max(...data), yMax=Math.ceil(max*1.15/100)*100||10, yMid=Math.round(yMax/2);
+  const max=Math.max(...data)||1;
+  const mag=Math.pow(10,Math.floor(Math.log10(max)));
+  const yMax=Math.ceil(max*1.2/mag)*mag||10, yMid=Math.round(yMax/2);
   const bW=cW/data.length*0.55, bG=cW/data.length;
   const y0=pT+cH, yM=pT+cH-(yMid/yMax)*cH;
   let s=`<line x1="${pL}" y1="${y0}" x2="${W-pR}" y2="${y0}" stroke="#E5E7EB" stroke-width="1"/>
@@ -800,21 +835,20 @@ function drawBnTable(tbodyId, rows) {
 }
 
 function drawAllCharts() {
-  const mo=['Jan','Feb','Mar','Apr','May','Jun'];
-  const nd=[621,589,743,801,912,847], cd=[5.8,5.4,5.1,4.8,4.4,4.2];
-  drawBar('ch-ni','yl-ni','xl-ni',nd,mo);
-  drawLine('ch-cy','yl-cy','xl-cy',cd,mo);
-  drawBar('ch-nc','yl-nc','xl-nc',nd,mo);
-  drawLine('ch-ca','yl-ca','xl-ca',cd,mo);
+  const d = RANGE_CHARTS[currentRange];
+  drawBar('ch-ni','yl-ni','xl-ni', d.instCounts, d.instLabels);
+  drawLine('ch-cy','yl-cy','xl-cy', d.cycleDays,  d.cycleLabels);
+  drawBar('ch-nc','yl-nc','xl-nc', d.instCounts, d.instLabels);
+  drawLine('ch-ca','yl-ca','xl-ca', d.cycleDays,  d.cycleLabels);
   drawBnTable('bn-inst-rows',[
-    {name:'Document Verification',queued:67,wait:19.4,label:'19.4 h'},
-    {name:'Fraud Review',queued:24,wait:7.2,label:'7.2 h'},
-    {name:'Approval Gate',queued:18,wait:4.8,label:'4.8 h'},
+    {name:'Document Verification',queued:28,wait:11.2,label:'11.2 h'},
+    {name:'Fraud Review',         queued:11,wait:4.3, label:'4.3 h'},
+    {name:'Approval Gate',        queued:8, wait:2.7, label:'2.7 h'},
   ]);
   drawBnTable('bn-case-rows',[
-    {name:'Underwriting Review',queued:52,wait:19.4,label:'19.4 h'},
-    {name:'Document Validation',queued:24,wait:7.2,label:'7.2 h'},
-    {name:'Approval',queued:18,wait:4.8,label:'4.8 h'},
+    {name:'Underwriting Review',  queued:18,wait:11.2,label:'11.2 h'},
+    {name:'Document Validation',  queued:9, wait:4.3, label:'4.3 h'},
+    {name:'Approval',             queued:6, wait:2.7, label:'2.7 h'},
   ]);
 }
 
