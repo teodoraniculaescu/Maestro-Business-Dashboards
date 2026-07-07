@@ -248,8 +248,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <div class="list-body">
       <table class="list-tbl">
         <thead><tr>
-          <th>Name</th><th>Type</th><th>Status</th>
-          <th>Started this month</th><th>Completed this month</th><th>Open</th><th></th>
+          <th>Name</th>
+          <th>Running</th><th>Paused</th><th>Cancelled</th><th>Completed</th>
+          <th>Faulted</th><th>Transitioning</th><th>Total</th>
+          <th>Versions</th><th>Location</th><th></th>
         </tr></thead>
         <tbody id="proc-list-body"></tbody>
       </table>
@@ -521,11 +523,11 @@ let lastListPage = 'proc-list';
 let chartsReady = false;
 
 const PROC_DATA = [
-  {name:'Claim Processing',                type:'BPMN',  started:847,  completed:712,  open:203},
-  {name:'Employee Onboarding',             type:'Flow',  started:523,  completed:489,  open:67},
-  {name:'Invoice Approval Process',        type:'BPMN',  started:2103, completed:1891, open:312},
-  {name:'Loan Processing',                 type:'BPMN',  started:456,  completed:378,  open:89},
-  {name:'Customer Complaint Resolution',   type:'Case',  started:318,  completed:267,  open:56},
+  {name:'Claim Processing',              running:203, paused:12, cancelled:45, completed:712, faulted:23, transitioning:8,  total:1003, versions:3, location:'Default'},
+  {name:'Employee Onboarding',           running:67,  paused:5,  cancelled:18, completed:489, faulted:11, transitioning:3,  total:593,  versions:2, location:'Default'},
+  {name:'Invoice Approval Process',      running:312, paused:28, cancelled:102,completed:1891,faulted:67, transitioning:15, total:2415, versions:5, location:'Shared'},
+  {name:'Loan Processing',               running:89,  paused:8,  cancelled:34, completed:378, faulted:19, transitioning:5,  total:533,  versions:2, location:'Default'},
+  {name:'Customer Complaint Resolution', running:56,  paused:4,  cancelled:21, completed:267, faulted:9,  transitioning:2,  total:359,  versions:1, location:'Shared'},
 ];
 
 const CASE_DATA = [
@@ -541,11 +543,15 @@ function renderProcList() {
   document.getElementById('proc-list-body').innerHTML = PROC_DATA.map(p => `
     <tr onclick="openProcess('${p.name.replace(/'/g,"\\'")}')">
       <td><strong style="font-size:13px;">${p.name}</strong></td>
-      <td><span class="chip ${CHIP[p.type]||''}">${p.type}</span></td>
-      <td><span class="status-dot"><span class="dot-green"></span>Active</span></td>
-      <td><span class="num-val">${p.started.toLocaleString()}</span></td>
+      <td><span class="num-val">${p.running.toLocaleString()}</span></td>
+      <td><span class="num-muted">${p.paused.toLocaleString()}</span></td>
+      <td><span class="num-muted">${p.cancelled.toLocaleString()}</span></td>
       <td><span class="num-val">${p.completed.toLocaleString()}</span></td>
-      <td><span class="badge bb">${p.open}</span></td>
+      <td><span class="${p.faulted>0?'badge br':'num-muted'}">${p.faulted.toLocaleString()}</span></td>
+      <td><span class="num-muted">${p.transitioning.toLocaleString()}</span></td>
+      <td><span class="num-val">${p.total.toLocaleString()}</span></td>
+      <td><span class="num-muted">${p.versions}</span></td>
+      <td><span class="num-muted">${p.location}</span></td>
       <td><span class="row-action">Open →</span></td>
     </tr>`).join('');
 }
