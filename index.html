@@ -516,8 +516,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-card-hd">
-              <span class="kpi-card-name">Number of process instances</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new instances of this process started during the selected period.</span></span>
+              <span class="kpi-card-name" id="det-kpi1-name">Number of process instances</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="det-kpi1-tip">How many new instances of this process started during the selected period.</span></span>
             </div>
             <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">317</span><span class="kpi-t tg">↑ 3.2%</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
@@ -566,13 +566,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
         <div class="row2">
           <div class="card">
-            <div class="card-hd"><span class="card-title">Process instances over time</span>
+            <div class="card-hd"><span class="card-title" id="det-chart1-title">Process instances over time</span>
               <div class="card-hd-actions">
                 <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
             </div>
-            <div class="help-bar" hidden>How many new instances of this process started during the selected period.</div>
+            <div class="help-bar" id="det-chart1-help" hidden>How many new instances of this process started during the selected period.</div>
             <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ni"></div></div></div>
           </div>
           <div class="card">
@@ -589,14 +589,14 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
         <div class="row2t">
           <div class="card">
-            <div class="card-hd"><span class="card-title">Stuck process instances</span>
+            <div class="card-hd"><span class="card-title" id="det-tbl1-title">Stuck process instances</span>
               <div class="card-hd-actions">
                 <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
             </div>
-            <div class="help-bar" hidden>Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
-            <table class="tbl"><thead><tr><th>Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
+            <div class="help-bar" id="det-tbl1-help" hidden>Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
+            <table class="tbl"><thead><tr><th id="det-tbl1-hdr">Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
             <tbody>
               <tr><td class="mono">INS-2024-0892</td><td class="cell-muted">Document Verification</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 0.8 d</div></td></tr>
               <tr><td class="mono">INS-2024-1147</td><td class="cell-muted">Fraud Review</td><td><div class="duration-val">14.7 days</div><div class="duration-avg">avg: 2.1 d</div></td></tr>
@@ -761,16 +761,16 @@ function navTo(page, name) {
   } else if (page === 'proc-detail') {
     detailType = 'inst'; detailName = name||''; detailFrom = 'proc-list';
     showDetail('inst');
+    applyDetailMode(false);
+  } else if (page === 'case-detail') {
+    detailType = 'inst'; detailName = name||''; detailFrom = 'case-list';
+    lastListPage = 'case-list';
+    showDetail('inst');
+    applyDetailMode(true);
   } else if (page === 'case-app') {
     const ca = document.getElementById('pg-ca');
     ca.style.display = 'flex';
     if (!chartsReady) { chartsReady = true; drawAllCharts(); }
-  } else if (page === 'case-detail') {
-    // case instance detail — placeholder (dashboard is at Case app level)
-    const backLabel = 'Back to Case Instances';
-    document.getElementById('pg-ph-back').textContent = backLabel;
-    document.getElementById('pg-ph-name').textContent = name || 'Case instance';
-    document.getElementById('pg-ph').style.display = 'flex';
   } else {
     // placeholder pages
     const labels = {
@@ -832,6 +832,18 @@ function updateTopbar(page, name) {
       <button class="btn btn-outline">Configure filtering</button>
       <button class="btn btn-primary">Run</button>
       <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
+  } else if (page === 'case-detail') {
+    const n = name || detailName;
+    bc.innerHTML = `
+      <a href="#" onclick="navTo('case-list');return false;">← Back</a>
+      <span class="bc-sep">|</span>
+      <a href="#" onclick="navTo('case-list');return false;">Case Instances</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-cur">${n}</span>`;
+    tr.innerHTML = `
+      <button class="btn btn-outline">Configure filtering</button>
+      <button class="btn btn-primary">Run</button>
+      <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
   } else {
     bc.innerHTML = '';
     tr.innerHTML = '';
@@ -856,6 +868,38 @@ function restoreBiz() {
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===3));
   document.getElementById('biz-page').style.display = '';
   document.getElementById('tab-ph').style.display = 'none';
+}
+
+const DET_TEXTS = {
+  proc: {
+    kpi1Name:    'Number of process instances',
+    kpi1Tip:     'How many new instances of this process started during the selected period.',
+    chart1Title: 'Process instances over time',
+    chart1Help:  'How many new instances of this process started during the selected period.',
+    tbl1Title:   'Stuck process instances',
+    tbl1Help:    'Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.',
+    tbl1Hdr:     'Instance ID',
+  },
+  case: {
+    kpi1Name:    'Number of case instances',
+    kpi1Tip:     'How many new case instances started during the selected period.',
+    chart1Title: 'Case instances over time',
+    chart1Help:  'How many new case instances started during the selected period.',
+    tbl1Title:   'Stuck case instances',
+    tbl1Help:    'Case instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.',
+    tbl1Hdr:     'Case ID',
+  },
+};
+
+function applyDetailMode(isCaseInst) {
+  const t = isCaseInst ? DET_TEXTS.case : DET_TEXTS.proc;
+  document.getElementById('det-kpi1-name').textContent   = t.kpi1Name;
+  document.getElementById('det-kpi1-tip').textContent    = t.kpi1Tip;
+  document.getElementById('det-chart1-title').textContent= t.chart1Title;
+  document.getElementById('det-chart1-help').textContent = t.chart1Help;
+  document.getElementById('det-tbl1-title').textContent  = t.tbl1Title;
+  document.getElementById('det-tbl1-help').textContent   = t.tbl1Help;
+  document.getElementById('det-tbl1-hdr').innerHTML      = t.tbl1Hdr + '<span class="si">⇅</span>';
 }
 
 function switchCaTab(tab, el) {
