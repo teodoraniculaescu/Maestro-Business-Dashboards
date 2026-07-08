@@ -194,7 +194,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .ca-tab{padding:0 16px;height:40px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);}
 .ca-tab:hover{color:var(--text);}
 .ca-tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
-.ca-biz-filters{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;padding:0 24px;height:44px;gap:14px;flex-shrink:0;position:sticky;top:52px;z-index:99;}
+.ca-biz-filters{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;height:44px;gap:14px;flex-shrink:0;position:sticky;top:52px;z-index:99;}
+.ca-biz-filters-r{display:flex;align-items:center;gap:14px;margin-left:auto;}
+.ca-view-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--tab-blue);background:none;border:1px solid var(--tab-blue);border-radius:4px;padding:4px 10px;cursor:pointer;font-family:var(--font);white-space:nowrap;}
+.ca-view-btn:hover{background:#EFF6FF;}
+.ca-section-lbl{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px;}
+.ca-sla-inline{display:none;margin-bottom:4px;}
+.ca-sla-inline .ca-sla-row{margin-bottom:0;}
 .sla-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;}
 .sla-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .sla-on{color:#10B981;}.sla-risk{color:#F97316;}.sla-breach{color:#EF4444;}
@@ -367,15 +373,41 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <!-- Business Dashboards section -->
     <div id="ca-section-biz" style="display:flex;flex-direction:column;flex:1;">
       <div class="ca-biz-filters">
-        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
-        <div class="fc-sep"></div>
-        <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
-        <div class="fc-sep"></div>
-        <button class="fc-all"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>&nbsp;All filters</button>
+        <button id="ca-view-btn" class="ca-view-btn" onclick="toggleCaView()">⊞ Integrated view</button>
+        <div class="ca-biz-filters-r">
+          <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+          <div class="fc-sep"></div>
+          <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+          <div class="fc-sep"></div>
+          <button class="fc-all"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>&nbsp;All filters</button>
+        </div>
       </div>
       <div class="dash-page">
+        <!-- SLA cards inline (shown in integrated view) -->
+        <div id="ca-sla-inline" class="ca-sla-inline">
+          <div class="ca-section-lbl">SLA overview</div>
+          <div class="ca-sla-row">
+            <div class="ca-sla-card">
+              <div class="ca-sla-lbl">Open cases</div>
+              <div class="ca-sla-val kpi-cv-blue">27</div>
+            </div>
+            <div class="ca-sla-card">
+              <div class="ca-sla-lbl">SLA-breached cases</div>
+              <div class="ca-sla-val ca-sla-red">3</div>
+            </div>
+            <div class="ca-sla-card">
+              <div class="ca-sla-lbl">SLA compliance rate</div>
+              <div class="ca-sla-val">84.8%</div>
+            </div>
+            <div class="ca-sla-card">
+              <div class="ca-sla-lbl">SLA at risk</div>
+              <div class="ca-sla-val ca-sla-orange">5</div>
+            </div>
+          </div>
+        </div>
         <!-- ═ CASES PANEL ═ -->
         <div class="view-panel active" id="panel-case">
+          <div id="ca-perf-lbl" class="ca-section-lbl" style="display:none;">Performance</div>
           <div class="kpi-grid">
             <div class="kpi-card">
               <div class="kpi-card-hd">
@@ -900,6 +932,21 @@ function applyDetailMode(isCaseInst) {
   document.getElementById('det-tbl1-title').textContent  = t.tbl1Title;
   document.getElementById('det-tbl1-help').textContent   = t.tbl1Help;
   document.getElementById('det-tbl1-hdr').innerHTML      = t.tbl1Hdr + '<span class="si">⇅</span>';
+}
+
+let caViewMode = 'split';
+function toggleCaView() {
+  caViewMode = caViewMode === 'split' ? 'integrated' : 'split';
+  const isInt = caViewMode === 'integrated';
+  // header SLA row: hide in integrated, show in split
+  const slaRow = document.querySelector('.ca-sla-row');
+  if (slaRow) slaRow.style.display = isInt ? 'none' : '';
+  // inline SLA block and performance label: show in integrated
+  document.getElementById('ca-sla-inline').style.display = isInt ? 'block' : 'none';
+  document.getElementById('ca-perf-lbl').style.display   = isInt ? 'block' : 'none';
+  // toggle button label
+  const btn = document.getElementById('ca-view-btn');
+  btn.textContent = isInt ? '⊟ Split view' : '⊞ Integrated view';
 }
 
 function switchCaTab(tab, el) {
