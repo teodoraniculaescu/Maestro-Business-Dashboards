@@ -283,10 +283,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <div class="list-hdr">
       <div>
         <div class="list-title">Case Instances</div>
-        <div class="list-sub">3 case apps</div>
+        <div class="list-sub">3 case instances</div>
       </div>
       <div class="list-hdr-r">
-        <input class="list-search" placeholder="Search case apps…" oninput="filterList(this,'case-list-body')">
+        <input class="list-search" placeholder="Search case instances…" oninput="filterList(this,'case-list-body')">
         <button class="btn btn-outline">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:4px;vertical-align:middle;"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
           Filter
@@ -556,7 +556,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
   <div id="pg-ph" style="display:none;flex:1;" class="pg-ph">
     <strong id="pg-ph-name"></strong>
     <p>This section is not part of the prototype.</p>
-    <a onclick="navTo(lastListPage);return false;">← Back to Process Instances</a>
+    <a onclick="navTo(lastListPage);return false;">← <span id="pg-ph-back"></span></a>
   </div>
 
 </div><!-- /main -->
@@ -691,15 +691,26 @@ function navTo(page, name) {
   } else if (page === 'proc-detail') {
     detailType = 'inst'; detailName = name||''; detailFrom = 'proc-list';
     showDetail('inst');
-  } else if (page === 'case-detail') {
-    detailType = 'case'; detailName = name||''; detailFrom = 'case-list';
+  } else if (page === 'case-app') {
+    detailType = 'case'; detailName = ''; detailFrom = 'case-app';
     showDetail('case');
+  } else if (page === 'case-detail') {
+    // case instance detail — placeholder (dashboard is at Case app level)
+    const backLabel = 'Back to Case Instances';
+    document.getElementById('pg-ph-back').textContent = backLabel;
+    document.getElementById('pg-ph-name').textContent = name || 'Case instance';
+    document.getElementById('pg-ph').style.display = 'flex';
   } else {
     // placeholder pages
     const labels = {
-      home:'Home','proc-incidents':'Process Incidents','case-app':'Case app',
+      home:'Home','proc-incidents':'Process Incidents',
       'case-incidents':'Case Incidents','flow-instances':'Flow Instances','flow-incidents':'Flow Incidents'
     };
+    const backLabels = {
+      'proc-incidents':'Process Incidents','case-incidents':'Case Incidents',
+      'flow-instances':'Flow Instances','flow-incidents':'Flow Incidents',
+    };
+    document.getElementById('pg-ph-back').textContent = backLabels[page] ? 'Back to '+backLabels[page] : 'Back';
     document.getElementById('pg-ph-name').textContent = labels[page] || page;
     document.getElementById('pg-ph').style.display = 'flex';
   }
@@ -734,14 +745,18 @@ function updateTopbar(page, name) {
   } else if (page === 'case-list') {
     bc.innerHTML = '<span class="bc-cur">Case Instances</span>';
     tr.innerHTML = '<button class="btn btn-outline">Configure filtering</button>';
-  } else if (page === 'proc-detail' || page === 'case-detail') {
-    const listKey = page==='proc-detail' ? 'proc-list' : 'case-list';
-    const listLabel = page==='proc-detail' ? 'Process Instances' : 'Case Instances';
+  } else if (page === 'case-app') {
+    bc.innerHTML = '<span class="bc-cur">Case app</span>';
+    tr.innerHTML = `
+      <button class="btn btn-outline">Configure filtering</button>
+      <button class="btn btn-primary">Run</button>
+      <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
+  } else if (page === 'proc-detail') {
     const n = name || detailName;
     bc.innerHTML = `
-      <a href="#" onclick="navTo('${listKey}');return false;">← Back</a>
+      <a href="#" onclick="navTo('proc-list');return false;">← Back</a>
       <span class="bc-sep">|</span>
-      <a href="#" onclick="navTo('${listKey}');return false;">${listLabel}</a>
+      <a href="#" onclick="navTo('proc-list');return false;">Process Instances</a>
       <span class="bc-sep">›</span>
       <span class="bc-cur">${n}</span>`;
     tr.innerHTML = `
