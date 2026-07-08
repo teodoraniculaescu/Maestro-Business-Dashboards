@@ -182,6 +182,23 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .duration-val{font-size:13px;font-weight:600;color:var(--text);}
 .duration-avg{font-size:11px;color:var(--muted);}
 
+/* ── CASE APP PAGE ── */
+.ca-hdr{background:#fff;border-bottom:1px solid var(--border);padding:20px 24px 0;flex-shrink:0;}
+.ca-pg-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px;}
+.ca-sla-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.ca-sla-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow);}
+.ca-sla-lbl{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:6px;}
+.ca-sla-val{font-size:22px;font-weight:700;color:var(--text);}
+.ca-sla-red{color:#EF4444;}.ca-sla-orange{color:#F97316;}
+.ca-tabnav{display:flex;align-items:stretch;margin:0 -24px;padding:0 24px;}
+.ca-tab{padding:0 16px;height:40px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);}
+.ca-tab:hover{color:var(--text);}
+.ca-tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
+.ca-biz-filters{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;padding:0 24px;height:44px;gap:14px;flex-shrink:0;position:sticky;top:52px;z-index:99;}
+.sla-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;}
+.sla-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sla-on{color:#10B981;}.sla-risk{color:#F97316;}.sla-breach{color:#EF4444;}
+
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:600px){.kpi-grid{grid-template-columns:1fr;}}
@@ -306,6 +323,167 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     </div>
   </div>
 
+  <!-- ── PAGE: CASE APP ── -->
+  <div id="pg-ca" style="display:none;flex-direction:column;flex:1;">
+
+    <!-- Header: title + SLA cards + tab nav -->
+    <div class="ca-hdr">
+      <div class="ca-pg-title">Case app</div>
+      <div class="ca-sla-row">
+        <div class="ca-sla-card">
+          <div class="ca-sla-lbl">Open cases</div>
+          <div class="ca-sla-val">27</div>
+        </div>
+        <div class="ca-sla-card">
+          <div class="ca-sla-lbl">SLA-breached cases</div>
+          <div class="ca-sla-val ca-sla-red">3</div>
+        </div>
+        <div class="ca-sla-card">
+          <div class="ca-sla-lbl">SLA compliance rate</div>
+          <div class="ca-sla-val">84.8%</div>
+        </div>
+        <div class="ca-sla-card">
+          <div class="ca-sla-lbl">SLA at risk</div>
+          <div class="ca-sla-val ca-sla-orange">5</div>
+        </div>
+      </div>
+      <div class="ca-tabnav">
+        <button class="ca-tab" onclick="switchCaTab('active',this)">Active cases</button>
+        <button class="ca-tab active" onclick="switchCaTab('biz',this)">Business Dashboards</button>
+      </div>
+    </div>
+
+    <!-- Active cases section -->
+    <div id="ca-section-active" style="display:none;padding:20px 24px;">
+      <table class="list-tbl" style="width:100%;">
+        <thead><tr>
+          <th>Case ID</th><th>Case type</th><th>Last modified</th>
+          <th>Stage</th><th>Case SLA</th><th>SLA status</th><th>Case state</th>
+        </tr></thead>
+        <tbody id="ca-cases-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Business Dashboards section -->
+    <div id="ca-section-biz" style="display:flex;flex-direction:column;flex:1;">
+      <div class="ca-biz-filters">
+        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc-all"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>&nbsp;All filters</button>
+      </div>
+      <div class="dash-page">
+        <!-- ═ CASES PANEL ═ -->
+        <div class="view-panel active" id="panel-case">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-card-hd">
+                <span class="kpi-card-name">Number of cases</span>
+                <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new cases were opened during the selected period.</span></span>
+              </div>
+              <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">198</span><span class="kpi-t tg">↑ 2.8%</span></div>
+              <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-card-hd">
+                <span class="kpi-card-name">Closed</span>
+                <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases were resolved and closed during the selected period.</span></span>
+              </div>
+              <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">168</span></div>
+              <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-card-hd">
+                <span class="kpi-card-name">Open</span>
+                <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases are currently open, regardless of when they started.</span></span>
+              </div>
+              <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue">27</span></div>
+              <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-card-hd">
+                <span class="kpi-card-name">Resolution rate</span>
+                <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of cases that got resolved this period. The ↑/↓ indicator shows change vs the previous period — a sustained drop is an early warning sign.</span></span>
+              </div>
+              <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">84.8%</span><span class="kpi-t tg">↑ 1.2pp</span></div>
+              <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-card-hd">
+                <span class="kpi-card-name">Median case age</span>
+                <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The typical time it takes a case to go from open to close.</span></span>
+              </div>
+              <div class="kpi-card-val-row"><span class="kpi-card-val">4.1 d</span><span class="kpi-t tg">↓ 0.3d</span></div>
+              <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-card-hd">
+                <span class="kpi-card-name">Exception rate</span>
+                <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The percentage of cases that needed a person to step in and handle a problem, rather than following the standard case path.</span></span>
+              </div>
+              <div class="kpi-card-val-row"><span class="kpi-card-val">5.8%</span><span class="kpi-t tg">↓ 0.4pp</span></div>
+              <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="card">
+              <div class="card-hd"><span class="card-title">Cases over time</span>
+                <div class="card-hd-actions">
+                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+                </div>
+              </div>
+              <div class="help-bar" hidden>How many new cases were opened during the selected period.</div>
+              <div class="chart-wrap"><div class="y-label-rot">Case count</div><div class="y-label-nums" id="yl-nc"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-nc" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-nc"></div></div></div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><span class="card-title">Median case age at close</span>
+                <div class="card-hd-actions">
+                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+                </div>
+              </div>
+              <div class="help-bar" hidden>The typical time it takes a case to go from open to close.</div>
+              <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-ca"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ca" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ca"></div></div></div>
+            </div>
+          </div>
+          <div class="row2t">
+            <div class="card">
+              <div class="card-hd"><span class="card-title">Cases stuck in stage</span>
+                <div class="card-hd-actions">
+                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+                </div>
+              </div>
+              <div class="help-bar" hidden>Cases that are taking noticeably longer than usual in their current stage, compared to how long that stage normally takes. These are the best ones to check on first.</div>
+              <table class="tbl"><thead><tr><th>Case ID<span class="si">⇅</span></th><th>Current stage<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
+              <tbody>
+                <tr><td class="mono">CLM-2024-0892</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
+                <tr><td class="mono">CLM-2024-1147</td><td class="cell-muted">Document Validation</td><td><div class="duration-val">14.7 days</div><div class="duration-avg">avg: 0.8 d</div></td></tr>
+                <tr><td class="mono">CLM-2024-1203</td><td class="cell-muted">Approval</td><td><div class="duration-val">12.1 days</div><div class="duration-avg">avg: 0.5 d</div></td></tr>
+                <tr><td class="mono">CLM-2024-0984</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">11.4 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
+                <tr><td class="mono">CLM-2024-1089</td><td class="cell-muted">Initial Triage</td><td><div class="duration-val">9.8 days</div><div class="duration-avg">avg: 1.2 d</div></td></tr>
+              </tbody></table>
+            </div>
+            <div class="card">
+              <div class="card-hd"><span class="card-title">Bottleneck stages</span>
+                <div class="card-hd-actions">
+                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+                </div>
+              </div>
+              <div class="help-bar" hidden>The top 3 stages that are most often the cause of delays and backlog right now. This is the best place to focus improvement efforts.</div>
+              <table class="tbl"><thead><tr><th>Stage name<span class="si">⇅</span></th><th>Cases in stage<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
+              <tbody id="bn-case-rows"></tbody></table>
+            </div>
+          </div>
+        </div><!-- /panel-case -->
+      </div><!-- /dash-page -->
+    </div><!-- /ca-section-biz -->
+
+  </div><!-- /pg-ca -->
+
   <!-- ── PAGE: BUSINESS DASHBOARD DETAIL ── -->
   <div id="pg-detail" style="display:none;flex-direction:column;flex:1;">
 
@@ -318,7 +496,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <button class="tab active" onclick="switchTab('biz',this)">Business Dashboards</button>
       </div>
       <div class="tab-filters">
-        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val" id="range-val">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
         <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
@@ -441,114 +619,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
       </div><!-- /panel-inst -->
 
-      <!-- ═ CASES PANEL ═ -->
-      <div class="view-panel" id="panel-case">
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-card-hd">
-              <span class="kpi-card-name">Number of cases</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many new cases were opened during the selected period.</span></span>
-            </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg">198</span><span class="kpi-t tg">↑ 2.8%</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-card-hd">
-              <span class="kpi-card-name">Closed</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases were resolved and closed during the selected period.</span></span>
-            </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">168</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-card-hd">
-              <span class="kpi-card-name">Open</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">How many cases are currently open, regardless of when they started.</span></span>
-            </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue">27</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-card-hd">
-              <span class="kpi-card-name">Resolution rate</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of cases that got resolved this period. The ↑/↓ indicator shows change vs the previous period — a sustained drop is an early warning sign.</span></span>
-            </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green">84.8%</span><span class="kpi-t tg">↑ 1.2pp</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-card-hd">
-              <span class="kpi-card-name">Median case age</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The typical time it takes a case to go from open to close.</span></span>
-            </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val">4.1 d</span><span class="kpi-t tg">↓ 0.3d</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-card-hd">
-              <span class="kpi-card-name">Exception rate</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">The percentage of cases that needed a person to step in and handle a problem, rather than following the standard case path.</span></span>
-            </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val">5.8%</span><span class="kpi-t tg">↓ 0.4pp</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
-          </div>
-        </div>
-
-        <div class="row2">
-          <div class="card">
-            <div class="card-hd"><span class="card-title">Cases over time</span>
-              <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-                <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
-              </div>
-            </div>
-            <div class="help-bar" hidden>How many new cases were opened during the selected period.</div>
-            <div class="chart-wrap"><div class="y-label-rot">Case count</div><div class="y-label-nums" id="yl-nc"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-nc" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-nc"></div></div></div>
-          </div>
-          <div class="card">
-            <div class="card-hd"><span class="card-title">Median case age at close</span>
-              <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-                <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
-              </div>
-            </div>
-            <div class="help-bar" hidden>The typical time it takes a case to go from open to close.</div>
-            <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-ca"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ca" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ca"></div></div></div>
-          </div>
-        </div>
-
-        <div class="row2t">
-          <div class="card">
-            <div class="card-hd"><span class="card-title">Cases stuck in stage</span>
-              <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-                <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
-              </div>
-            </div>
-            <div class="help-bar" hidden>Cases that are taking noticeably longer than usual in their current stage, compared to how long that stage normally takes. These are the best ones to check on first.</div>
-            <table class="tbl"><thead><tr><th>Case ID<span class="si">⇅</span></th><th>Current stage<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
-            <tbody>
-              <tr><td class="mono">CLM-2024-0892</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
-              <tr><td class="mono">CLM-2024-1147</td><td class="cell-muted">Document Validation</td><td><div class="duration-val">14.7 days</div><div class="duration-avg">avg: 0.8 d</div></td></tr>
-              <tr><td class="mono">CLM-2024-1203</td><td class="cell-muted">Approval</td><td><div class="duration-val">12.1 days</div><div class="duration-avg">avg: 0.5 d</div></td></tr>
-              <tr><td class="mono">CLM-2024-0984</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">11.4 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
-              <tr><td class="mono">CLM-2024-1089</td><td class="cell-muted">Initial Triage</td><td><div class="duration-val">9.8 days</div><div class="duration-avg">avg: 1.2 d</div></td></tr>
-            </tbody></table>
-          </div>
-          <div class="card">
-            <div class="card-hd"><span class="card-title">Bottleneck stages</span>
-              <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-                <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
-              </div>
-            </div>
-            <div class="help-bar" hidden>The top 3 stages that are most often the cause of delays and backlog right now. This is the best place to focus improvement efforts.</div>
-            <table class="tbl"><thead><tr><th>Stage name<span class="si">⇅</span></th><th>Cases in stage<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
-            <tbody id="bn-case-rows"></tbody></table>
-          </div>
-        </div>
-      </div><!-- /panel-case -->
-
     </div><!-- /biz-page -->
   </div><!-- /pg-detail -->
 
@@ -614,7 +684,7 @@ const RANGE_CHARTS = {
 function cycleRange() {
   const idx = (RANGES.indexOf(currentRange) + 1) % RANGES.length;
   currentRange = RANGES[idx];
-  document.getElementById('range-val').textContent = currentRange;
+  document.querySelectorAll('.range-disp').forEach(el => el.textContent = currentRange);
   if (chartsReady) drawAllCharts();
 }
 
@@ -663,7 +733,7 @@ function filterList(input, tbodyId) {
 // ── NAVIGATION ──
 function navTo(page, name) {
   // hide all pages
-  ['pg-pl','pg-cl','pg-detail','pg-ph'].forEach(id => {
+  ['pg-pl','pg-cl','pg-ca','pg-detail','pg-ph'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -692,8 +762,9 @@ function navTo(page, name) {
     detailType = 'inst'; detailName = name||''; detailFrom = 'proc-list';
     showDetail('inst');
   } else if (page === 'case-app') {
-    detailType = 'case'; detailName = ''; detailFrom = 'case-app';
-    showDetail('case');
+    const ca = document.getElementById('pg-ca');
+    ca.style.display = 'flex';
+    if (!chartsReady) { chartsReady = true; drawAllCharts(); }
   } else if (page === 'case-detail') {
     // case instance detail — placeholder (dashboard is at Case app level)
     const backLabel = 'Back to Case Instances';
@@ -725,9 +796,7 @@ function showDetail(type) {
   document.getElementById('biz-page').style.display = '';
   document.getElementById('tab-ph').style.display = 'none';
 
-  // Show correct panel
-  document.getElementById('panel-inst').classList.toggle('active', type==='inst');
-  document.getElementById('panel-case').classList.toggle('active', type==='case');
+  document.getElementById('panel-inst').classList.add('active');
 
   const detail = document.getElementById('pg-detail');
   detail.style.display = 'flex';
@@ -787,6 +856,38 @@ function restoreBiz() {
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===3));
   document.getElementById('biz-page').style.display = '';
   document.getElementById('tab-ph').style.display = 'none';
+}
+
+function switchCaTab(tab, el) {
+  document.querySelectorAll('.ca-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const showBiz = tab === 'biz';
+  document.getElementById('ca-section-biz').style.display = showBiz ? 'flex' : 'none';
+  document.getElementById('ca-section-active').style.display = showBiz ? 'none' : '';
+  if (showBiz && !chartsReady) { chartsReady = true; drawAllCharts(); }
+}
+
+const CA_CASES = [
+  {id:'CLM-2024-0892', type:'Claim Processing',      modified:'Jul 6, 2026', stage:'Underwriting Review',  sla:'Jul 10, 2026', slaStatus:'on-track', state:'Open'},
+  {id:'CLM-2024-1147', type:'Claim Processing',      modified:'Jul 5, 2026', stage:'Document Validation',  sla:'Jul 9, 2026',  slaStatus:'at-risk',  state:'Open'},
+  {id:'MTG-2024-0341', type:'Mortgage Origination',  modified:'Jul 4, 2026', stage:'Approval',             sla:'Jul 7, 2026',  slaStatus:'breached', state:'Open'},
+  {id:'COB-2024-0215', type:'Customer Onboarding',   modified:'Jul 3, 2026', stage:'Identity Verification',sla:'Jul 11, 2026', slaStatus:'on-track', state:'Open'},
+  {id:'MTG-2024-0298', type:'Mortgage Origination',  modified:'Jul 2, 2026', stage:'Credit Assessment',    sla:'Jul 12, 2026', slaStatus:'on-track', state:'Open'},
+];
+
+function renderCaCases() {
+  const slaMap = {'on-track':'sla-on','at-risk':'sla-risk','breached':'sla-breach'};
+  const slaLabel = {'on-track':'On track','at-risk':'At risk','breached':'Breached'};
+  document.getElementById('ca-cases-body').innerHTML = CA_CASES.map(c => `
+    <tr>
+      <td class="mono">${c.id}</td>
+      <td>${c.type}</td>
+      <td class="cell-muted">${c.modified}</td>
+      <td class="cell-muted">${c.stage}</td>
+      <td class="cell-muted">${c.sla}</td>
+      <td><span class="sla-badge ${slaMap[c.slaStatus]}"><span class="sla-dot" style="background:currentColor"></span>${slaLabel[c.slaStatus]}</span></td>
+      <td><span class="badge bg">${c.state}</span></td>
+    </tr>`).join('');
 }
 
 function toggleHelp(btn) {
@@ -872,6 +973,7 @@ function drawAllCharts() {
 window.addEventListener('DOMContentLoaded', () => {
   renderProcList();
   renderCaseList();
+  renderCaCases();
   navTo('proc-list');
 });
 </script>
