@@ -174,7 +174,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .bell:hover{color:var(--text);}
 .info-btn{background:none;border:none;cursor:pointer;color:var(--dim);display:flex;align-items:center;padding:2px;border-radius:3px;}
 .info-btn:hover,.info-btn.info-active{color:var(--tab-blue);}
-.help-bar{background:#F0F4FE;border-top:1px solid #DDE5FB;padding:9px 16px;font-size:12px;color:var(--muted);line-height:1.55;}
+.help-bar{background:#F0F4FE;border-top:1px solid #DDE5FB;padding:9px 16px;font-size:12px;color:var(--muted);line-height:1.55;display:none;}
+.card:has(.info-btn:hover) .help-bar{display:block;}
 
 /* ── CHART ── */
 .chart-wrap{padding:0 14px 12px;display:flex;gap:6px;}
@@ -454,21 +455,21 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="card">
           <div class="card-hd"><span class="card-title" id="agg-chart1-title">Instances over time — all processes</span>
             <div class="card-hd-actions">
-              <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
           </div>
-          <div class="help-bar" hidden>Total instances started within the selected scope during the selected period.</div>
+          <div class="help-bar">Total instances started within the selected scope during the selected period.</div>
           <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-agg-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-ni"></div></div></div>
         </div>
         <div class="card">
           <div class="card-hd"><span class="card-title" id="agg-chart2-title">Avg median cycle time — all processes</span>
             <div class="card-hd-actions">
-              <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
           </div>
-          <div class="help-bar" hidden>Weighted average of median cycle time within the selected scope.</div>
+          <div class="help-bar">Weighted average of median cycle time within the selected scope.</div>
           <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-agg-cy"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-cy" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-cy"></div></div></div>
         </div>
       </div>
@@ -477,7 +478,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <div class="card" id="biz-single-summary" style="display:none;">
         <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;">
           <span style="font-size:13px;color:var(--muted);">Viewing <strong id="biz-single-name" style="color:var(--text);"></strong></span>
-          <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">View full dashboard →</a>
+          <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">Go to Business Dashboards →</a>
         </div>
       </div>
 
@@ -485,10 +486,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <div class="card" id="biz-table-card">
         <div class="card-hd"><span class="card-title">Performance by process</span>
           <div class="card-hd-actions">
-            <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+            <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
           </div>
         </div>
-        <div class="help-bar" hidden>Key business metrics for each process, case app, and flow. Click any row to open its full dashboard.</div>
+        <div class="help-bar">Key business metrics for each process, case app, and flow. Click any row to open its full dashboard.</div>
         <table class="biz-proc-tbl">
           <thead><tr>
             <th>Name</th>
@@ -561,11 +562,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="card">
           <div class="card-hd"><span class="card-title">Enterprise value — estimated vs. realized</span>
             <div class="card-hd-actions">
-              <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
           </div>
-          <div class="help-bar" hidden>Estimated and realized automation value across the selected scope and time horizon.</div>
+          <div class="help-bar">Estimated and realized automation value across the selected scope and time horizon.</div>
           <div style="padding:0 16px 8px;display:flex;gap:18px;font-size:12px;color:var(--muted);flex-wrap:wrap;">
             <span>Estimated <strong id="roi-est-val" style="color:var(--text);"></strong></span>
             <span>Realized <strong id="roi-real-val" style="color:var(--text);"></strong></span>
@@ -728,21 +729,21 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <div class="card">
               <div class="card-hd"><span class="card-title">Cases over time</span>
                 <div class="card-hd-actions">
-                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                   <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
                 </div>
               </div>
-              <div class="help-bar" hidden>How many new cases were opened during the selected period.</div>
+              <div class="help-bar">How many new cases were opened during the selected period.</div>
               <div class="chart-wrap"><div class="y-label-rot">Case count</div><div class="y-label-nums" id="yl-nc"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-nc" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-nc"></div></div></div>
             </div>
             <div class="card">
               <div class="card-hd"><span class="card-title">Median case age at close</span>
                 <div class="card-hd-actions">
-                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                   <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
                 </div>
               </div>
-              <div class="help-bar" hidden>The typical time it takes a case to go from open to close.</div>
+              <div class="help-bar">The typical time it takes a case to go from open to close.</div>
               <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-ca"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ca" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ca"></div></div></div>
             </div>
           </div>
@@ -750,11 +751,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <div class="card">
               <div class="card-hd"><span class="card-title">Cases stuck in stage</span>
                 <div class="card-hd-actions">
-                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                   <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
                 </div>
               </div>
-              <div class="help-bar" hidden>Cases that are taking noticeably longer than usual in their current stage, compared to how long that stage normally takes. These are the best ones to check on first.</div>
+              <div class="help-bar">Cases that are taking noticeably longer than usual in their current stage, compared to how long that stage normally takes. These are the best ones to check on first.</div>
               <table class="tbl"><thead><tr><th>Case ID<span class="si">⇅</span></th><th>Current stage<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
               <tbody>
                 <tr><td class="mono">CLM-2024-0892</td><td class="cell-muted">Underwriting Review</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 1.4 d</div></td></tr>
@@ -767,11 +768,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <div class="card">
               <div class="card-hd"><span class="card-title">Bottleneck stages</span>
                 <div class="card-hd-actions">
-                  <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                  <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                   <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
                 </div>
               </div>
-              <div class="help-bar" hidden>The top 3 stages that are most often the cause of delays and backlog right now. This is the best place to focus improvement efforts.</div>
+              <div class="help-bar">The top 3 stages that are most often the cause of delays and backlog right now. This is the best place to focus improvement efforts.</div>
               <table class="tbl"><thead><tr><th>Stage name<span class="si">⇅</span></th><th>Cases in stage<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
               <tbody id="bn-case-rows"></tbody></table>
             </div>
@@ -873,21 +874,21 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           <div class="card">
             <div class="card-hd"><span class="card-title" id="det-chart1-title">Process instances over time</span>
               <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
             </div>
-            <div class="help-bar" id="det-chart1-help" hidden>How many new instances of this process started during the selected period.</div>
+            <div class="help-bar" id="det-chart1-help">How many new instances of this process started during the selected period.</div>
             <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-ni"></div></div></div>
           </div>
           <div class="card">
             <div class="card-hd"><span class="card-title">Median cycle time</span>
               <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
             </div>
-            <div class="help-bar" hidden>The typical time it takes an instance to go from start to finish.</div>
+            <div class="help-bar">The typical time it takes an instance to go from start to finish.</div>
             <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-cy"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-cy" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-cy"></div></div></div>
           </div>
         </div>
@@ -896,11 +897,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           <div class="card">
             <div class="card-hd"><span class="card-title" id="det-tbl1-title">Stuck process instances</span>
               <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
             </div>
-            <div class="help-bar" id="det-tbl1-help" hidden>Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
+            <div class="help-bar" id="det-tbl1-help">Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
             <table class="tbl"><thead><tr><th id="det-tbl1-hdr">Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
             <tbody>
               <tr><td class="mono">INS-2024-0892</td><td class="cell-muted">Document Verification</td><td><div class="duration-val">18.3 days</div><div class="duration-avg">avg: 0.8 d</div></td></tr>
@@ -913,11 +914,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           <div class="card">
             <div class="card-hd"><span class="card-title">Bottleneck steps</span>
               <div class="card-hd-actions">
-                <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
             </div>
-            <div class="help-bar" hidden>The top 3 steps causing the most delays and backlog right now. These are the best places to focus improvement efforts.</div>
+            <div class="help-bar">The top 3 steps causing the most delays and backlog right now. These are the best places to focus improvement efforts.</div>
             <table class="tbl"><thead><tr><th>Step name<span class="si">⇅</span></th><th>Instances queued<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
             <tbody id="bn-inst-rows"></tbody></table>
           </div>
@@ -1148,6 +1149,14 @@ function applyVersionUI() {
   document.getElementById('tab-biz-btn').style.order = isV2 ? '1' : '3';
   document.getElementById('tab-biz-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
   document.getElementById('tab-ph-switch-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
+
+  // Dashboards page: single-item link label follows the same tab naming
+  const link = document.getElementById('biz-single-link');
+  if (link) link.textContent = bizDetailLinkLabel();
+}
+
+function bizDetailLinkLabel() {
+  return APP_VERSION === 'v2' ? 'Go to Monitoring →' : 'Go to Business Dashboards →';
 }
 
 // ── RENDER LISTS ──
@@ -1439,13 +1448,6 @@ function renderCaCases() {
     </tr>`).join('');
 }
 
-function toggleHelp(btn) {
-  const hb = btn.closest('.card').querySelector('.help-bar');
-  if (!hb) return;
-  hb.hidden = !hb.hidden;
-  btn.classList.toggle('info-active', !hb.hidden);
-}
-
 // ── CHARTS ──
 function drawBar(svgId, ylId, xlId, data, labels) {
   const svg = document.getElementById(svgId);
@@ -1719,6 +1721,7 @@ function refreshBizViews() {
     const link = document.getElementById('biz-single-link');
     if (row && row.type !== 'Flow') {
       link.style.display = '';
+      link.textContent = bizDetailLinkLabel();
       link.onclick = e => { e.preventDefault(); openItemFromBiz(row); };
     } else {
       link.style.display = 'none';
