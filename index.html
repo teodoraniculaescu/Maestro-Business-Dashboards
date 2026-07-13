@@ -104,7 +104,12 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .fc-sep{width:1px;height:16px;background:var(--border);}
 .fc-all{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--font);}
 .fc-all:hover{color:var(--text);}
-.fc-select{font-size:13px;font-weight:600;color:var(--text);border:none;background:none;font-family:var(--font);cursor:pointer;outline:none;max-width:180px;}
+.dd-menu{position:fixed;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:500;min-width:180px;max-height:280px;overflow-y:auto;padding:4px;display:none;}
+.dd-menu.open{display:block;}
+.dd-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;font-size:13px;color:var(--text);cursor:pointer;border-radius:4px;white-space:nowrap;}
+.dd-item:hover{background:var(--ground);}
+.dd-item.active{color:var(--tab-blue);font-weight:600;background:#EFF6FF;}
+.dd-item-meta{font-size:11px;color:var(--muted);flex-shrink:0;}
 .dash-tabnav{display:flex;align-items:stretch;padding:0 24px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0;}
 .dash-tab{padding:0 16px;height:40px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);}
 .dash-tab:hover{color:var(--text);}
@@ -376,12 +381,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="list-sub" id="biz-scope-label">All processes · <span class="range-disp">Last month</span></div>
       </div>
       <div class="list-hdr-r">
-        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <button class="fc" onclick="openDropdown(event,'range',this)"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
-        <button class="fc" onclick="cycleProcType()"><span class="fc-lbl">Type:&nbsp;</span><span class="fc-val" id="biz-type-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <button class="fc" onclick="openDropdown(event,'type',this)"><span class="fc-lbl">Type:&nbsp;</span><span class="fc-val" id="biz-type-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
-        <span class="fc-lbl" style="font-size:13px;color:var(--muted);">Process:&nbsp;</span>
-        <select class="fc-select" id="biz-name-select" onchange="onBizNameChange()"></select>
+        <button class="fc" onclick="openDropdown(event,'process',this)"><span class="fc-lbl">Process:&nbsp;</span><span class="fc-val" id="biz-name-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
       </div>
     </div>
 
@@ -637,7 +641,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <div class="ca-biz-filters">
         <button id="ca-view-btn" class="ca-view-btn" onclick="toggleCaView()">⊞ Integrated view</button>
         <div class="ca-biz-filters-r">
-          <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+          <button class="fc" onclick="openDropdown(event,'range',this)"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
           <div class="fc-sep"></div>
           <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
           <div class="fc-sep"></div>
@@ -797,7 +801,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <button class="tab tab-biz active" id="tab-biz-btn" onclick="switchTab('biz',this)"><span id="tab-biz-label">Business Dashboards</span></button>
       </div>
       <div class="tab-filters">
-        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <button class="fc" onclick="openDropdown(event,'range',this)"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
         <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
@@ -933,6 +937,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 </div><!-- /main -->
 </div><!-- /root -->
 
+<div class="dd-menu" id="global-dd-menu"></div>
+
 <script>
 // ── STATE ──
 let APP_VERSION = 'v1';
@@ -1039,13 +1045,87 @@ const RANGE_CHARTS = {
   },
 };
 
-function cycleRange() {
-  const idx = (RANGES.indexOf(currentRange) + 1) % RANGES.length;
-  currentRange = RANGES[idx];
+function setRange(value) {
+  currentRange = value;
   document.querySelectorAll('.range-disp').forEach(el => el.textContent = currentRange);
   if (chartsReady) drawAllCharts();
   refreshBizViews();
 }
+
+// ── DROPDOWN MENUS (Date range / Type / Process) ──
+let ddOpenType = null;
+let ddOpenBtn = null;
+
+function openDropdown(e, type, btn) {
+  e.stopPropagation();
+  const menu = document.getElementById('global-dd-menu');
+  if (ddOpenType === type && ddOpenBtn === btn && menu.classList.contains('open')) {
+    closeDropdown();
+    return;
+  }
+  ddOpenType = type;
+  ddOpenBtn = btn;
+
+  let items = [];
+  if (type === 'range') {
+    items = RANGES.map(r => ({ value: r, label: r, active: r === currentRange }));
+  } else if (type === 'type') {
+    items = BIZ_TYPES.map(t => ({ value: t, label: t, active: t === bizTypeFilter }));
+  } else if (type === 'process') {
+    const rows = BIZ_ALL_DATA.filter(r => bizTypeFilter === 'All' || r.type === bizTypeFilter);
+    items = [{ value: '', label: 'All', active: bizNameFilter === '' }]
+      .concat(rows.map(r => ({ value: bizKey(r), label: r.name, meta: r.type, active: bizKey(r) === bizNameFilter })));
+  }
+
+  menu.replaceChildren();
+  items.forEach(it => {
+    const row = document.createElement('div');
+    row.className = 'dd-item' + (it.active ? ' active' : '');
+    row.textContent = it.label;
+    if (it.meta) {
+      const meta = document.createElement('span');
+      meta.className = 'dd-item-meta';
+      meta.textContent = it.meta;
+      row.appendChild(meta);
+    }
+    row.addEventListener('click', () => selectDropdown(type, it.value));
+    menu.appendChild(row);
+  });
+
+  menu.style.left = '0px';
+  menu.classList.add('open');
+  const r = btn.getBoundingClientRect();
+  const menuW = menu.offsetWidth;
+  const left = Math.min(r.left, window.innerWidth - menuW - 8);
+  menu.style.left = Math.max(8, left) + 'px';
+  menu.style.top = (r.bottom + 4) + 'px';
+}
+
+function closeDropdown() {
+  document.getElementById('global-dd-menu').classList.remove('open');
+  ddOpenType = null;
+  ddOpenBtn = null;
+}
+
+function selectDropdown(type, value) {
+  if (type === 'range') {
+    setRange(value);
+  } else if (type === 'type') {
+    bizTypeFilter = value;
+    document.getElementById('biz-type-val').textContent = value;
+    bizNameFilter = '';
+    document.getElementById('biz-name-val').textContent = 'All';
+    refreshBizViews();
+  } else if (type === 'process') {
+    bizNameFilter = value;
+    const row = BIZ_ALL_DATA.find(r => bizKey(r) === value);
+    document.getElementById('biz-name-val').textContent = row ? row.name : 'All';
+    refreshBizViews();
+  }
+  closeDropdown();
+}
+
+document.addEventListener('click', () => closeDropdown());
 
 // ── VERSION TOGGLE (V1 / V2) ──
 function setVersion(v) {
@@ -1508,30 +1588,6 @@ function aggregateBiz(rows) {
   };
 }
 
-function cycleProcType() {
-  const idx = (BIZ_TYPES.indexOf(bizTypeFilter) + 1) % BIZ_TYPES.length;
-  bizTypeFilter = BIZ_TYPES[idx];
-  document.getElementById('biz-type-val').textContent = bizTypeFilter;
-  bizNameFilter = '';
-  populateBizNameSelect();
-  refreshBizViews();
-}
-
-function populateBizNameSelect() {
-  const sel = document.getElementById('biz-name-select');
-  if (!sel) return;
-  const rows = BIZ_ALL_DATA.filter(r => bizTypeFilter === 'All' || r.type === bizTypeFilter);
-  sel.innerHTML = '<option value="">All</option>' + rows.map(r =>
-    `<option value="${bizKey(r)}">${r.name} (${r.type})</option>`
-  ).join('');
-  sel.value = bizNameFilter;
-}
-
-function onBizNameChange() {
-  bizNameFilter = document.getElementById('biz-name-select').value;
-  refreshBizViews();
-}
-
 function scopeLabel() {
   if (bizNameFilter) {
     const row = BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter);
@@ -1698,7 +1754,6 @@ window.addEventListener('DOMContentLoaded', () => {
   renderProcList();
   renderCaseList();
   renderCaCases();
-  populateBizNameSelect();
   refreshBizViews();
   navTo('proc-list');
 });
