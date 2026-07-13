@@ -26,6 +26,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .sn-hdr{display:flex;align-items:center;gap:9px;padding:14px 12px 12px;border-bottom:1px solid var(--border-inner);}
 .sn-m{width:26px;height:26px;border-radius:5px;background:#4F46E5;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sn-name{font-size:14px;font-weight:600;color:var(--text);}
+.ver-toggle{display:flex;gap:0;padding:10px 12px 8px;}
+.ver-btn{flex:1;font-size:11px;font-weight:600;padding:5px 0;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-family:var(--font);}
+.ver-btn:first-child{border-radius:4px 0 0 4px;}
+.ver-btn:last-child{border-radius:0 4px 4px 0;margin-left:-1px;}
+.ver-btn.active{background:#3730A3;color:#fff;border-color:#3730A3;}
 .sn-nav{display:flex;flex-direction:column;padding:8px 8px;gap:1px;}
 .sn-i{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:6px;border:none;background:none;color:var(--text);font-size:13px;font-family:var(--font);cursor:pointer;text-align:left;width:100%;}
 .sn-i:hover{background:var(--ground);}
@@ -90,6 +95,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .tab{padding:0 16px;height:44px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);white-space:nowrap;}
 .tab:hover{color:var(--text);}
 .tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
+.tab-im{order:0;}.tab-mon{order:1;}.tab-opt{order:2;}.tab-biz{order:3;}
 .tab-filters{display:flex;align-items:center;gap:14px;}
 .fc{display:flex;align-items:center;gap:3px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--font);padding:0;}
 .fc:hover{color:var(--text);}
@@ -98,6 +104,11 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .fc-sep{width:1px;height:16px;background:var(--border);}
 .fc-all{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--font);}
 .fc-all:hover{color:var(--text);}
+.fc-select{font-size:13px;font-weight:600;color:var(--text);border:none;background:none;font-family:var(--font);cursor:pointer;outline:none;max-width:180px;}
+.dash-tabnav{display:flex;align-items:stretch;padding:0 24px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0;}
+.dash-tab{padding:0 16px;height:40px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);}
+.dash-tab:hover{color:var(--text);}
+.dash-tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
 
 /* ── DASHBOARD PAGE ── */
 .dash-page{padding:16px 24px;}
@@ -123,6 +134,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
 /* ── KPI GRID ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px;}
+.kpi-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+.kpi-card-sub{font-size:11px;color:var(--muted);margin-top:2px;}
 .kpi-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 14px 10px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0;}
 .kpi-card-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:6px;}
 .kpi-card-name{font-size:11px;color:var(--muted);font-weight:500;line-height:1.4;flex:1;}
@@ -194,6 +207,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .ca-tab{padding:0 16px;height:40px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);}
 .ca-tab:hover{color:var(--text);}
 .ca-tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
+.biz-proc-tbl{width:100%;border-collapse:collapse;}
+.biz-proc-tbl th{font-size:12px;font-weight:500;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);background:var(--th);white-space:nowrap;}
+.biz-proc-tbl td{padding:10px 12px;border-bottom:1px solid var(--border-inner);font-size:13px;vertical-align:middle;}
+.biz-proc-tbl tr:hover td{background:var(--ground);cursor:pointer;}
+.biz-proc-tbl tr:last-child td{border-bottom:none;}
+.trend-chip{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;}
+.trend-up{color:#059669;background:#D1FAE5;}.trend-dn{color:#DC2626;background:#FEE2E2;}
 .ca-biz-filters{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;height:44px;gap:14px;flex-shrink:0;position:sticky;top:52px;z-index:99;}
 .ca-biz-filters-r{display:flex;align-items:center;gap:14px;margin-left:auto;}
 .ca-view-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--tab-blue);background:none;border:1px solid var(--tab-blue);border-radius:4px;padding:4px 10px;cursor:pointer;font-family:var(--font);white-space:nowrap;}
@@ -205,9 +225,19 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .sla-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .sla-on{color:#10B981;}.sla-risk{color:#F97316;}.sla-breach{color:#EF4444;}
 
-@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){.kpi-grid{grid-template-columns:1fr;}}
+/* ── ROI VIEW ── */
+.roi-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-family:var(--font);}
+.roi-chip:hover{color:var(--text);}
+.roi-chip.active{background:#EEF2FF;color:#3730A3;border-color:#C7D2FE;}
+.roi-list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;border-top:1px solid var(--border-inner);cursor:pointer;}
+.roi-list-row:hover{background:var(--ground);}
+.roi-list-name{font-size:13px;font-weight:500;color:var(--text);}
+.roi-list-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+.roi-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+@media(max-width:1100px){.kpi-grid,.kpi-grid-5{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-grid,.kpi-grid-5{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.kpi-grid,.kpi-grid-5{grid-template-columns:1fr;}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 
@@ -218,6 +248,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
   <div class="sn-hdr">
     <div class="sn-m">M</div>
     <span class="sn-name">Maestro</span>
+  </div>
+  <div class="ver-toggle">
+    <button class="ver-btn active" data-v="v1" onclick="setVersion('v1')">V1</button>
+    <button class="ver-btn" data-v="v2" onclick="setVersion('v2')">V2</button>
   </div>
   <nav class="sn-nav">
     <button class="sn-i" data-key="home" onclick="navTo('home')">
@@ -256,6 +290,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M7.1 2.8a1 1 0 011.8 0l4.9 9A1 1 0 0113 13H3a1 1 0 01-.9-1.2l4.9-9z" stroke="currentColor" stroke-width="1.3"/><path d="M8 6.5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       <span class="sn-label">Flow Incidents</span>
       <span class="preview-pill">Preview</span>
+    </button>
+    <button class="sn-i" data-key="biz-dash" onclick="navTo('biz-dash')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2" y="9" width="3" height="5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="6.5" y="6" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2.5" width="3" height="11.5" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>
+      <span class="sn-label">Dashboards</span>
     </button>
   </nav>
 </aside>
@@ -329,8 +367,232 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     </div>
   </div>
 
+  <!-- ── PAGE: BUSINESS DASHBOARDS (AGGREGATE) ── -->
+  <div id="pg-biz-agg" style="display:none;flex-direction:column;flex:1;">
+
+    <div class="list-hdr">
+      <div>
+        <div class="list-title">Dashboards</div>
+        <div class="list-sub" id="biz-scope-label">All processes · <span class="range-disp">Last month</span></div>
+      </div>
+      <div class="list-hdr-r">
+        <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc" onclick="cycleProcType()"><span class="fc-lbl">Type:&nbsp;</span><span class="fc-val" id="biz-type-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <span class="fc-lbl" style="font-size:13px;color:var(--muted);">Process:&nbsp;</span>
+        <select class="fc-select" id="biz-name-select" onchange="onBizNameChange()"></select>
+      </div>
+    </div>
+
+    <div class="dash-tabnav">
+      <button class="dash-tab active" onclick="switchBizViewTab('business',this)">Business</button>
+      <button class="dash-tab" onclick="switchBizViewTab('roi',this)">ROI</button>
+    </div>
+
+    <!-- ═ BUSINESS VIEW ═ -->
+    <div class="dash-page view-panel active" id="biz-view-business">
+
+      <!-- Aggregate KPI cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Total instances</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Total instances started across the selected scope during the selected period.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg" id="biz-kpi-total">–</span><span class="kpi-t" id="biz-kpi-total-trend"></span></div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Completed</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Total instances successfully completed across the selected scope during the selected period.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="biz-kpi-completed">–</span></div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Open</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Instances currently running within the selected scope, regardless of when they started.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue" id="biz-kpi-open">–</span></div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Avg completion rate</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Weighted average completion rate across the selected scope. A sustained drop is an early warning sign.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="biz-kpi-comp">–</span><span class="kpi-t" id="biz-kpi-comp-trend"></span></div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Avg median cycle time</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Weighted average of median cycle time across the selected scope.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val" id="biz-kpi-cycle">–</span><span class="kpi-t" id="biz-kpi-cycle-trend"></span></div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Avg exception rate</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Weighted average percentage of instances that needed human intervention within the selected scope.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val" id="biz-kpi-exc">–</span><span class="kpi-t" id="biz-kpi-exc-trend"></span></div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+      </div>
+
+      <!-- Aggregate trend charts -->
+      <div class="row2">
+        <div class="card">
+          <div class="card-hd"><span class="card-title" id="agg-chart1-title">Instances over time — all processes</span>
+            <div class="card-hd-actions">
+              <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+            </div>
+          </div>
+          <div class="help-bar" hidden>Total instances started within the selected scope during the selected period.</div>
+          <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-agg-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-ni"></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-title" id="agg-chart2-title">Avg median cycle time — all processes</span>
+            <div class="card-hd-actions">
+              <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+            </div>
+          </div>
+          <div class="help-bar" hidden>Weighted average of median cycle time within the selected scope.</div>
+          <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-agg-cy"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-cy" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-cy"></div></div></div>
+        </div>
+      </div>
+
+      <!-- Single-item summary (shown instead of the table when a specific process/case/flow is selected) -->
+      <div class="card" id="biz-single-summary" style="display:none;">
+        <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:13px;color:var(--muted);">Viewing <strong id="biz-single-name" style="color:var(--text);"></strong></span>
+          <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">View full dashboard →</a>
+        </div>
+      </div>
+
+      <!-- Process breakdown table -->
+      <div class="card" id="biz-table-card">
+        <div class="card-hd"><span class="card-title">Performance by process</span>
+          <div class="card-hd-actions">
+            <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+        <div class="help-bar" hidden>Key business metrics for each process, case app, and flow. Click any row to open its full dashboard.</div>
+        <table class="biz-proc-tbl">
+          <thead><tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Total instances<span class="si">⇅</span></th>
+            <th>Completion rate<span class="si">⇅</span></th>
+            <th>Median cycle time<span class="si">⇅</span></th>
+            <th>Exception rate<span class="si">⇅</span></th>
+            <th>Completion trend</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="biz-proc-rows"></tbody>
+        </table>
+      </div>
+
+    </div><!-- /biz-view-business -->
+
+    <!-- ═ ROI VIEW ═ -->
+    <div class="dash-page view-panel" id="biz-view-roi">
+
+      <div class="kpi-grid-5">
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Total time saved</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Estimated hours saved vs. manual execution across the selected scope and period.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg" id="roi-kpi-time-val">–</span><span class="kpi-t" id="roi-kpi-time-trend"></span></div>
+          <div class="kpi-card-sub">across selected scope</div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Enterprise value realised</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Dollar value of automation impact realised this period, based on time saved and process cost assumptions.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="roi-kpi-value-val">–</span><span class="kpi-t" id="roi-kpi-value-trend"></span></div>
+          <div class="kpi-card-sub">ROI-tracked</div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Volume processed</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Total runs processed across the selected scope during the selected period.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue" id="roi-kpi-volume-val">–</span></div>
+          <div class="kpi-card-sub">transactions · selected period</div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">Avg process duration</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Average time to complete a run within the selected scope, vs. doing it manually.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-duration-val">–</span></div>
+          <div class="kpi-card-sub">vs. manual execution</div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-hd">
+            <span class="kpi-card-name">FTE capacity freed</span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Full-time-equivalent headcount worth of capacity freed per year across the selected scope.</span></span>
+          </div>
+          <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-fte-val">–</span></div>
+          <div class="kpi-card-sub">FTE / yr</div>
+          <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+      </div>
+
+      <div class="row2t">
+        <div class="card">
+          <div class="card-hd"><span class="card-title">Enterprise value — estimated vs. realized</span>
+            <div class="card-hd-actions">
+              <button class="info-btn" onclick="toggleHelp(this)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
+            </div>
+          </div>
+          <div class="help-bar" hidden>Estimated and realized automation value across the selected scope and time horizon.</div>
+          <div style="padding:0 16px 8px;display:flex;gap:18px;font-size:12px;color:var(--muted);flex-wrap:wrap;">
+            <span>Estimated <strong id="roi-est-val" style="color:var(--text);"></strong></span>
+            <span>Realized <strong id="roi-real-val" style="color:var(--text);"></strong></span>
+            <span class="tg" id="roi-vs-est"></span>
+          </div>
+          <div class="chart-wrap"><div class="y-label-rot">$</div><div class="y-label-nums" id="yl-roi-ev"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-roi-ev" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-roi-ev"></div></div></div>
+          <div style="display:flex;gap:16px;justify-content:center;padding:0 16px 14px;font-size:11px;color:var(--muted);">
+            <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6B8DC8;margin-right:4px;"></span>Estimated value</span>
+            <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;margin-right:4px;"></span>Realized value</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd"><span class="card-title">Processes <span class="cell-muted" id="roi-list-count" style="font-weight:400;"></span></span></div>
+          <div style="display:flex;gap:6px;padding:0 16px 10px;">
+            <button class="roi-chip active" data-f="all" onclick="setRoiListFilter('all',this)">All</button>
+            <button class="roi-chip" data-f="configured" onclick="setRoiListFilter('configured',this)">ROI configured</button>
+            <button class="roi-chip" data-f="unconfigured" onclick="setRoiListFilter('unconfigured',this)">Not configured</button>
+          </div>
+          <div id="roi-proc-list" style="max-height:280px;overflow-y:auto;"></div>
+        </div>
+      </div>
+
+    </div><!-- /biz-view-roi -->
+
+  </div><!-- /pg-biz-agg -->
+
   <!-- ── PAGE: CASE APP ── -->
   <div id="pg-ca" style="display:none;flex-direction:column;flex:1;">
+
+  <div id="ca-content" style="display:flex;flex-direction:column;flex:1;">
 
     <!-- Header: title + SLA cards + tab nav -->
     <div class="ca-hdr">
@@ -514,6 +776,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       </div><!-- /dash-page -->
     </div><!-- /ca-section-biz -->
 
+  </div><!-- /ca-content -->
+
+  <div id="ca-v2-placeholder" class="pg-ph" style="display:none;">
+    <strong>Case app</strong>
+    <p>This page is simplified in the V2 prototype.</p>
+  </div>
+
   </div><!-- /pg-ca -->
 
   <!-- ── PAGE: BUSINESS DASHBOARD DETAIL ── -->
@@ -522,10 +791,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <!-- TAB NAV (no View toggle) -->
     <div class="tabnav">
       <div class="tabs">
-        <button class="tab" onclick="switchTab('im',this)">Instance management</button>
-        <button class="tab" onclick="switchTab('mon',this)">Monitoring</button>
-        <button class="tab" onclick="switchTab('opt',this)">Optimize</button>
-        <button class="tab active" onclick="switchTab('biz',this)">Business Dashboards</button>
+        <button class="tab tab-im" onclick="switchTab('im',this)">Instance management</button>
+        <button class="tab tab-mon" id="tab-mon-btn" onclick="switchTab('mon',this)">Monitoring</button>
+        <button class="tab tab-opt" onclick="switchTab('opt',this)">Optimize</button>
+        <button class="tab tab-biz active" id="tab-biz-btn" onclick="switchTab('biz',this)"><span id="tab-biz-label">Business Dashboards</span></button>
       </div>
       <div class="tab-filters">
         <button class="fc" onclick="cycleRange()"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
@@ -538,7 +807,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
     <div class="tab-ph" id="tab-ph" style="display:none;">
       <strong id="tab-ph-name"></strong>
-      This tab is not part of the prototype. <a href="#" onclick="restoreBiz();return false;" style="color:var(--tab-blue);">Switch to Business Dashboards →</a>
+      This tab is not part of the prototype. <a href="#" onclick="restoreBiz();return false;" style="color:var(--tab-blue);">Switch to <span id="tab-ph-switch-label">Business Dashboards</span> →</a>
     </div>
 
     <div class="dash-page" id="biz-page">
@@ -666,6 +935,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
 <script>
 // ── STATE ──
+let APP_VERSION = 'v1';
 let detailType = 'inst';
 let detailName = '';
 let detailFrom = 'proc-list';
@@ -687,6 +957,62 @@ const CASE_DATA = [
 ];
 
 const CHIP = {BPMN:'chip-bpmn',Flow:'chip-flow',Case:'chip-case',CaseApp:'chip-caseapp'};
+
+// Unified rollup across Processes (BPMN), Case apps, and Flows.
+// compRateDelta/cycleTimeDelta/excRateDelta/totalDelta/enterpriseValueDelta are change vs. previous period.
+const BIZ_ALL_DATA = [
+  {name:'Claim Processing',              type:'BPMN', total:1003, totalDelta:4.2, compRate:84.2, compRateDelta:1.4,  cycleTime:3.8, cycleTimeDelta:-0.4, excRate:6.1, excRateDelta:-0.5, timeSaved:920,  enterpriseValue:41200, enterpriseValueDelta:9.5,  fte:1.4, runs:1003, roiConfigured:true},
+  {name:'Employee Onboarding',           type:'BPMN', total:593,  totalDelta:2.1, compRate:82.5, compRateDelta:0.9,  cycleTime:5.2, cycleTimeDelta:-0.2, excRate:4.8, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:22800, enterpriseValueDelta:6.2,  fte:0.9, runs:593,  roiConfigured:true},
+  {name:'Invoice Approval Process',      type:'BPMN', total:2415, totalDelta:5.8, compRate:78.3, compRateDelta:-1.1, cycleTime:2.9, cycleTimeDelta:0.3,  excRate:8.2, excRateDelta:0.6,  timeSaved:1180, enterpriseValue:58600, enterpriseValueDelta:7.8,  fte:1.9, runs:2415, roiConfigured:true},
+  {name:'Loan Processing',               type:'BPMN', total:533,  totalDelta:1.3, compRate:80.1, compRateDelta:0.6,  cycleTime:6.1, cycleTimeDelta:-0.5, excRate:5.9, excRateDelta:-0.2, timeSaved:365,  enterpriseValue:19500, enterpriseValueDelta:4.1,  fte:0.7, runs:533,  roiConfigured:false},
+  {name:'Customer Complaint Resolution', type:'BPMN', total:359,  totalDelta:3.4, compRate:86.3, compRateDelta:2.0,  cycleTime:4.3, cycleTimeDelta:-0.3, excRate:4.2, excRateDelta:-0.6, timeSaved:255,  enterpriseValue:14100, enterpriseValueDelta:11.0, fte:0.5, runs:359,  roiConfigured:true},
+  {name:'Mortgage Origination',          type:'Case',  total:751,  totalDelta:2.6, compRate:79.4, compRateDelta:-0.5, cycleTime:7.4, cycleTimeDelta:0.4,  excRate:7.1, excRateDelta:0.4,  timeSaved:520,  enterpriseValue:29100, enterpriseValueDelta:5.0,  fte:1.0, runs:751,  roiConfigured:false},
+  {name:'Customer Onboarding',           type:'Case',  total:426,  totalDelta:3.9, compRate:85.0, compRateDelta:1.6,  cycleTime:3.5, cycleTimeDelta:-0.4, excRate:4.5, excRateDelta:-0.4, timeSaved:280,  enterpriseValue:15400, enterpriseValueDelta:8.3,  fte:0.5, runs:426,  roiConfigured:true},
+  {name:'Warranty Claims Intake',        type:'Case',  total:312,  totalDelta:1.8, compRate:81.7, compRateDelta:0.7,  cycleTime:4.9, cycleTimeDelta:-0.2, excRate:6.0, excRateDelta:-0.3, timeSaved:210,  enterpriseValue:11800, enterpriseValueDelta:6.5,  fte:0.4, runs:312,  roiConfigured:false},
+  {name:'PO Intake & Order Sync',        type:'Flow',  total:1840, totalDelta:6.5, compRate:96.2, compRateDelta:0.4,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:1.8, excRateDelta:-0.2, timeSaved:640,  enterpriseValue:24800, enterpriseValueDelta:12.4, fte:0.8, runs:1840, roiConfigured:true},
+  {name:'Invoice Data Extraction',       type:'Flow',  total:1275, totalDelta:4.0, compRate:94.8, compRateDelta:0.8,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:2.4, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:16900, enterpriseValueDelta:9.1,  fte:0.5, runs:1275, roiConfigured:false},
+];
+
+const OPEN_RATIO = 727/4903; // matches original mock ratio of open:total instances
+
+const ROI_RANGE_CHARTS = {
+  'Last month': {
+    estimated: [30,55,80,105,130,155,180,205,230,255,280,305,330,355,380,405,430,455,480,505,530,555,580,605,630,655,680,705,730,755],
+    realized:  [32,58,86,112,140,168,196,224,252,280,308,336,364,392,420,448,476,504,532,560,588,616,644,672,700,728,756,784,812,840],
+    labels: ['Jun 1','','','','','Jun 6','','','','','Jun 11','','','','','Jun 16','','','','','Jun 21','','','','','Jun 26','','','',''],
+  },
+  'Last 3 months': {
+    estimated: [900,1800,2700,3600,4500,5400,6300,7200,8100,9000,9900,10800],
+    realized:  [950,1950,2980,4050,5150,6300,7480,8700,9950,11250,12600,14000],
+    labels: ['Apr wk1','','Apr wk3','', 'May wk1','','May wk3','', 'Jun wk1','','Jun wk3',''],
+  },
+  'Last 6 months': {
+    estimated: [3000,7500,13500,21000,30000,40500],
+    realized:  [3200,8200,15000,23500,34000,46500],
+    labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+  },
+};
+
+const AGG_RANGE_CHARTS = {
+  'Last month': {
+    instCounts: [75,70,72,78,62,12,0, 70,74,66,82,55,6,0, 80,70,66,74,60,14,0, 68,78,74,66,52,10,0, 74,65],
+    instLabels: ['Jun 1','','','','','Jun 6','','','','','Jun 11','','','','','Jun 16','','','','','Jun 21','','','','','Jun 26','','','',''],
+    cycleDays:  [4.3,4.2,4.4,4.1,4.2,4.0,4.1,3.9,4.1],
+    cycleLabels:['Jun 2','Jun 5','Jun 9','Jun 12','Jun 16','Jun 19','Jun 23','Jun 26','Jun 30'],
+  },
+  'Last 3 months': {
+    instCounts: [320,360,370,385, 355,370,385,415, 315,360,370,405],
+    instLabels: ['Apr wk1','','Apr wk3','', 'May wk1','','May wk3','', 'Jun wk1','','Jun wk3',''],
+    cycleDays:  [5.1,4.9,4.7,4.5, 4.4,4.2,4.1,4.0],
+    cycleLabels:['Apr wk1','Apr wk2','May wk1','May wk2','Jun wk1','Jun wk2','Jun wk3','Jun wk4'],
+  },
+  'Last 6 months': {
+    instCounts: [800,990,1335,1455,1525,1585],
+    instLabels: ['Jan','Feb','Mar','Apr','May','Jun'],
+    cycleDays:  [6.0,5.6,5.3,5.0,4.6,4.2],
+    cycleLabels:['Jan','Feb','Mar','Apr','May','Jun'],
+  },
+};
 
 const RANGES = ['Last month', 'Last 3 months', 'Last 6 months'];
 let currentRange = 'Last month';
@@ -718,6 +1044,30 @@ function cycleRange() {
   currentRange = RANGES[idx];
   document.querySelectorAll('.range-disp').forEach(el => el.textContent = currentRange);
   if (chartsReady) drawAllCharts();
+  refreshBizViews();
+}
+
+// ── VERSION TOGGLE (V1 / V2) ──
+function setVersion(v) {
+  if (v === APP_VERSION) return;
+  APP_VERSION = v;
+  document.querySelectorAll('.ver-btn').forEach(b => b.classList.toggle('active', b.dataset.v === v));
+  applyVersionUI();
+}
+
+function applyVersionUI() {
+  const isV2 = APP_VERSION === 'v2';
+
+  // Case app: V2 shows a simplified placeholder instead of real content
+  document.getElementById('ca-content').style.display = isV2 ? 'none' : 'flex';
+  document.getElementById('ca-v2-placeholder').style.display = isV2 ? 'flex' : 'none';
+
+  // Process/Case Instances detail: V2 drops the legacy Monitoring tab and
+  // renames "Business Dashboards" to "Monitoring", moved before Optimize
+  document.getElementById('tab-mon-btn').style.display = isV2 ? 'none' : '';
+  document.getElementById('tab-biz-btn').style.order = isV2 ? '1' : '3';
+  document.getElementById('tab-biz-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
+  document.getElementById('tab-ph-switch-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
 }
 
 // ── RENDER LISTS ──
@@ -765,7 +1115,7 @@ function filterList(input, tbodyId) {
 // ── NAVIGATION ──
 function navTo(page, name) {
   // hide all pages
-  ['pg-pl','pg-cl','pg-ca','pg-detail','pg-ph'].forEach(id => {
+  ['pg-pl','pg-cl','pg-biz-agg','pg-ca','pg-detail','pg-ph'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -773,6 +1123,7 @@ function navTo(page, name) {
   // update sidenav active
   const keyMap = {
     'home':'home','proc-list':'proc-inst','proc-incidents':'proc-inc',
+    'biz-dash':'biz-dash',
     'case-app':'case-app','case-list':'case-inst','case-incidents':'case-inc',
     'flow-instances':'flow-inst','flow-incidents':'flow-inc',
     'proc-detail':'proc-inst','case-detail':'case-inst',
@@ -790,12 +1141,17 @@ function navTo(page, name) {
   } else if (page === 'case-list') {
     lastListPage = 'case-list';
     document.getElementById('pg-cl').style.display = 'flex';
+  } else if (page === 'biz-dash') {
+    document.getElementById('pg-biz-agg').style.display = 'flex';
+    refreshBizViews();
   } else if (page === 'proc-detail') {
-    detailType = 'inst'; detailName = name||''; detailFrom = 'proc-list';
+    detailType = 'inst'; detailName = name||'';
+    // detailFrom is set by the caller (openProcess or openProcessFromBiz)
     showDetail('inst');
     applyDetailMode(false);
   } else if (page === 'case-detail') {
-    detailType = 'inst'; detailName = name||''; detailFrom = 'case-list';
+    detailType = 'inst'; detailName = name||'';
+    // detailFrom is set by the caller (openCase or openCaseFromBiz)
     lastListPage = 'case-list';
     showDetail('inst');
     applyDetailMode(true);
@@ -819,8 +1175,21 @@ function navTo(page, name) {
   }
 }
 
-function openProcess(name) { navTo('proc-detail', name); }
-function openCase(name)    { navTo('case-detail', name); }
+function openProcess(name)        { detailFrom = 'proc-list'; navTo('proc-detail', name); }
+function openProcessFromBiz(name) { detailFrom = 'biz-dash';  navTo('proc-detail', name); }
+function openCase(name)           { detailFrom = 'case-list'; navTo('case-detail', name); }
+function openCaseFromBiz(name)    { detailFrom = 'biz-dash';  navTo('case-detail', name); }
+
+function openItemFromBiz(row) {
+  if (row.type === 'BPMN') openProcessFromBiz(row.name);
+  else if (row.type === 'Case') openCaseFromBiz(row.name);
+  // Flow: no detail dashboard exists yet in this prototype
+}
+
+function openItemFromBizKey(key) {
+  const row = BIZ_ALL_DATA.find(r => bizKey(r) === key);
+  if (row) openItemFromBiz(row);
+}
 
 function showDetail(type) {
   // Reset to Business Dashboards tab
@@ -852,12 +1221,18 @@ function updateTopbar(page, name) {
       <button class="btn btn-outline">Configure filtering</button>
       <button class="btn btn-primary">Run</button>
       <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
+  } else if (page === 'biz-dash') {
+    bc.innerHTML = '<span class="bc-cur">Dashboards</span>';
+    tr.innerHTML = '';
   } else if (page === 'proc-detail') {
     const n = name || detailName;
+    const fromBiz = detailFrom === 'biz-dash';
+    const backFn  = fromBiz ? "navTo('biz-dash')" : "navTo('proc-list')";
+    const listLbl = fromBiz ? 'Dashboards' : 'Process Instances';
     bc.innerHTML = `
-      <a href="#" onclick="navTo('proc-list');return false;">← Back</a>
+      <a href="#" onclick="${backFn};return false;">← Back</a>
       <span class="bc-sep">|</span>
-      <a href="#" onclick="navTo('proc-list');return false;">Process Instances</a>
+      <a href="#" onclick="${backFn};return false;">${listLbl}</a>
       <span class="bc-sep">›</span>
       <span class="bc-cur">${n}</span>`;
     tr.innerHTML = `
@@ -866,10 +1241,13 @@ function updateTopbar(page, name) {
       <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
   } else if (page === 'case-detail') {
     const n = name || detailName;
+    const fromBiz = detailFrom === 'biz-dash';
+    const backFn  = fromBiz ? "navTo('biz-dash')" : "navTo('case-list')";
+    const listLbl = fromBiz ? 'Dashboards' : 'Case Instances';
     bc.innerHTML = `
-      <a href="#" onclick="navTo('case-list');return false;">← Back</a>
+      <a href="#" onclick="${backFn};return false;">← Back</a>
       <span class="bc-sep">|</span>
-      <a href="#" onclick="navTo('case-list');return false;">Case Instances</a>
+      <a href="#" onclick="${backFn};return false;">${listLbl}</a>
       <span class="bc-sep">›</span>
       <span class="bc-cur">${n}</span>`;
     tr.innerHTML = `
@@ -1032,6 +1410,39 @@ function drawLine(svgId, ylId, xlId, data, labels) {
   xlEl.innerHTML=labels.map(l=>`<span>${l}</span>`).join('');
 }
 
+function drawDualLine(svgId, ylId, xlId, dataA, dataB, labels, colorA, colorB) {
+  const svg=document.getElementById(svgId),ylEl=document.getElementById(ylId),xlEl=document.getElementById(xlId);
+  if(!svg)return;
+  const W=400,H=140,pL=4,pR=8,pT=8,pB=4,cW=W-pL-pR,cH=H-pT-pB;
+  const all=dataA.concat(dataB);
+  const mn=Math.min(...all)*0.9, mx=Math.max(...all)*1.08;
+  const rng=mx-mn||1, mid=(mn+mx)/2;
+  const px=i=>pL+(i/(dataA.length-1))*cW, py=v=>pT+cH-((v-mn)/rng)*cH;
+  const y0=py(mn);
+  let els=`<line x1="${pL}" y1="${y0.toFixed(1)}" x2="${W-pR}" y2="${y0.toFixed(1)}" stroke="#E5E7EB" stroke-width="1"/>
+    <line x1="${pL}" y1="${py(mid).toFixed(1)}" x2="${W-pR}" y2="${py(mid).toFixed(1)}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="${pL}" y1="${py(mx).toFixed(1)}" x2="${W-pR}" y2="${py(mx).toFixed(1)}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>`;
+  function seriesPath(data, color, fill) {
+    const pts=data.map((v,i)=>[px(i),py(v)]);
+    let lp=`M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+    for(let i=1;i<pts.length;i++){const[x0,y0p]=pts[i-1],[x1,y1]=pts[i],cx=(x1-x0)/3;lp+=` C${(x0+cx).toFixed(1)},${y0p.toFixed(1)} ${(x1-cx).toFixed(1)},${y1.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;}
+    let s='';
+    if (fill) {
+      const ap=lp+` L${pts[pts.length-1][0].toFixed(1)},${y0.toFixed(1)} L${pts[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
+      s+=`<path d="${ap}" fill="${fill}"/>`;
+    }
+    s+=`<path d="${lp}" stroke="${color}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+    pts.forEach(([x,y])=>{s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${color}"/>`;});
+    return s;
+  }
+  els+=`<defs><linearGradient id="g${svgId}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${colorB}" stop-opacity="0.15"/><stop offset="100%" stop-color="${colorB}" stop-opacity="0"/></linearGradient></defs>`;
+  els+=seriesPath(dataB, colorB, `url(#g${svgId}b)`);
+  els+=seriesPath(dataA, colorA, null);
+  svg.innerHTML=els;
+  ylEl.innerHTML=`<span>${Math.round(mx)}</span><span>${Math.round(mid)}</span><span>${Math.round(mn)}</span>`;
+  xlEl.innerHTML=labels.map(l=>`<span>${l}</span>`).join('');
+}
+
 function drawBnTable(tbodyId, rows) {
   const tbody=document.getElementById(tbodyId);
   if(!tbody)return;
@@ -1040,6 +1451,228 @@ function drawBnTable(tbodyId, rows) {
     const w=Math.max(6,(r.wait/maxV)*maxW), inside=w>60;
     return`<tr><td>${r.name}</td><td class="cell-muted">${r.queued}</td><td><div class="ibar"><div class="ibar-fill ibar-blu" style="width:${w.toFixed(0)}px;">${inside?`<span class="ibar-val">${r.label}</span>`:''}</div>${!inside?`<span class="ibar-vout">${r.label}</span>`:''}</div></td></tr>`;
   }).join('');
+}
+
+function drawAggCharts() {
+  const d = AGG_RANGE_CHARTS[currentRange];
+  drawBar('ch-agg-ni','yl-agg-ni','xl-agg-ni', d.instCounts, d.instLabels);
+  drawLine('ch-agg-cy','yl-agg-cy','xl-agg-cy', d.cycleDays,  d.cycleLabels);
+}
+
+function drawRoiChart() {
+  const d = ROI_RANGE_CHARTS[currentRange];
+  drawDualLine('ch-roi-ev','yl-roi-ev','xl-roi-ev', d.estimated, d.realized, d.labels, '#6B8DC8', '#22C55E');
+}
+
+// ── DASHBOARDS PAGE: FILTERS + AGGREGATION ──
+let bizTypeFilter = 'All'; // 'All' | 'BPMN' | 'Case' | 'Flow'
+let bizNameFilter = '';    // '' = All, else bizKey(row)
+let roiListFilter = 'all'; // 'all' | 'configured' | 'unconfigured'
+const BIZ_TYPES = ['All', 'BPMN', 'Case', 'Flow'];
+
+function bizKey(r) { return r.name + '|' + r.type; }
+function typeChipClass(t) { return CHIP[t] || 'chip-bpmn'; }
+function trendClassGoodHigh(v) { return v >= 0 ? 'tg' : 'tb'; }
+function trendClassGoodLow(v)  { return v <= 0 ? 'tg' : 'tb'; }
+function fmtDelta(v, unit, digits) {
+  digits = digits === undefined ? 1 : digits;
+  const sign = v >= 0 ? '+' : '';
+  return `${v >= 0 ? '↑' : '↓'} ${sign}${v.toFixed(digits)}${unit}`;
+}
+
+function getBizFilteredRows() {
+  let rows = BIZ_ALL_DATA.filter(r => bizTypeFilter === 'All' || r.type === bizTypeFilter);
+  if (bizNameFilter) rows = rows.filter(r => bizKey(r) === bizNameFilter);
+  return rows;
+}
+
+function aggregateBiz(rows) {
+  const totalSum = rows.reduce((s, r) => s + r.total, 0);
+  const wavg = key => totalSum ? rows.reduce((s, r) => s + r[key] * r.total, 0) / totalSum : 0;
+  return {
+    total: totalSum,
+    totalDelta: wavg('totalDelta'),
+    completed: Math.round(rows.reduce((s, r) => s + r.total * r.compRate / 100, 0)),
+    open: Math.round(totalSum * OPEN_RATIO),
+    compRate: wavg('compRate'),
+    compRateDelta: wavg('compRateDelta'),
+    cycleTime: wavg('cycleTime'),
+    cycleTimeDelta: wavg('cycleTimeDelta'),
+    excRate: wavg('excRate'),
+    excRateDelta: wavg('excRateDelta'),
+    timeSaved: rows.reduce((s, r) => s + r.timeSaved, 0),
+    enterpriseValue: rows.reduce((s, r) => s + r.enterpriseValue, 0),
+    enterpriseValueDelta: wavg('enterpriseValueDelta'),
+    fte: rows.reduce((s, r) => s + r.fte, 0),
+    runs: rows.reduce((s, r) => s + r.runs, 0),
+  };
+}
+
+function cycleProcType() {
+  const idx = (BIZ_TYPES.indexOf(bizTypeFilter) + 1) % BIZ_TYPES.length;
+  bizTypeFilter = BIZ_TYPES[idx];
+  document.getElementById('biz-type-val').textContent = bizTypeFilter;
+  bizNameFilter = '';
+  populateBizNameSelect();
+  refreshBizViews();
+}
+
+function populateBizNameSelect() {
+  const sel = document.getElementById('biz-name-select');
+  if (!sel) return;
+  const rows = BIZ_ALL_DATA.filter(r => bizTypeFilter === 'All' || r.type === bizTypeFilter);
+  sel.innerHTML = '<option value="">All</option>' + rows.map(r =>
+    `<option value="${bizKey(r)}">${r.name} (${r.type})</option>`
+  ).join('');
+  sel.value = bizNameFilter;
+}
+
+function onBizNameChange() {
+  bizNameFilter = document.getElementById('biz-name-select').value;
+  refreshBizViews();
+}
+
+function scopeLabel() {
+  if (bizNameFilter) {
+    const row = BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter);
+    return row ? row.name : 'Selected item';
+  }
+  return bizTypeFilter === 'All' ? 'All processes' : bizTypeFilter + ' processes';
+}
+
+function switchBizViewTab(tab, el) {
+  document.querySelectorAll('#pg-biz-agg .dash-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('biz-view-business').classList.toggle('active', tab === 'business');
+  document.getElementById('biz-view-roi').classList.toggle('active', tab === 'roi');
+}
+
+function renderBizKpis(agg) {
+  document.getElementById('biz-kpi-total').textContent = agg.total.toLocaleString();
+  const totalTrend = document.getElementById('biz-kpi-total-trend');
+  totalTrend.textContent = fmtDelta(agg.totalDelta, '%');
+  totalTrend.className = 'kpi-t ' + trendClassGoodHigh(agg.totalDelta);
+
+  document.getElementById('biz-kpi-completed').textContent = agg.completed.toLocaleString();
+  document.getElementById('biz-kpi-open').textContent = agg.open.toLocaleString();
+
+  document.getElementById('biz-kpi-comp').textContent = agg.compRate.toFixed(1) + '%';
+  const compTrend = document.getElementById('biz-kpi-comp-trend');
+  compTrend.textContent = fmtDelta(agg.compRateDelta, 'pp');
+  compTrend.className = 'kpi-t ' + trendClassGoodHigh(agg.compRateDelta);
+
+  document.getElementById('biz-kpi-cycle').textContent = agg.cycleTime.toFixed(1) + ' d';
+  const cycleTrend = document.getElementById('biz-kpi-cycle-trend');
+  cycleTrend.textContent = fmtDelta(agg.cycleTimeDelta, 'd');
+  cycleTrend.className = 'kpi-t ' + trendClassGoodLow(agg.cycleTimeDelta);
+
+  document.getElementById('biz-kpi-exc').textContent = agg.excRate.toFixed(1) + '%';
+  const excTrend = document.getElementById('biz-kpi-exc-trend');
+  excTrend.textContent = fmtDelta(agg.excRateDelta, 'pp');
+  excTrend.className = 'kpi-t ' + trendClassGoodLow(agg.excRateDelta);
+}
+
+function renderBizProcTable() {
+  const rows = getBizFilteredRows();
+  document.getElementById('biz-proc-rows').innerHTML = rows.map(r => {
+    const clickable = r.type !== 'Flow';
+    const up = r.compRateDelta >= 0;
+    const trendTxt = `${up ? '↑' : '↓'} ${up ? '+' : ''}${r.compRateDelta.toFixed(1)}pp`;
+    const onclick = clickable ? ` onclick="openItemFromBizKey('${bizKey(r).replace(/'/g,"\\'")}')"` : '';
+    return `
+    <tr${onclick} style="${clickable ? '' : 'cursor:default;'}">
+      <td><strong style="font-size:13px;">${r.name}</strong></td>
+      <td><span class="chip ${typeChipClass(r.type)}">${r.type}</span></td>
+      <td><span class="num-val">${r.total.toLocaleString()}</span></td>
+      <td><span style="font-weight:600;${r.compRate >= 83 ? 'color:#10B981;' : ''}">${r.compRate.toFixed(1)}%</span></td>
+      <td>${r.cycleTime.toFixed(1)} d</td>
+      <td>${r.excRate.toFixed(1)}%</td>
+      <td><span class="trend-chip ${up ? 'trend-up' : 'trend-dn'}">${trendTxt}</span></td>
+      <td>${clickable ? '<span class="row-action">Dashboard →</span>' : ''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderRoiList(rows) {
+  let list = rows;
+  if (roiListFilter === 'configured') list = list.filter(r => r.roiConfigured);
+  if (roiListFilter === 'unconfigured') list = list.filter(r => !r.roiConfigured);
+  document.getElementById('roi-list-count').textContent = `${list.length} of ${rows.length}`;
+  document.getElementById('roi-proc-list').innerHTML = list.map(r => {
+    const clickable = r.type !== 'Flow';
+    const onclick = clickable ? ` onclick="openItemFromBizKey('${bizKey(r).replace(/'/g,"\\'")}')"` : '';
+    return `
+    <div class="roi-list-row"${onclick} style="${clickable ? '' : 'cursor:default;'}">
+      <div>
+        <div class="roi-list-name">${r.name} <span class="chip ${typeChipClass(r.type)}" style="margin-left:4px;">${r.type}</span></div>
+        <div class="roi-list-meta">${r.runs.toLocaleString()} runs · $${(r.enterpriseValue/1000).toFixed(1)}K saved</div>
+      </div>
+      <span class="roi-dot" style="background:${r.roiConfigured ? '#10B981' : '#D1D5DB'};" title="${r.roiConfigured ? 'ROI configured' : 'ROI not configured'}"></span>
+    </div>`;
+  }).join('') || `<div style="padding:16px;color:var(--muted);font-size:12px;">No items match this filter.</div>`;
+}
+
+function setRoiListFilter(f, el) {
+  roiListFilter = f;
+  document.querySelectorAll('.roi-chip').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderRoiList(getBizFilteredRows());
+}
+
+function renderRoiKpis(agg) {
+  document.getElementById('roi-kpi-time-val').textContent = agg.timeSaved.toLocaleString() + ' hrs';
+  const timeTrend = document.getElementById('roi-kpi-time-trend');
+  timeTrend.textContent = fmtDelta(agg.enterpriseValueDelta, '%');
+  timeTrend.className = 'kpi-t ' + trendClassGoodHigh(agg.enterpriseValueDelta);
+
+  document.getElementById('roi-kpi-value-val').textContent = '$' + (agg.enterpriseValue/1000).toFixed(1) + 'K';
+  const valueTrend = document.getElementById('roi-kpi-value-trend');
+  valueTrend.textContent = fmtDelta(agg.enterpriseValueDelta, '%');
+  valueTrend.className = 'kpi-t ' + trendClassGoodHigh(agg.enterpriseValueDelta);
+
+  document.getElementById('roi-kpi-volume-val').textContent = agg.runs.toLocaleString();
+  document.getElementById('roi-kpi-duration-val').textContent = agg.cycleTime.toFixed(1) + ' d';
+  document.getElementById('roi-kpi-fte-val').textContent = agg.fte.toFixed(1);
+
+  const est = Math.round(agg.enterpriseValue * 0.92);
+  document.getElementById('roi-est-val').textContent = '$' + (est/1000).toFixed(1) + 'K';
+  document.getElementById('roi-real-val').textContent = '$' + (agg.enterpriseValue/1000).toFixed(1) + 'K';
+  const vsEst = est ? ((agg.enterpriseValue - est) / est * 100) : 0;
+  const vsEstEl = document.getElementById('roi-vs-est');
+  vsEstEl.textContent = fmtDelta(vsEst, '% vs estimate');
+  vsEstEl.className = trendClassGoodHigh(vsEst);
+}
+
+function refreshBizViews() {
+  if (!document.getElementById('biz-scope-label')) return;
+  const rows = getBizFilteredRows();
+  const agg = aggregateBiz(rows);
+
+  renderBizKpis(agg);
+  document.getElementById('biz-scope-label').innerHTML = scopeLabel() + ' · <span class="range-disp">' + currentRange + '</span>';
+  document.getElementById('agg-chart1-title').textContent = 'Instances over time — ' + scopeLabel();
+  document.getElementById('agg-chart2-title').textContent = 'Avg median cycle time — ' + scopeLabel();
+  renderBizProcTable();
+
+  const single = !!bizNameFilter;
+  document.getElementById('biz-table-card').style.display = single ? 'none' : '';
+  document.getElementById('biz-single-summary').style.display = single ? '' : 'none';
+  if (single) {
+    const row = BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter);
+    document.getElementById('biz-single-name').textContent = row ? `${row.name} (${row.type})` : '';
+    const link = document.getElementById('biz-single-link');
+    if (row && row.type !== 'Flow') {
+      link.style.display = '';
+      link.onclick = e => { e.preventDefault(); openItemFromBiz(row); };
+    } else {
+      link.style.display = 'none';
+    }
+  }
+
+  drawAggCharts();
+  renderRoiKpis(agg);
+  renderRoiList(rows);
+  drawRoiChart();
 }
 
 function drawAllCharts() {
@@ -1065,6 +1698,8 @@ window.addEventListener('DOMContentLoaded', () => {
   renderProcList();
   renderCaseList();
   renderCaCases();
+  populateBizNameSelect();
+  refreshBizViews();
   navTo('proc-list');
 });
 </script>
