@@ -1,5 +1,5 @@
 <meta charset="UTF-8">
-<title>Business Dashboards — UiPath Maestro</title>
+<title>Business Dashboards | UiPath Maestro</title>
 <style>
 :root{
   --ground:#F5F6F8;--surface:#fff;
@@ -162,6 +162,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .kpi-tt{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1D2028;color:#F0F4FF;font-size:11px;line-height:1.5;padding:8px 10px;border-radius:5px;white-space:normal;width:210px;z-index:300;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.28);}
 .kpi-tw:hover .kpi-tt{display:block;}
 .kpi-tt.kpi-tt-r{left:auto;right:0;transform:none;}
+.kpi-tt.kpi-tt-b{bottom:auto;top:calc(100% + 8px);}
 
 /* ── GRID + CARD ── */
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
@@ -240,6 +241,22 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .roi-list-name{font-size:13px;font-weight:500;color:var(--text);}
 .roi-list-meta{font-size:11px;color:var(--muted);margin-top:2px;}
 .roi-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.vc-tabs{display:flex;border-bottom:1px solid var(--border);}
+.vc-tab{flex:1;text-align:left;padding:10px 12px;border:none;background:none;cursor:pointer;font-family:var(--font);border-bottom:2px solid transparent;margin-bottom:-1px;}
+.vc-tab:hover{background:var(--ground);}
+.vc-tab-lbl{display:block;font-size:11px;color:var(--muted);margin-bottom:3px;}
+.vc-tab-val{display:block;font-size:16px;font-weight:700;color:var(--text);}
+.vc-tab.active{border-bottom-color:var(--tab-blue);}
+.vc-tab.active .vc-tab-val{color:var(--tab-blue);}
+.vc-legend{display:flex;gap:14px;justify-content:flex-end;padding:10px 16px 0;font-size:11px;color:var(--muted);}
+.vc-row{padding:9px 16px;}
+.vc-row-hd{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:5px;}
+.vc-row-name{font-weight:500;color:var(--text);}
+.vc-row-vals{color:var(--muted);white-space:nowrap;}
+.vc-bar-track{background:var(--th);border-radius:3px;height:6px;margin-bottom:3px;overflow:hidden;}
+.vc-bar-fill{height:100%;border-radius:3px;}
+.vc-bar-est{background:#6B8DC8;}
+.vc-bar-real{background:#22C55E;}
 
 @media(max-width:1100px){.kpi-grid,.kpi-grid-5{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-grid,.kpi-grid-5{grid-template-columns:repeat(2,1fr);}}
@@ -275,17 +292,17 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <button class="sn-i" data-key="case-app" onclick="navTo('case-app')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2" y="2" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 9v5M9 11.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
       <span class="sn-label">Case app</span>
-      <span class="preview-pill">Preview</span>
+      <span class="preview-pill preview-pill-case">Preview</span>
     </button>
     <button class="sn-i" data-key="case-inst" onclick="navTo('case-list')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="2.5" y1="5.5" x2="13.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M5 8.5h6M5 11h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       <span class="sn-label">Case Instances</span>
-      <span class="preview-pill">Preview</span>
+      <span class="preview-pill preview-pill-case">Preview</span>
     </button>
     <button class="sn-i" data-key="case-inc" onclick="navTo('case-incidents')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M7.1 2.8a1 1 0 011.8 0l4.9 9A1 1 0 0113 13H3a1 1 0 01-.9-1.2l4.9-9z" stroke="currentColor" stroke-width="1.3"/><path d="M8 6.5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       <span class="sn-label">Case Incidents</span>
-      <span class="preview-pill">Preview</span>
+      <span class="preview-pill preview-pill-case">Preview</span>
     </button>
     <button class="sn-i" data-key="flow-inst" onclick="navTo('flow-instances')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><circle cx="8" cy="3.5" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="12.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="13" cy="12.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><path d="M8 5.5v3.5M8 9L4.5 11M8 9l3.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -453,7 +470,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <!-- Aggregate trend charts -->
       <div class="row2">
         <div class="card">
-          <div class="card-hd"><span class="card-title" id="agg-chart1-title">Instances over time — all processes</span>
+          <div class="card-hd"><span class="card-title" id="agg-chart1-title">Instances over time in all processes</span>
             <div class="card-hd-actions">
               <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
@@ -463,7 +480,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-agg-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-ni"></div></div></div>
         </div>
         <div class="card">
-          <div class="card-hd"><span class="card-title" id="agg-chart2-title">Avg median cycle time — all processes</span>
+          <div class="card-hd"><span class="card-title" id="agg-chart2-title">Avg median cycle time in all processes</span>
             <div class="card-hd-actions">
               <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
@@ -497,7 +514,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <th>Completion rate<span class="si">⇅</span></th>
             <th>Median cycle time<span class="si">⇅</span></th>
             <th>Exception rate<span class="si">⇅</span></th>
-            <th>Completion trend</th>
+            <th>Completion trend <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Shows whether each item's completion rate improved or declined vs. the previous period.</span></span></th>
             <th></th>
           </tr></thead>
           <tbody id="biz-proc-rows"></tbody>
@@ -513,6 +530,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Total time saved</span>
+            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="roi-tt-time">Estimated hours saved vs. manual execution across all processes during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg" id="roi-kpi-time-val">–</span><span class="kpi-t" id="roi-kpi-time-trend"></span></div>
           <div class="kpi-card-sub" id="roi-time-sub">across all processes</div>
@@ -521,6 +539,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Enterprise value realised</span>
+            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Dollar value of automation impact realised this period, based on time saved and process cost assumptions.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="roi-kpi-value-val">–</span><span class="kpi-t" id="roi-kpi-value-trend"></span></div>
           <div class="kpi-card-sub">ROI-tracked</div>
@@ -529,6 +548,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Volume processed</span>
+            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="roi-tt-volume">Total runs processed across all processes during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue" id="roi-kpi-volume-val">–</span></div>
           <div class="kpi-card-sub">transactions · selected period</div>
@@ -537,6 +557,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Avg process duration</span>
+            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="roi-tt-duration">Average time to complete a run within all processes, vs. doing it manually.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-duration-val">–</span></div>
           <div class="kpi-card-sub">vs. manual execution</div>
@@ -545,6 +566,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">FTE capacity freed</span>
+            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="roi-tt-fte">Full-time-equivalent headcount worth of capacity freed per year across all processes.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-fte-val">–</span></div>
           <div class="kpi-card-sub">FTE / yr</div>
@@ -574,13 +596,17 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
 
         <div class="card">
-          <div class="card-hd"><span class="card-title">Processes <span class="cell-muted" id="roi-list-count" style="font-weight:400;"></span></span></div>
-          <div style="display:flex;gap:6px;padding:0 16px 10px;">
-            <button class="roi-chip active" data-f="all" onclick="setRoiListFilter('all',this)">All</button>
-            <button class="roi-chip" data-f="configured" onclick="setRoiListFilter('configured',this)">ROI configured</button>
-            <button class="roi-chip" data-f="unconfigured" onclick="setRoiListFilter('unconfigured',this)">Not configured</button>
+          <div class="card-hd"><span class="card-title">Value contribution</span></div>
+          <div class="vc-tabs">
+            <button class="vc-tab active" onclick="setVcMode('area',this)"><span class="vc-tab-lbl">Value by business area</span><span class="vc-tab-val" id="vc-val-area">–</span></button>
+            <button class="vc-tab" onclick="setVcMode('solution',this)"><span class="vc-tab-lbl">Value by solution</span><span class="vc-tab-val" id="vc-val-solution">–</span></button>
+            <button class="vc-tab" onclick="setVcMode('time',this)"><span class="vc-tab-lbl">Time (est. vs realized)</span><span class="vc-tab-val" id="vc-val-time">–</span></button>
           </div>
-          <div id="roi-proc-list" style="max-height:280px;overflow-y:auto;"></div>
+          <div class="vc-legend">
+            <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6B8DC8;margin-right:4px;"></span>Estimated</span>
+            <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22C55E;margin-right:4px;"></span>Realized</span>
+          </div>
+          <div id="vc-rows" style="max-height:250px;overflow-y:auto;padding-top:4px;"></div>
         </div>
       </div>
 
@@ -777,11 +803,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
   </div><!-- /ca-content -->
 
-  <div id="ca-v2-placeholder" class="pg-ph" style="display:none;">
-    <strong>Case app</strong>
-    <p>This page is simplified in the V2 prototype.</p>
-  </div>
-
   </div><!-- /pg-ca -->
 
   <!-- ── PAGE: BUSINESS DASHBOARD DETAIL ── -->
@@ -961,16 +982,16 @@ const CHIP = {BPMN:'chip-bpmn',Flow:'chip-flow',Case:'chip-case',CaseApp:'chip-c
 // Unified rollup across Processes (BPMN), Case apps, and Flows.
 // compRateDelta/cycleTimeDelta/excRateDelta/totalDelta/enterpriseValueDelta are change vs. previous period.
 const BIZ_ALL_DATA = [
-  {name:'Claim Processing',              type:'BPMN', total:1003, totalDelta:4.2, compRate:84.2, compRateDelta:1.4,  cycleTime:3.8, cycleTimeDelta:-0.4, excRate:6.1, excRateDelta:-0.5, timeSaved:920,  enterpriseValue:41200, enterpriseValueDelta:9.5,  fte:1.4, runs:1003, roiConfigured:true},
-  {name:'Employee Onboarding',           type:'BPMN', total:593,  totalDelta:2.1, compRate:82.5, compRateDelta:0.9,  cycleTime:5.2, cycleTimeDelta:-0.2, excRate:4.8, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:22800, enterpriseValueDelta:6.2,  fte:0.9, runs:593,  roiConfigured:true},
-  {name:'Invoice Approval Process',      type:'BPMN', total:2415, totalDelta:5.8, compRate:78.3, compRateDelta:-1.1, cycleTime:2.9, cycleTimeDelta:0.3,  excRate:8.2, excRateDelta:0.6,  timeSaved:1180, enterpriseValue:58600, enterpriseValueDelta:7.8,  fte:1.9, runs:2415, roiConfigured:true},
-  {name:'Loan Processing',               type:'BPMN', total:533,  totalDelta:1.3, compRate:80.1, compRateDelta:0.6,  cycleTime:6.1, cycleTimeDelta:-0.5, excRate:5.9, excRateDelta:-0.2, timeSaved:365,  enterpriseValue:19500, enterpriseValueDelta:4.1,  fte:0.7, runs:533,  roiConfigured:false},
-  {name:'Customer Complaint Resolution', type:'BPMN', total:359,  totalDelta:3.4, compRate:86.3, compRateDelta:2.0,  cycleTime:4.3, cycleTimeDelta:-0.3, excRate:4.2, excRateDelta:-0.6, timeSaved:255,  enterpriseValue:14100, enterpriseValueDelta:11.0, fte:0.5, runs:359,  roiConfigured:true},
-  {name:'Mortgage Origination',          type:'Case',  total:751,  totalDelta:2.6, compRate:79.4, compRateDelta:-0.5, cycleTime:7.4, cycleTimeDelta:0.4,  excRate:7.1, excRateDelta:0.4,  timeSaved:520,  enterpriseValue:29100, enterpriseValueDelta:5.0,  fte:1.0, runs:751,  roiConfigured:false},
-  {name:'Customer Onboarding',           type:'Case',  total:426,  totalDelta:3.9, compRate:85.0, compRateDelta:1.6,  cycleTime:3.5, cycleTimeDelta:-0.4, excRate:4.5, excRateDelta:-0.4, timeSaved:280,  enterpriseValue:15400, enterpriseValueDelta:8.3,  fte:0.5, runs:426,  roiConfigured:true},
-  {name:'Warranty Claims Intake',        type:'Case',  total:312,  totalDelta:1.8, compRate:81.7, compRateDelta:0.7,  cycleTime:4.9, cycleTimeDelta:-0.2, excRate:6.0, excRateDelta:-0.3, timeSaved:210,  enterpriseValue:11800, enterpriseValueDelta:6.5,  fte:0.4, runs:312,  roiConfigured:false},
-  {name:'PO Intake & Order Sync',        type:'Flow',  total:1840, totalDelta:6.5, compRate:96.2, compRateDelta:0.4,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:1.8, excRateDelta:-0.2, timeSaved:640,  enterpriseValue:24800, enterpriseValueDelta:12.4, fte:0.8, runs:1840, roiConfigured:true},
-  {name:'Invoice Data Extraction',       type:'Flow',  total:1275, totalDelta:4.0, compRate:94.8, compRateDelta:0.8,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:2.4, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:16900, enterpriseValueDelta:9.1,  fte:0.5, runs:1275, roiConfigured:false},
+  {name:'Claim Processing',              type:'BPMN', area:'Finance & Accounting', total:1003, totalDelta:4.2, compRate:84.2, compRateDelta:1.4,  cycleTime:3.8, cycleTimeDelta:-0.4, excRate:6.1, excRateDelta:-0.5, timeSaved:920,  enterpriseValue:41200, enterpriseValueDelta:9.5,  fte:1.4, runs:1003, roiConfigured:true},
+  {name:'Employee Onboarding',           type:'BPMN', area:'HR',                  total:593,  totalDelta:2.1, compRate:82.5, compRateDelta:0.9,  cycleTime:5.2, cycleTimeDelta:-0.2, excRate:4.8, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:22800, enterpriseValueDelta:6.2,  fte:0.9, runs:593,  roiConfigured:true},
+  {name:'Invoice Approval Process',      type:'BPMN', area:'Finance & Accounting', total:2415, totalDelta:5.8, compRate:78.3, compRateDelta:-1.1, cycleTime:2.9, cycleTimeDelta:0.3,  excRate:8.2, excRateDelta:0.6,  timeSaved:1180, enterpriseValue:58600, enterpriseValueDelta:7.8,  fte:1.9, runs:2415, roiConfigured:true},
+  {name:'Loan Processing',               type:'BPMN', area:'Finance & Accounting', total:533,  totalDelta:1.3, compRate:80.1, compRateDelta:0.6,  cycleTime:6.1, cycleTimeDelta:-0.5, excRate:5.9, excRateDelta:-0.2, timeSaved:365,  enterpriseValue:19500, enterpriseValueDelta:4.1,  fte:0.7, runs:533,  roiConfigured:false},
+  {name:'Customer Complaint Resolution', type:'BPMN', area:'Operations',          total:359,  totalDelta:3.4, compRate:86.3, compRateDelta:2.0,  cycleTime:4.3, cycleTimeDelta:-0.3, excRate:4.2, excRateDelta:-0.6, timeSaved:255,  enterpriseValue:14100, enterpriseValueDelta:11.0, fte:0.5, runs:359,  roiConfigured:true},
+  {name:'Mortgage Origination',          type:'Case',  area:'Finance & Accounting', total:751,  totalDelta:2.6, compRate:79.4, compRateDelta:-0.5, cycleTime:7.4, cycleTimeDelta:0.4,  excRate:7.1, excRateDelta:0.4,  timeSaved:520,  enterpriseValue:29100, enterpriseValueDelta:5.0,  fte:1.0, runs:751,  roiConfigured:false},
+  {name:'Customer Onboarding',           type:'Case',  area:'Operations',          total:426,  totalDelta:3.9, compRate:85.0, compRateDelta:1.6,  cycleTime:3.5, cycleTimeDelta:-0.4, excRate:4.5, excRateDelta:-0.4, timeSaved:280,  enterpriseValue:15400, enterpriseValueDelta:8.3,  fte:0.5, runs:426,  roiConfigured:true},
+  {name:'Warranty Claims Intake',        type:'Case',  area:'Operations',          total:312,  totalDelta:1.8, compRate:81.7, compRateDelta:0.7,  cycleTime:4.9, cycleTimeDelta:-0.2, excRate:6.0, excRateDelta:-0.3, timeSaved:210,  enterpriseValue:11800, enterpriseValueDelta:6.5,  fte:0.4, runs:312,  roiConfigured:false},
+  {name:'PO Intake & Order Sync',        type:'Flow',  area:'Supply Chain',        total:1840, totalDelta:6.5, compRate:96.2, compRateDelta:0.4,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:1.8, excRateDelta:-0.2, timeSaved:640,  enterpriseValue:24800, enterpriseValueDelta:12.4, fte:0.8, runs:1840, roiConfigured:true},
+  {name:'Invoice Data Extraction',       type:'Flow',  area:'IT / Platform',       total:1275, totalDelta:4.0, compRate:94.8, compRateDelta:0.8,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:2.4, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:16900, enterpriseValueDelta:9.1,  fte:0.5, runs:1275, roiConfigured:false},
 ];
 
 const OPEN_RATIO = 727/4903; // matches original mock ratio of open:total instances
@@ -1132,15 +1153,19 @@ function setVersion(v) {
 function applyVersionUI() {
   const isV2 = APP_VERSION === 'v2';
 
-  // Case app: V2 shows a simplified placeholder instead of real content
-  document.getElementById('ca-content').style.display = isV2 ? 'none' : 'flex';
-  document.getElementById('ca-v2-placeholder').style.display = isV2 ? 'flex' : 'none';
-
   // Process/Case Instances detail: V2 drops the legacy Monitoring tab and
   // renames "Business Dashboards" to "Monitoring", moved before Optimize
   document.getElementById('tab-mon-btn').style.display = isV2 ? 'none' : '';
   document.getElementById('tab-biz-btn').style.order = isV2 ? '1' : '3';
   document.getElementById('tab-biz-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
+
+  // ROI KPI cards: V2 tucks the caption into a hover tooltip instead of
+  // showing it as permanent on-screen text
+  document.querySelectorAll('.roi-kpi-tt-wrap').forEach(el => el.style.display = isV2 ? '' : 'none');
+  document.querySelectorAll('#biz-view-roi .kpi-card-sub').forEach(el => el.style.display = isV2 ? 'none' : '');
+
+  // Left nav: V2 only shows "Preview" on the Flow entries (Case app/Instances/Incidents are no longer preview there)
+  document.querySelectorAll('.preview-pill-case').forEach(el => el.style.display = isV2 ? 'none' : '');
 }
 
 // ── RENDER LISTS ──
@@ -1244,17 +1269,6 @@ function openProcess(name)        { detailFrom = 'proc-list'; navTo('proc-detail
 function openProcessFromBiz(name) { detailFrom = 'biz-dash';  navTo('proc-detail', name); }
 function openCase(name)           { detailFrom = 'case-list'; navTo('case-detail', name); }
 function openCaseFromBiz(name)    { detailFrom = 'biz-dash';  navTo('case-detail', name); }
-
-function openItemFromBiz(row) {
-  if (row.type === 'BPMN') openProcessFromBiz(row.name);
-  else if (row.type === 'Case') openCaseFromBiz(row.name);
-  // Flow: no detail dashboard exists yet in this prototype
-}
-
-function openItemFromBizKey(key) {
-  const row = BIZ_ALL_DATA.find(r => bizKey(r) === key);
-  if (row) openItemFromBiz(row);
-}
 
 function showDetail(type) {
   // All tabs are placeholders now (real dashboard content lives on the
@@ -1529,7 +1543,7 @@ function drawRoiChart() {
 // ── DASHBOARDS PAGE: FILTERS + AGGREGATION ──
 let bizTypeFilter = 'All'; // 'All' | 'BPMN' | 'Case' | 'Flow'
 let bizNameFilter = '';    // '' = All, else bizKey(row)
-let roiListFilter = 'all'; // 'all' | 'configured' | 'unconfigured'
+let vcMode = 'area';       // 'area' | 'solution' | 'time' — Value contribution grouping
 const BIZ_TYPES = ['All', 'BPMN', 'Case', 'Flow'];
 
 function bizKey(r) { return r.name + '|' + r.type; }
@@ -1602,6 +1616,10 @@ function updateBizHelperText() {
   set('agg-chart2-help',  `Weighted average of median cycle time within ${scope}.`);
   set('roi-time-sub',     `across ${scope}`);
   set('roi-chart-help',   `Estimated and realized automation value across ${scope} and the selected period.`);
+  set('roi-tt-time',      `Estimated hours saved vs. manual execution across ${scope} during the selected period.`);
+  set('roi-tt-volume',    `Total runs processed across ${scope} during the selected period.`);
+  set('roi-tt-duration',  `Average time to complete a run within ${scope}, vs. doing it manually.`);
+  set('roi-tt-fte',       `Full-time-equivalent headcount worth of capacity freed per year across ${scope}.`);
 }
 
 function switchBizViewTab(tab, el) {
@@ -1655,30 +1673,54 @@ function renderBizProcTable() {
   }).join('');
 }
 
-function renderRoiList(rows) {
-  let list = rows;
-  if (roiListFilter === 'configured') list = list.filter(r => r.roiConfigured);
-  if (roiListFilter === 'unconfigured') list = list.filter(r => !r.roiConfigured);
-  document.getElementById('roi-list-count').textContent = `${list.length} of ${rows.length}`;
-  document.getElementById('roi-proc-list').innerHTML = list.map(r => {
-    const clickable = r.type !== 'Flow';
-    const onclick = clickable ? ` onclick="openItemFromBizKey('${bizKey(r).replace(/'/g,"\\'")}')"` : '';
-    return `
-    <div class="roi-list-row"${onclick} style="${clickable ? '' : 'cursor:default;'}">
-      <div>
-        <div class="roi-list-name">${r.name} <span class="chip ${typeChipClass(r.type)}" style="margin-left:4px;">${r.type}</span></div>
-        <div class="roi-list-meta">${r.runs.toLocaleString()} runs · $${(r.enterpriseValue/1000).toFixed(1)}K saved</div>
-      </div>
-      <span class="roi-dot" style="background:${r.roiConfigured ? '#10B981' : '#D1D5DB'};" title="${r.roiConfigured ? 'ROI configured' : 'ROI not configured'}"></span>
-    </div>`;
-  }).join('') || `<div style="padding:16px;color:var(--muted);font-size:12px;">No items match this filter.</div>`;
+function setVcMode(mode, el) {
+  vcMode = mode;
+  document.querySelectorAll('.vc-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderValueContribution(getBizFilteredRows());
 }
 
-function setRoiListFilter(f, el) {
-  roiListFilter = f;
-  document.querySelectorAll('.roi-chip').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  renderRoiList(getBizFilteredRows());
+function renderValueContribution(rows) {
+  const totalReal = rows.reduce((s, r) => s + r.enterpriseValue, 0);
+  const totalRealT = rows.reduce((s, r) => s + r.timeSaved, 0);
+  document.getElementById('vc-val-area').textContent = '$' + (totalReal/1000).toFixed(1) + 'K';
+  document.getElementById('vc-val-solution').textContent = '$' + (totalReal/1000).toFixed(1) + 'K';
+  document.getElementById('vc-val-time').textContent = totalRealT.toLocaleString() + ' hrs';
+
+  let groups;
+  if (vcMode === 'solution') {
+    groups = rows.map(r => ({
+      name: r.name,
+      est: Math.round(r.enterpriseValue * 0.92), real: r.enterpriseValue,
+      estT: Math.round(r.timeSaved * 0.92), realT: r.timeSaved,
+    }));
+  } else {
+    const map = {};
+    rows.forEach(r => {
+      if (!map[r.area]) map[r.area] = { name: r.area, est: 0, real: 0, estT: 0, realT: 0 };
+      map[r.area].est += Math.round(r.enterpriseValue * 0.92);
+      map[r.area].real += r.enterpriseValue;
+      map[r.area].estT += Math.round(r.timeSaved * 0.92);
+      map[r.area].realT += r.timeSaved;
+    });
+    groups = Object.values(map);
+  }
+  groups.sort((a, b) => b.real - a.real);
+
+  const useTime = vcMode === 'time';
+  const maxVal = Math.max(1, ...groups.map(g => useTime ? Math.max(g.estT, g.realT) : Math.max(g.est, g.real)));
+  const fmt = v => useTime ? v.toLocaleString() + ' hrs' : '$' + (v/1000).toFixed(1) + 'K';
+
+  document.getElementById('vc-rows').innerHTML = groups.map(g => {
+    const est = useTime ? g.estT : g.est, real = useTime ? g.realT : g.real;
+    const estPct = Math.max(3, est / maxVal * 100), realPct = Math.max(3, real / maxVal * 100);
+    return `
+    <div class="vc-row">
+      <div class="vc-row-hd"><span class="vc-row-name">${g.name}</span><span class="vc-row-vals">${fmt(est)} / ${fmt(real)}</span></div>
+      <div class="vc-bar-track"><div class="vc-bar-fill vc-bar-est" style="width:${estPct}%;"></div></div>
+      <div class="vc-bar-track"><div class="vc-bar-fill vc-bar-real" style="width:${realPct}%;"></div></div>
+    </div>`;
+  }).join('') || `<div style="padding:16px;color:var(--muted);font-size:12px;">No data for this filter.</div>`;
 }
 
 function renderRoiKpis(agg) {
@@ -1716,8 +1758,8 @@ function refreshBizViews() {
 
   renderBizKpis(agg);
   document.getElementById('biz-scope-label').innerHTML = scopeLabel() + ' · <span class="range-disp">' + currentRange + '</span>';
-  document.getElementById('agg-chart1-title').textContent = 'Instances over time — ' + scopeLabel();
-  document.getElementById('agg-chart2-title').textContent = 'Avg median cycle time — ' + scopeLabel();
+  document.getElementById('agg-chart1-title').textContent = 'Instances over time in ' + scopeText();
+  document.getElementById('agg-chart2-title').textContent = 'Avg median cycle time in ' + scopeText();
   updateBizHelperText();
   renderBizProcTable();
 
@@ -1731,7 +1773,7 @@ function refreshBizViews() {
 
   drawAggCharts();
   renderRoiKpis(agg);
-  renderRoiList(rows);
+  renderValueContribution(rows);
   drawRoiChart();
 }
 
