@@ -513,7 +513,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Total time saved</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="roi-tt-time">Estimated hours saved vs. manual execution across all processes during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg" id="roi-kpi-time-val">–</span><span class="kpi-t" id="roi-kpi-time-trend"></span></div>
           <div class="kpi-card-sub" id="roi-time-sub">across all processes</div>
@@ -522,7 +521,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Enterprise value realised</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Dollar value of automation impact realised this period, based on time saved and process cost assumptions.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="roi-kpi-value-val">–</span><span class="kpi-t" id="roi-kpi-value-trend"></span></div>
           <div class="kpi-card-sub">ROI-tracked</div>
@@ -531,7 +529,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Volume processed</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="roi-tt-volume">Total runs processed across all processes during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue" id="roi-kpi-volume-val">–</span></div>
           <div class="kpi-card-sub">transactions · selected period</div>
@@ -540,7 +537,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Avg process duration</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="roi-tt-duration">Average time to complete a run within all processes, vs. doing it manually.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-duration-val">–</span></div>
           <div class="kpi-card-sub">vs. manual execution</div>
@@ -549,7 +545,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">FTE capacity freed</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="roi-tt-fte">Full-time-equivalent headcount worth of capacity freed per year across all processes.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-fte-val">–</span></div>
           <div class="kpi-card-sub">FTE / yr</div>
@@ -559,7 +554,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
       <div class="row2t">
         <div class="card">
-          <div class="card-hd"><span class="card-title">Enterprise value — estimated vs. realized</span>
+          <div class="card-hd"><span class="card-title">Estimated vs. realized enterprise value</span>
             <div class="card-hd-actions">
               <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
@@ -811,7 +806,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
     <div class="tab-ph" id="tab-ph" style="display:none;">
       <strong id="tab-ph-name"></strong>
-      This tab is not part of the prototype. <a href="#" onclick="restoreBiz();return false;" style="color:var(--tab-blue);">Switch to <span id="tab-ph-switch-label">Business Dashboards</span> →</a>
+      This tab is not part of the prototype. <a href="#" onclick="switchToDashboardsFromDetail();return false;" style="color:var(--tab-blue);">Switch to Dashboards →</a>
     </div>
 
     <div class="dash-page" id="biz-page">
@@ -931,7 +926,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
   <div id="pg-ph" style="display:none;flex:1;" class="pg-ph">
     <strong id="pg-ph-name"></strong>
     <p>This section is not part of the prototype.</p>
-    <a onclick="navTo(lastListPage);return false;">← <span id="pg-ph-back"></span></a>
+    <a onclick="navTo('biz-dash');return false;">Switch to Dashboards →</a>
   </div>
 
 </div><!-- /main -->
@@ -945,7 +940,6 @@ let APP_VERSION = 'v1';
 let detailType = 'inst';
 let detailName = '';
 let detailFrom = 'proc-list';
-let lastListPage = 'proc-list';
 let chartsReady = false;
 
 const PROC_DATA = [
@@ -1147,7 +1141,6 @@ function applyVersionUI() {
   document.getElementById('tab-mon-btn').style.display = isV2 ? 'none' : '';
   document.getElementById('tab-biz-btn').style.order = isV2 ? '1' : '3';
   document.getElementById('tab-biz-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
-  document.getElementById('tab-ph-switch-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
 }
 
 // ── RENDER LISTS ──
@@ -1216,10 +1209,8 @@ function navTo(page, name) {
   updateTopbar(page, name);
 
   if (page === 'proc-list') {
-    lastListPage = 'proc-list';
     document.getElementById('pg-pl').style.display = 'flex';
   } else if (page === 'case-list') {
-    lastListPage = 'case-list';
     document.getElementById('pg-cl').style.display = 'flex';
   } else if (page === 'biz-dash') {
     document.getElementById('pg-biz-agg').style.display = 'flex';
@@ -1232,7 +1223,6 @@ function navTo(page, name) {
   } else if (page === 'case-detail') {
     detailType = 'inst'; detailName = name||'';
     // detailFrom is set by the caller (openCase or openCaseFromBiz)
-    lastListPage = 'case-list';
     showDetail('inst');
     applyDetailMode(true);
   } else if (page === 'case-app') {
@@ -1245,11 +1235,6 @@ function navTo(page, name) {
       home:'Home','proc-incidents':'Process Incidents',
       'case-incidents':'Case Incidents','flow-instances':'Flow Instances','flow-incidents':'Flow Incidents'
     };
-    const backLabels = {
-      'proc-incidents':'Process Incidents','case-incidents':'Case Incidents',
-      'flow-instances':'Flow Instances','flow-incidents':'Flow Incidents',
-    };
-    document.getElementById('pg-ph-back').textContent = backLabels[page] ? 'Back to '+backLabels[page] : 'Back';
     document.getElementById('pg-ph-name').textContent = labels[page] || page;
     document.getElementById('pg-ph').style.display = 'flex';
   }
@@ -1272,17 +1257,15 @@ function openItemFromBizKey(key) {
 }
 
 function showDetail(type) {
-  // Reset to Business Dashboards tab
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===3));
-  document.getElementById('biz-page').style.display = '';
-  document.getElementById('tab-ph').style.display = 'none';
-
-  document.getElementById('panel-inst').classList.add('active');
+  // All tabs are placeholders now (real dashboard content lives on the
+  // Dashboards page) — default to Instance management.
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===0));
+  document.getElementById('biz-page').style.display = 'none';
+  document.getElementById('tab-ph-name').textContent = 'Instance Management';
+  document.getElementById('tab-ph').style.display = '';
 
   const detail = document.getElementById('pg-detail');
   detail.style.display = 'flex';
-
-  if (!chartsReady) { chartsReady = true; drawAllCharts(); }
 }
 
 function updateTopbar(page, name) {
@@ -1341,23 +1324,29 @@ function updateTopbar(page, name) {
 }
 
 // ── TAB SWITCHING (detail page) ──
+// All 4 tabs are placeholders — real dashboard content lives on the Dashboards page.
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  const isBiz = tab === 'biz';
-  document.getElementById('biz-page').style.display = isBiz ? '' : 'none';
-  const ph = document.getElementById('tab-ph');
-  ph.style.display = isBiz ? 'none' : '';
-  if (!isBiz) {
-    const names = {im:'Instance Management',mon:'Monitoring',opt:'Optimize'};
-    document.getElementById('tab-ph-name').textContent = names[tab]||tab;
-  }
+  document.getElementById('biz-page').style.display = 'none';
+  document.getElementById('tab-ph').style.display = '';
+  const names = {
+    im: 'Instance Management',
+    mon: 'Monitoring',
+    opt: 'Optimize',
+    biz: APP_VERSION === 'v2' ? 'Monitoring' : 'Business Dashboards',
+  };
+  document.getElementById('tab-ph-name').textContent = names[tab] || tab;
 }
 
-function restoreBiz() {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===3));
-  document.getElementById('biz-page').style.display = '';
-  document.getElementById('tab-ph').style.display = 'none';
+// Jump from a blank detail tab to the Dashboards page, pre-filtered to the
+// process/case currently being viewed when a matching rollup row exists.
+function switchToDashboardsFromDetail() {
+  const preferredType = detailFrom === 'case-list' ? 'Case' : 'BPMN';
+  const row = BIZ_ALL_DATA.find(r => r.name === detailName && r.type === preferredType);
+  bizTypeFilter = row ? row.type : 'All';
+  bizNameFilter = row ? bizKey(row) : '';
+  navTo('biz-dash');
 }
 
 const DET_TEXTS = {
@@ -1611,11 +1600,7 @@ function updateBizHelperText() {
   set('biz-tt-exc',       `Weighted average percentage of instances that needed human intervention within ${scope}.`);
   set('agg-chart1-help',  `Total instances started within ${scope} during the selected period.`);
   set('agg-chart2-help',  `Weighted average of median cycle time within ${scope}.`);
-  set('roi-tt-time',      `Estimated hours saved vs. manual execution across ${scope} during the selected period.`);
   set('roi-time-sub',     `across ${scope}`);
-  set('roi-tt-volume',    `Total runs processed across ${scope} during the selected period.`);
-  set('roi-tt-duration',  `Average time to complete a run within ${scope}, vs. doing it manually.`);
-  set('roi-tt-fte',       `Full-time-equivalent headcount worth of capacity freed per year across ${scope}.`);
   set('roi-chart-help',   `Estimated and realized automation value across ${scope} and the selected period.`);
 }
 
@@ -1724,6 +1709,10 @@ function refreshBizViews() {
   if (!document.getElementById('biz-scope-label')) return;
   const rows = getBizFilteredRows();
   const agg = aggregateBiz(rows);
+
+  document.getElementById('biz-type-val').textContent = bizTypeFilter;
+  const nameRow = bizNameFilter ? BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter) : null;
+  document.getElementById('biz-name-val').textContent = nameRow ? nameRow.name : 'All';
 
   renderBizKpis(agg);
   document.getElementById('biz-scope-label').innerHTML = scopeLabel() + ' · <span class="range-disp">' + currentRange + '</span>';
