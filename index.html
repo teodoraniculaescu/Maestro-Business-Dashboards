@@ -26,11 +26,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .sn-hdr{display:flex;align-items:center;gap:9px;padding:14px 12px 12px;border-bottom:1px solid var(--border-inner);}
 .sn-m{width:26px;height:26px;border-radius:5px;background:#4F46E5;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sn-name{font-size:14px;font-weight:600;color:var(--text);}
-.ver-toggle{display:flex;gap:0;padding:10px 12px 8px;}
-.ver-btn{flex:1;font-size:11px;font-weight:600;padding:5px 0;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-family:var(--font);}
-.ver-btn:first-child{border-radius:4px 0 0 4px;}
-.ver-btn:last-child{border-radius:0 4px 4px 0;margin-left:-1px;}
-.ver-btn.active{background:#3730A3;color:#fff;border-color:#3730A3;}
 .sn-nav{display:flex;flex-direction:column;padding:8px 8px;gap:1px;}
 .sn-i{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:6px;border:none;background:none;color:var(--text);font-size:13px;font-family:var(--font);cursor:pointer;text-align:left;width:100%;}
 .sn-i:hover{background:var(--ground);}
@@ -95,7 +90,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .tab{padding:0 16px;height:44px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);white-space:nowrap;}
 .tab:hover{color:var(--text);}
 .tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
-.tab-im{order:0;}.tab-mon{order:1;}.tab-opt{order:2;}.tab-biz{order:3;}
+.tab-im{order:0;}.tab-biz{order:1;}.tab-opt{order:2;}
 .tab-filters{display:flex;align-items:center;gap:14px;}
 .fc{display:flex;align-items:center;gap:3px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--font);padding:0;}
 .fc:hover{color:var(--text);}
@@ -140,7 +135,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 /* ── KPI GRID ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px;}
 .kpi-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
-.kpi-card-sub{font-size:11px;color:var(--muted);margin-top:2px;}
 .kpi-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 14px 10px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0;}
 .kpi-card-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:6px;}
 .kpi-card-name{font-size:11px;color:var(--muted);font-weight:500;line-height:1.4;flex:1;}
@@ -285,16 +279,12 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <div class="sn-m">M</div>
     <span class="sn-name">Maestro</span>
   </div>
-  <div class="ver-toggle">
-    <button class="ver-btn active" data-v="v1" onclick="setVersion('v1')">V1</button>
-    <button class="ver-btn" data-v="v2" onclick="setVersion('v2')">V2</button>
-  </div>
   <nav class="sn-nav">
     <button class="sn-i" data-key="home" onclick="navTo('home')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M2 7L8 2l6 5v7a1 1 0 01-1 1H3a1 1 0 01-1-1V7z" stroke="currentColor" stroke-width="1.3"/><path d="M6 15V9.5h4V15" stroke="currentColor" stroke-width="1.3"/></svg>
       <span class="sn-label">Home</span>
     </button>
-    <button class="sn-i active" data-key="proc-inst" onclick="navTo('proc-list')">
+    <button class="sn-i" data-key="proc-inst" onclick="navTo('proc-list')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5.5h6M5 8.5h6M5 11.5h3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       <span class="sn-label">Process Instances</span>
     </button>
@@ -305,17 +295,14 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <button class="sn-i" data-key="case-app" onclick="navTo('case-app')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2" y="2" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="0.8" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 9v5M9 11.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
       <span class="sn-label">Case app</span>
-      <span class="preview-pill preview-pill-case">Preview</span>
     </button>
     <button class="sn-i" data-key="case-inst" onclick="navTo('case-list')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="2.5" y1="5.5" x2="13.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M5 8.5h6M5 11h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       <span class="sn-label">Case Instances</span>
-      <span class="preview-pill preview-pill-case">Preview</span>
     </button>
     <button class="sn-i" data-key="case-inc" onclick="navTo('case-incidents')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><path d="M7.1 2.8a1 1 0 011.8 0l4.9 9A1 1 0 0113 13H3a1 1 0 01-.9-1.2l4.9-9z" stroke="currentColor" stroke-width="1.3"/><path d="M8 6.5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       <span class="sn-label">Case Incidents</span>
-      <span class="preview-pill preview-pill-case">Preview</span>
     </button>
     <button class="sn-i" data-key="flow-inst" onclick="navTo('flow-instances')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><circle cx="8" cy="3.5" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="12.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="13" cy="12.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><path d="M8 5.5v3.5M8 9L4.5 11M8 9l3.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -327,7 +314,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <span class="sn-label">Flow Incidents</span>
       <span class="preview-pill">Preview</span>
     </button>
-    <button class="sn-i" data-key="biz-dash" onclick="navTo('biz-dash')">
+    <button class="sn-i active" data-key="biz-dash" onclick="navTo('biz-dash')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2" y="9" width="3" height="5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="6.5" y="6" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2.5" width="3" height="11.5" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>
       <span class="sn-label">Dashboards</span>
     </button>
@@ -544,46 +531,36 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Total time saved</span>
-            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="roi-tt-time">Estimated hours saved vs. manual execution across all processes during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-lg" id="roi-kpi-time-val">–</span><span class="kpi-t" id="roi-kpi-time-trend"></span></div>
-          <div class="kpi-card-sub" id="roi-time-sub">across all processes</div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-card-hd">
-            <span class="kpi-card-name">Enterprise value realised</span>
-            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Dollar value of automation impact realised this period, based on time saved and process cost assumptions.</span></span>
+            <span class="kpi-card-name">Realised enterprise value</span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="roi-kpi-value-val">–</span><span class="kpi-t" id="roi-kpi-value-trend"></span></div>
-          <div class="kpi-card-sub">ROI-tracked</div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Volume processed</span>
-            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="roi-tt-volume">Total runs processed across all processes during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue" id="roi-kpi-volume-val">–</span></div>
-          <div class="kpi-card-sub">transactions · selected period</div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Avg process duration</span>
-            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="roi-tt-duration">Average time to complete a run within all processes, vs. doing it manually.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-duration-val">–</span></div>
-          <div class="kpi-card-sub">vs. manual execution</div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">FTE capacity freed</span>
-            <span class="kpi-tw roi-kpi-tt-wrap" style="display:none;"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="roi-tt-fte">Full-time-equivalent headcount worth of capacity freed per year across all processes.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="roi-kpi-fte-val">–</span></div>
-          <div class="kpi-card-sub">FTE / yr</div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
         </div>
       </div>
@@ -826,9 +803,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <div class="tabnav">
       <div class="tabs">
         <button class="tab tab-im" onclick="switchTab('im',this)">Instance management</button>
-        <button class="tab tab-mon" id="tab-mon-btn" onclick="switchTab('mon',this)">Monitoring</button>
+        <button class="tab tab-biz active" onclick="switchTab('biz',this)">Monitoring</button>
         <button class="tab tab-opt" onclick="switchTab('opt',this)">Optimize</button>
-        <button class="tab tab-biz active" id="tab-biz-btn" onclick="switchTab('biz',this)"><span id="tab-biz-label">Business Dashboards</span></button>
       </div>
       <div class="tab-filters" id="tab-filters-biz">
         <button class="fc" onclick="openDropdown(event,'range',this)"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
@@ -1063,7 +1039,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
 <script>
 // ── STATE ──
-let APP_VERSION = 'v1';
 let detailType = 'inst';
 let detailName = '';
 let detailFrom = 'proc-list';
@@ -1248,32 +1223,6 @@ function selectDropdown(type, value) {
 
 document.addEventListener('click', () => closeDropdown());
 
-// ── VERSION TOGGLE (V1 / V2) ──
-function setVersion(v) {
-  if (v === APP_VERSION) return;
-  APP_VERSION = v;
-  document.querySelectorAll('.ver-btn').forEach(b => b.classList.toggle('active', b.dataset.v === v));
-  applyVersionUI();
-}
-
-function applyVersionUI() {
-  const isV2 = APP_VERSION === 'v2';
-
-  // Process/Case Instances detail: V2 drops the legacy Monitoring tab and
-  // renames "Business Dashboards" to "Monitoring", moved before Optimize
-  document.getElementById('tab-mon-btn').style.display = isV2 ? 'none' : '';
-  document.getElementById('tab-biz-btn').style.order = isV2 ? '1' : '3';
-  document.getElementById('tab-biz-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
-
-  // ROI KPI cards: V2 tucks the caption into a hover tooltip instead of
-  // showing it as permanent on-screen text
-  document.querySelectorAll('.roi-kpi-tt-wrap').forEach(el => el.style.display = isV2 ? '' : 'none');
-  document.querySelectorAll('#biz-view-roi .kpi-card-sub').forEach(el => el.style.display = isV2 ? 'none' : '');
-
-  // Left nav: V2 only shows "Preview" on the Flow entries (Case app/Instances/Incidents are no longer preview there)
-  document.querySelectorAll('.preview-pill-case').forEach(el => el.style.display = isV2 ? 'none' : '');
-}
-
 // ── RENDER LISTS ──
 function renderProcList() {
   document.getElementById('proc-list-body').innerHTML = PROC_DATA.map(p => `
@@ -1345,6 +1294,10 @@ function navTo(page, name) {
     document.getElementById('pg-cl').style.display = 'flex';
   } else if (page === 'biz-dash') {
     document.getElementById('pg-biz-agg').style.display = 'flex';
+    // Always land on the Business tab, regardless of which tab was last active.
+    document.querySelectorAll('#pg-biz-agg .dash-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+    document.getElementById('biz-view-business').classList.add('active');
+    document.getElementById('biz-view-roi').classList.remove('active');
     refreshBizViews();
   } else if (page === 'proc-detail') {
     detailType = 'inst'; detailName = name||'';
@@ -1459,7 +1412,7 @@ function updateTopbar(page, name) {
 }
 
 // ── TAB SWITCHING (detail page) ──
-// Instance management has real content; the other 3 tabs are placeholders
+// Instance management has real content; Monitoring/Optimize are placeholders
 // that point to the Dashboards page.
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1471,11 +1424,7 @@ function switchTab(tab, el) {
   document.getElementById('tab-filters-im').style.display = isIm ? '' : 'none';
   document.getElementById('tab-filters-biz').style.display = isIm ? 'none' : '';
   if (!isIm) {
-    const names = {
-      mon: 'Monitoring',
-      opt: 'Optimize',
-      biz: APP_VERSION === 'v2' ? 'Monitoring' : 'Business Dashboards',
-    };
+    const names = { opt: 'Optimize', biz: 'Monitoring' };
     document.getElementById('tab-ph-name').textContent = names[tab] || tab;
   }
 }
@@ -1797,12 +1746,7 @@ function updateBizHelperText() {
   set('biz-tt-exc',       `Weighted average percentage of instances that needed human intervention within ${scope}.`);
   set('agg-chart1-help',  `Total instances started within ${scope} during the selected period.`);
   set('agg-chart2-help',  `Weighted average of median cycle time within ${scope}.`);
-  set('roi-time-sub',     `across ${scope}`);
   set('roi-chart-help',   `Estimated and realized automation value across ${scope} and the selected period.`);
-  set('roi-tt-time',      `Estimated hours saved vs. manual execution across ${scope} during the selected period.`);
-  set('roi-tt-volume',    `Total runs processed across ${scope} during the selected period.`);
-  set('roi-tt-duration',  `Average time to complete a run within ${scope}, vs. doing it manually.`);
-  set('roi-tt-fte',       `Full-time-equivalent headcount worth of capacity freed per year across ${scope}.`);
 }
 
 function switchBizViewTab(tab, el) {
@@ -1991,7 +1935,6 @@ window.addEventListener('DOMContentLoaded', () => {
   renderProcList();
   renderCaseList();
   renderCaCases();
-  refreshBizViews();
-  navTo('proc-list');
+  navTo('biz-dash');
 });
 </script>
