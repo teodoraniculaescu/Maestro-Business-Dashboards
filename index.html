@@ -476,9 +476,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
       <!-- Single-item summary (shown instead of the table when a specific process/case/flow is selected) -->
       <div class="card" id="biz-single-summary" style="display:none;">
-        <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="padding:16px;">
           <span style="font-size:13px;color:var(--muted);">Viewing <strong id="biz-single-name" style="color:var(--text);"></strong></span>
-          <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">Go to Business Dashboards →</a>
         </div>
       </div>
 
@@ -1149,14 +1148,6 @@ function applyVersionUI() {
   document.getElementById('tab-biz-btn').style.order = isV2 ? '1' : '3';
   document.getElementById('tab-biz-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
   document.getElementById('tab-ph-switch-label').textContent = isV2 ? 'Monitoring' : 'Business Dashboards';
-
-  // Dashboards page: single-item link label follows the same tab naming
-  const link = document.getElementById('biz-single-link');
-  if (link) link.textContent = bizDetailLinkLabel();
-}
-
-function bizDetailLinkLabel() {
-  return APP_VERSION === 'v2' ? 'Go to Monitoring →' : 'Go to Business Dashboards →';
 }
 
 // ── RENDER LISTS ──
@@ -1747,14 +1738,6 @@ function refreshBizViews() {
   if (single) {
     const row = BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter);
     document.getElementById('biz-single-name').textContent = row ? `${row.name} (${row.type})` : '';
-    const link = document.getElementById('biz-single-link');
-    if (row && row.type !== 'Flow') {
-      link.style.display = '';
-      link.textContent = bizDetailLinkLabel();
-      link.onclick = e => { e.preventDefault(); openItemFromBiz(row); };
-    } else {
-      link.style.display = 'none';
-    }
   }
 
   drawAggCharts();
