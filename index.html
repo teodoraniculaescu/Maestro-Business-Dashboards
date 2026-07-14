@@ -202,6 +202,19 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .duration-val{font-size:13px;font-weight:600;color:var(--text);}
 .duration-avg{font-size:11px;color:var(--muted);}
 
+/* ── INSTANCE MANAGEMENT TAB ── */
+.im-diagram-card{border:1px solid var(--border);border-radius:var(--r);background:#fff;box-shadow:var(--shadow);margin-bottom:16px;padding:12px;position:relative;}
+.im-diagram-svg{width:100%;height:200px;display:block;}
+.im-diagram-zoom{position:absolute;bottom:12px;right:12px;display:flex;gap:4px;}
+.im-zoom-btn{width:26px;height:26px;border:1px solid var(--border);background:#fff;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;font-family:var(--font);}
+.im-zoom-btn:hover{background:var(--ground);}
+.im-status-dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+.im-status-running{background:#3B82F6;}
+.im-status-faulted{background:#EF4444;}
+.im-status-completed{background:#10B981;}
+.im-status-cancelled{background:#9CA3AF;}
+.im-pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 2px 2px;font-size:12px;color:var(--muted);}
+
 /* ── CASE APP PAGE ── */
 .ca-hdr{background:#fff;border-bottom:1px solid var(--border);padding:20px 24px 0;flex-shrink:0;}
 .ca-pg-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px;}
@@ -493,8 +506,9 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
       <!-- Single-item summary (shown instead of the table when a specific process/case/flow is selected) -->
       <div class="card" id="biz-single-summary" style="display:none;">
-        <div style="padding:16px;">
+        <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;">
           <span style="font-size:13px;color:var(--muted);">Viewing <strong id="biz-single-name" style="color:var(--text);"></strong></span>
+          <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">See process instances →</a>
         </div>
       </div>
 
@@ -816,10 +830,21 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <button class="tab tab-opt" onclick="switchTab('opt',this)">Optimize</button>
         <button class="tab tab-biz active" id="tab-biz-btn" onclick="switchTab('biz',this)"><span id="tab-biz-label">Business Dashboards</span></button>
       </div>
-      <div class="tab-filters">
+      <div class="tab-filters" id="tab-filters-biz">
         <button class="fc" onclick="openDropdown(event,'range',this)"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
         <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc-all"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>&nbsp;All filters</button>
+      </div>
+      <div class="tab-filters" id="tab-filters-im" style="display:none;">
+        <button class="fc"><span class="fc-lbl">Version:&nbsp;</span><span class="fc-val">1.0.0</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc" onclick="openDropdown(event,'range',this)"><span class="fc-lbl">Date range:&nbsp;</span><span class="fc-val range-disp">Last month</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc"><span class="fc-lbl">Status:&nbsp;</span><span class="fc-val">All</span>&nbsp;<span class="fc-caret">▾</span></button>
+        <div class="fc-sep"></div>
+        <button class="fc"><span class="fc-lbl">Error message:&nbsp;</span><span class="fc-val">None</span>&nbsp;<span class="fc-caret">▾</span></button>
         <div class="fc-sep"></div>
         <button class="fc-all"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5h10M3 6.5h7M4.5 9.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>&nbsp;All filters</button>
       </div>
@@ -830,7 +855,88 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       This tab is not part of the prototype. <a href="#" onclick="switchToDashboardsFromDetail();return false;" style="color:var(--tab-blue);">Switch to Dashboards →</a>
     </div>
 
-    <div class="dash-page" id="biz-page">
+    <div class="dash-page" id="im-page" style="display:none;">
+      <div class="im-diagram-card">
+        <svg class="im-diagram-svg" viewBox="0 0 900 200" preserveAspectRatio="xMidYMid meet">
+          <defs><marker id="im-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#9CA3AF"/></marker></defs>
+          <rect x="10" y="10" width="270" height="180" rx="6" fill="#FAFBFC" stroke="#E5E7EB"/>
+          <text x="22" y="26" font-size="9" font-weight="600" fill="#6B7280">INTAKE &amp; VALIDATION</text>
+          <rect x="30" y="80" width="90" height="42" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
+          <text x="75" y="105" font-size="9" text-anchor="middle" fill="#1D4ED8">Intake</text>
+          <rect x="160" y="80" width="90" height="42" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
+          <text x="205" y="105" font-size="9" text-anchor="middle" fill="#1D4ED8">Validate</text>
+          <line x1="120" y1="101" x2="158" y2="101" stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#im-arrow)"/>
+
+          <rect x="300" y="10" width="300" height="180" rx="6" fill="#FAFBFC" stroke="#E5E7EB"/>
+          <text x="312" y="26" font-size="9" font-weight="600" fill="#6B7280">REVIEW &amp; DECISION</text>
+          <rect x="320" y="50" width="100" height="42" rx="6" fill="#F0FDF4" stroke="#86EFAC"/>
+          <text x="370" y="75" font-size="9" text-anchor="middle" fill="#15803D">Review</text>
+          <rect x="320" y="130" width="100" height="42" rx="6" fill="#F0FDF4" stroke="#86EFAC"/>
+          <text x="370" y="155" font-size="9" text-anchor="middle" fill="#15803D">Decision</text>
+          <line x1="370" y1="92" x2="370" y2="128" stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#im-arrow)"/>
+          <rect x="460" y="90" width="110" height="42" rx="6" fill="#FFF7ED" stroke="#FDBA74"/>
+          <text x="515" y="115" font-size="9" text-anchor="middle" fill="#C2410C">Escalation</text>
+          <line x1="420" y1="151" x2="500" y2="132" stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#im-arrow)"/>
+          <line x1="252" y1="101" x2="318" y2="71" stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#im-arrow)"/>
+
+          <rect x="620" y="10" width="270" height="180" rx="6" fill="#FAFBFC" stroke="#E5E7EB"/>
+          <text x="632" y="26" font-size="9" font-weight="600" fill="#6B7280">COMMUNICATION</text>
+          <rect x="640" y="80" width="100" height="42" rx="6" fill="#FAF5FF" stroke="#D8B4FE"/>
+          <text x="690" y="105" font-size="9" text-anchor="middle" fill="#6D28D9">Update CRM</text>
+          <rect x="760" y="80" width="100" height="42" rx="6" fill="#FAF5FF" stroke="#D8B4FE"/>
+          <text x="810" y="105" font-size="9" text-anchor="middle" fill="#6D28D9">Notify</text>
+          <line x1="570" y1="111" x2="638" y2="101" stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#im-arrow)"/>
+          <line x1="740" y1="101" x2="758" y2="101" stroke="#9CA3AF" stroke-width="1.2" marker-end="url(#im-arrow)"/>
+        </svg>
+        <div class="im-diagram-zoom">
+          <button class="im-zoom-btn" title="Zoom in">+</button>
+          <button class="im-zoom-btn" title="Zoom out">−</button>
+          <button class="im-zoom-btn" title="Fit to screen">⤢</button>
+        </div>
+      </div>
+
+      <div class="dash-tabnav" style="margin:0 -24px 16px;padding:0 24px;">
+        <button class="dash-tab active" onclick="switchImSubTab('inst',this)"><span id="im-subtab-label">Process instances</span></button>
+        <button class="dash-tab" onclick="switchImSubTab('trigger',this)">Start trigger activity</button>
+      </div>
+
+      <div id="im-sub-inst">
+        <div class="kpi-bar">
+          <span class="kpi-label">Instances</span>
+          <div class="kpi-stat"><span class="kpi-v" id="im-stat-total">–</span></div>
+          <div class="kpi-stat"><span class="kpi-n">Running</span><span class="kpi-v" id="im-stat-running">–</span></div>
+          <div class="kpi-stat"><span class="kpi-n">Paused</span><span class="kpi-v" id="im-stat-paused">–</span></div>
+          <div class="kpi-stat"><span class="kpi-n">Faulted</span><span class="kpi-v" id="im-stat-faulted">–</span></div>
+          <div class="kpi-stat"><span class="kpi-n">Completed</span><span class="kpi-v" id="im-stat-completed">–</span></div>
+          <div class="kpi-stat"><span class="kpi-n">Cancelled</span><span class="kpi-v" id="im-stat-cancelled">–</span></div>
+          <div class="kpi-stat"><span class="kpi-n">Transitioning</span><span class="kpi-v" id="im-stat-transitioning">–</span></div>
+          <div class="kpi-bar-r"><span class="kpi-n">Avg duration</span>&nbsp;<span class="kpi-v" id="im-stat-avgdur">–</span></div>
+        </div>
+
+        <div style="padding:14px 0;">
+          <input class="list-search" id="im-search" placeholder="Search process instances…" style="width:260px;">
+        </div>
+
+        <table class="list-tbl">
+          <thead><tr>
+            <th></th><th id="im-col-name">Process instance name</th><th>Version</th><th>Started at</th><th>Last update</th><th>Duration</th><th>Started by</th><th></th>
+          </tr></thead>
+          <tbody id="im-inst-rows"></tbody>
+        </table>
+
+        <div class="im-pagination">
+          <span id="im-page-count">1–5 of 5</span>
+          <span>Page 1 / 1</span>
+        </div>
+      </div>
+
+      <div id="im-sub-trigger" class="tab-ph" style="display:none;position:static;">
+        <strong>Start trigger activity</strong>
+        This section is not part of the prototype.
+      </div>
+    </div>
+
+    <div class="dash-page" id="biz-page" style="display:none;">
 
       <!-- ═ INSTANCES PANEL ═ -->
       <div class="view-panel" id="panel-inst">
@@ -1270,13 +1376,28 @@ function openProcessFromBiz(name) { detailFrom = 'biz-dash';  navTo('proc-detail
 function openCase(name)           { detailFrom = 'case-list'; navTo('case-detail', name); }
 function openCaseFromBiz(name)    { detailFrom = 'biz-dash';  navTo('case-detail', name); }
 
+// Dashboards page "See process/case instances" link — lands on Instance
+// management (showDetail() already defaults there).
+function goToInstanceManagement(row) {
+  if (row.type === 'BPMN') openProcessFromBiz(row.name);
+  else if (row.type === 'Case') openCaseFromBiz(row.name);
+}
+
 function showDetail(type) {
-  // All tabs are placeholders now (real dashboard content lives on the
-  // Dashboards page) — default to Instance management.
+  // Instance management has real content; Monitoring/Optimize/Business
+  // Dashboards are placeholders that point to the Dashboards page.
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===0));
   document.getElementById('biz-page').style.display = 'none';
-  document.getElementById('tab-ph-name').textContent = 'Instance Management';
-  document.getElementById('tab-ph').style.display = '';
+  document.getElementById('tab-ph').style.display = 'none';
+  document.getElementById('tab-filters-biz').style.display = 'none';
+  document.getElementById('im-page').style.display = '';
+  document.getElementById('tab-filters-im').style.display = '';
+
+  // Reset the Instance management sub-tab to its default each time a new
+  // process/case detail page is opened.
+  document.querySelectorAll('#im-page .dash-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+  document.getElementById('im-sub-inst').style.display = '';
+  document.getElementById('im-sub-trigger').style.display = 'none';
 
   const detail = document.getElementById('pg-detail');
   detail.style.display = 'flex';
@@ -1338,19 +1459,25 @@ function updateTopbar(page, name) {
 }
 
 // ── TAB SWITCHING (detail page) ──
-// All 4 tabs are placeholders — real dashboard content lives on the Dashboards page.
+// Instance management has real content; the other 3 tabs are placeholders
+// that point to the Dashboards page.
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  const isIm = tab === 'im';
   document.getElementById('biz-page').style.display = 'none';
-  document.getElementById('tab-ph').style.display = '';
-  const names = {
-    im: 'Instance Management',
-    mon: 'Monitoring',
-    opt: 'Optimize',
-    biz: APP_VERSION === 'v2' ? 'Monitoring' : 'Business Dashboards',
-  };
-  document.getElementById('tab-ph-name').textContent = names[tab] || tab;
+  document.getElementById('im-page').style.display = isIm ? '' : 'none';
+  document.getElementById('tab-ph').style.display = isIm ? 'none' : '';
+  document.getElementById('tab-filters-im').style.display = isIm ? '' : 'none';
+  document.getElementById('tab-filters-biz').style.display = isIm ? 'none' : '';
+  if (!isIm) {
+    const names = {
+      mon: 'Monitoring',
+      opt: 'Optimize',
+      biz: APP_VERSION === 'v2' ? 'Monitoring' : 'Business Dashboards',
+    };
+    document.getElementById('tab-ph-name').textContent = names[tab] || tab;
+  }
 }
 
 // Jump from a blank detail tab to the Dashboards page, pre-filtered to the
@@ -1393,6 +1520,62 @@ function applyDetailMode(isCaseInst) {
   document.getElementById('det-tbl1-title').textContent  = t.tbl1Title;
   document.getElementById('det-tbl1-help').textContent   = t.tbl1Help;
   document.getElementById('det-tbl1-hdr').innerHTML      = t.tbl1Hdr + '<span class="si">⇅</span>';
+
+  renderImPanel(isCaseInst);
+}
+
+function renderImPanel(isCaseInst) {
+  const dataset = isCaseInst ? CASE_DATA : PROC_DATA;
+  const row = dataset.find(r => r.name === detailName)
+    || { running: 0, paused: 0, cancelled: 0, completed: 0, faulted: 0, transitioning: 0, total: 0 };
+  const totals = {
+    total: row.total, running: row.running, paused: row.paused, faulted: row.faulted,
+    completed: row.completed, cancelled: row.cancelled, transitioning: row.transitioning,
+  };
+  Object.keys(totals).forEach(k => {
+    const el = document.getElementById('im-stat-' + k);
+    if (el) el.textContent = totals[k].toLocaleString();
+  });
+
+  const bizRow = BIZ_ALL_DATA.find(r => r.name === detailName);
+  document.getElementById('im-stat-avgdur').textContent = bizRow ? bizRow.cycleTime.toFixed(1) + ' d' : '—';
+
+  const label = isCaseInst ? 'Case instances' : 'Process instances';
+  document.getElementById('im-subtab-label').textContent = label;
+  document.getElementById('im-col-name').textContent = isCaseInst ? 'Case instance name' : 'Process instance name';
+  document.getElementById('im-search').placeholder = 'Search ' + label.toLowerCase() + '…';
+
+  renderImInstanceRows();
+}
+
+function renderImInstanceRows() {
+  const slug = (detailName || 'Instance').replace(/\s+/g, '_');
+  const rows = [
+    { status: 'running',   idn: slug + '-39095267', started: '2026-07-10 09:14:02', updated: '2026-07-10 09:22:18', duration: '8 min',    by: 'Trigger' },
+    { status: 'faulted',    idn: slug + '-39080536', started: '2026-07-09 17:40:16', updated: '—',                   duration: '1 d 8 hr', by: 'Trigger' },
+    { status: 'faulted',    idn: slug + '-39078579', started: '2026-07-09 16:37:16', updated: '—',                   duration: '1 d 9 hr', by: 'Trigger' },
+    { status: 'completed',  idn: slug + '-39070124', started: '2026-07-08 11:02:09', updated: '2026-07-08 11:30:41', duration: '28 min',   by: 'Trigger' },
+    { status: 'faulted',    idn: slug + '-39061903', started: '2026-07-07 08:15:47', updated: '—',                   duration: '2 d 1 hr', by: 'Manual' },
+  ];
+  document.getElementById('im-inst-rows').innerHTML = rows.map(r => `
+    <tr>
+      <td><span class="im-status-dot im-status-${r.status}" title="${r.status}"></span></td>
+      <td><span class="mono" style="color:var(--tab-blue);font-weight:500;">${r.idn}</span></td>
+      <td class="num-muted">1.0.0</td>
+      <td class="num-muted">${r.started}</td>
+      <td class="num-muted">${r.updated}</td>
+      <td class="num-muted">${r.duration}</td>
+      <td class="num-muted">${r.by}</td>
+      <td><span class="row-action" style="opacity:.4;">⋮</span></td>
+    </tr>`).join('');
+  document.getElementById('im-page-count').textContent = `1–${rows.length} of ${rows.length}`;
+}
+
+function switchImSubTab(tab, el) {
+  document.querySelectorAll('#im-page .dash-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('im-sub-inst').style.display = tab === 'inst' ? '' : 'none';
+  document.getElementById('im-sub-trigger').style.display = tab === 'trigger' ? '' : 'none';
 }
 
 let caViewMode = 'split';
@@ -1769,6 +1952,14 @@ function refreshBizViews() {
   if (single) {
     const row = BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter);
     document.getElementById('biz-single-name').textContent = row ? `${row.name} (${row.type})` : '';
+    const link = document.getElementById('biz-single-link');
+    if (row && row.type !== 'Flow') {
+      link.style.display = '';
+      link.textContent = row.type === 'Case' ? 'See case instances →' : 'See process instances →';
+      link.onclick = e => { e.preventDefault(); goToInstanceManagement(row); };
+    } else {
+      link.style.display = 'none';
+    }
   }
 
   drawAggCharts();
