@@ -499,6 +499,30 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
       </div>
 
+      <!-- Process-level: stuck instances / bottleneck steps for the selected item (Table 2) -->
+      <div class="row2t" id="biz-single-widgets" style="display:none;">
+        <div class="card">
+          <div class="card-hd"><span class="card-title" id="biz-single-stuck-title">Stuck process instances</span>
+            <div class="card-hd-actions">
+              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+            </div>
+          <div class="help-bar" id="biz-single-stuck-help">Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
+          </div>
+          <table class="tbl"><thead><tr><th id="biz-single-stuck-hdr">Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
+          <tbody id="biz-single-stuck-rows"></tbody></table>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-title" id="biz-single-bottleneck-title">Bottleneck steps</span>
+            <div class="card-hd-actions">
+              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+            </div>
+          <div class="help-bar" id="biz-single-bottleneck-help">The top 3 steps causing the most delays and backlog right now. These are the best places to focus improvement efforts.</div>
+          </div>
+          <table class="tbl"><thead><tr><th id="biz-single-bottleneck-hdr">Step name<span class="si">⇅</span></th><th>Instances queued<span class="si">⇅</span></th><th>Avg wait<span class="si">⇅</span></th></tr></thead>
+          <tbody id="biz-single-bottleneck-rows"></tbody></table>
+        </div>
+      </div>
+
       <!-- Process breakdown table -->
       <div class="card" id="biz-table-card">
         <div class="card-hd"><span class="card-title">Performance by process</span>
@@ -521,6 +545,55 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           <tbody id="biz-proc-rows"></tbody>
         </table>
       </div>
+
+      <!-- Tenant-wide: is anything stuck / where should leaders intervene (Table 1) -->
+      <div id="biz-tenant-widgets">
+        <div class="row2t">
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Stuck instances (tenant-wide)</span>
+              <div class="card-hd-actions">
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              </div>
+            <div class="help-bar">The instances taking noticeably longer than usual anywhere in the tenant, regardless of which process they belong to.</div>
+            </div>
+            <table class="tbl"><thead><tr><th>Instance ID<span class="si">⇅</span></th><th>Process<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
+            <tbody id="tenant-stuck-instances-rows"></tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Processes with the most stuck instances</span>
+              <div class="card-hd-actions">
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              </div>
+            <div class="help-bar">Which processes have the highest concentration of stuck instances right now.</div>
+            </div>
+            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Stuck instances<span class="si">⇅</span></th></tr></thead>
+            <tbody id="tenant-stuck-by-process-rows"></tbody></table>
+          </div>
+        </div>
+
+        <div class="row2t">
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Top processes by bottleneck severity</span>
+              <div class="card-hd-actions">
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              </div>
+            <div class="help-bar">The processes most in need of attention right now, ranked by how much backlog and delay they are contributing tenant-wide.</div>
+            </div>
+            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Severity<span class="si">⇅</span></th></tr></thead>
+            <tbody id="tenant-bottleneck-severity-rows"></tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Processes trending the wrong way</span>
+              <div class="card-hd-actions">
+                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              </div>
+            <div class="help-bar">Processes where completion rate dropped or exception rate rose versus the prior period. Worth checking first.</div>
+            </div>
+            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Completion rate Δ<span class="si">⇅</span></th><th>Exception rate Δ<span class="si">⇅</span></th></tr></thead>
+            <tbody id="tenant-trending-wrong-rows"></tbody></table>
+          </div>
+        </div>
+      </div><!-- /biz-tenant-widgets -->
 
     </div><!-- /biz-view-business -->
 
@@ -1062,17 +1135,18 @@ const CHIP = {BPMN:'chip-bpmn',Flow:'chip-flow',Case:'chip-case',CaseApp:'chip-c
 
 // Unified rollup across Processes (BPMN), Case apps, and Flows.
 // compRateDelta/cycleTimeDelta/excRateDelta/totalDelta/enterpriseValueDelta are change vs. previous period.
+// stuckCount is a point-in-time snapshot of currently-stuck instances for that item.
 const BIZ_ALL_DATA = [
-  {name:'Claim Processing',              type:'BPMN', area:'Finance & Accounting', total:1003, totalDelta:4.2, compRate:84.2, compRateDelta:1.4,  cycleTime:3.8, cycleTimeDelta:-0.4, excRate:6.1, excRateDelta:-0.5, timeSaved:920,  enterpriseValue:41200, enterpriseValueDelta:9.5,  fte:1.4, runs:1003, roiConfigured:true},
-  {name:'Employee Onboarding',           type:'BPMN', area:'HR',                  total:593,  totalDelta:2.1, compRate:82.5, compRateDelta:0.9,  cycleTime:5.2, cycleTimeDelta:-0.2, excRate:4.8, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:22800, enterpriseValueDelta:6.2,  fte:0.9, runs:593,  roiConfigured:true},
-  {name:'Invoice Approval Process',      type:'BPMN', area:'Finance & Accounting', total:2415, totalDelta:5.8, compRate:78.3, compRateDelta:-1.1, cycleTime:2.9, cycleTimeDelta:0.3,  excRate:8.2, excRateDelta:0.6,  timeSaved:1180, enterpriseValue:58600, enterpriseValueDelta:7.8,  fte:1.9, runs:2415, roiConfigured:true},
-  {name:'Loan Processing',               type:'BPMN', area:'Finance & Accounting', total:533,  totalDelta:1.3, compRate:80.1, compRateDelta:0.6,  cycleTime:6.1, cycleTimeDelta:-0.5, excRate:5.9, excRateDelta:-0.2, timeSaved:365,  enterpriseValue:19500, enterpriseValueDelta:4.1,  fte:0.7, runs:533,  roiConfigured:false},
-  {name:'Customer Complaint Resolution', type:'BPMN', area:'Operations',          total:359,  totalDelta:3.4, compRate:86.3, compRateDelta:2.0,  cycleTime:4.3, cycleTimeDelta:-0.3, excRate:4.2, excRateDelta:-0.6, timeSaved:255,  enterpriseValue:14100, enterpriseValueDelta:11.0, fte:0.5, runs:359,  roiConfigured:true},
-  {name:'Mortgage Origination',          type:'Case',  area:'Finance & Accounting', total:751,  totalDelta:2.6, compRate:79.4, compRateDelta:-0.5, cycleTime:7.4, cycleTimeDelta:0.4,  excRate:7.1, excRateDelta:0.4,  timeSaved:520,  enterpriseValue:29100, enterpriseValueDelta:5.0,  fte:1.0, runs:751,  roiConfigured:false},
-  {name:'Customer Onboarding',           type:'Case',  area:'Operations',          total:426,  totalDelta:3.9, compRate:85.0, compRateDelta:1.6,  cycleTime:3.5, cycleTimeDelta:-0.4, excRate:4.5, excRateDelta:-0.4, timeSaved:280,  enterpriseValue:15400, enterpriseValueDelta:8.3,  fte:0.5, runs:426,  roiConfigured:true},
-  {name:'Warranty Claims Intake',        type:'Case',  area:'Operations',          total:312,  totalDelta:1.8, compRate:81.7, compRateDelta:0.7,  cycleTime:4.9, cycleTimeDelta:-0.2, excRate:6.0, excRateDelta:-0.3, timeSaved:210,  enterpriseValue:11800, enterpriseValueDelta:6.5,  fte:0.4, runs:312,  roiConfigured:false},
-  {name:'PO Intake & Order Sync',        type:'Flow',  area:'Supply Chain',        total:1840, totalDelta:6.5, compRate:96.2, compRateDelta:0.4,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:1.8, excRateDelta:-0.2, timeSaved:640,  enterpriseValue:24800, enterpriseValueDelta:12.4, fte:0.8, runs:1840, roiConfigured:true},
-  {name:'Invoice Data Extraction',       type:'Flow',  area:'IT / Platform',       total:1275, totalDelta:4.0, compRate:94.8, compRateDelta:0.8,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:2.4, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:16900, enterpriseValueDelta:9.1,  fte:0.5, runs:1275, roiConfigured:false},
+  {name:'Claim Processing',              type:'BPMN', area:'Finance & Accounting', total:1003, totalDelta:4.2, compRate:84.2, compRateDelta:1.4,  cycleTime:3.8, cycleTimeDelta:-0.4, excRate:6.1, excRateDelta:-0.5, timeSaved:920,  enterpriseValue:41200, enterpriseValueDelta:9.5,  fte:1.4, runs:1003, roiConfigured:true,  stuckCount:14},
+  {name:'Employee Onboarding',           type:'BPMN', area:'HR',                  total:593,  totalDelta:2.1, compRate:82.5, compRateDelta:0.9,  cycleTime:5.2, cycleTimeDelta:-0.2, excRate:4.8, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:22800, enterpriseValueDelta:6.2,  fte:0.9, runs:593,  roiConfigured:true,  stuckCount:6},
+  {name:'Invoice Approval Process',      type:'BPMN', area:'Finance & Accounting', total:2415, totalDelta:5.8, compRate:78.3, compRateDelta:-1.1, cycleTime:2.9, cycleTimeDelta:0.3,  excRate:8.2, excRateDelta:0.6,  timeSaved:1180, enterpriseValue:58600, enterpriseValueDelta:7.8,  fte:1.9, runs:2415, roiConfigured:true,  stuckCount:22},
+  {name:'Loan Processing',               type:'BPMN', area:'Finance & Accounting', total:533,  totalDelta:1.3, compRate:80.1, compRateDelta:0.6,  cycleTime:6.1, cycleTimeDelta:-0.5, excRate:5.9, excRateDelta:-0.2, timeSaved:365,  enterpriseValue:19500, enterpriseValueDelta:4.1,  fte:0.7, runs:533,  roiConfigured:false, stuckCount:9},
+  {name:'Customer Complaint Resolution', type:'BPMN', area:'Operations',          total:359,  totalDelta:3.4, compRate:86.3, compRateDelta:2.0,  cycleTime:4.3, cycleTimeDelta:-0.3, excRate:4.2, excRateDelta:-0.6, timeSaved:255,  enterpriseValue:14100, enterpriseValueDelta:11.0, fte:0.5, runs:359,  roiConfigured:true,  stuckCount:4},
+  {name:'Mortgage Origination',          type:'Case',  area:'Finance & Accounting', total:751,  totalDelta:2.6, compRate:79.4, compRateDelta:-0.5, cycleTime:7.4, cycleTimeDelta:0.4,  excRate:7.1, excRateDelta:0.4,  timeSaved:520,  enterpriseValue:29100, enterpriseValueDelta:5.0,  fte:1.0, runs:751,  roiConfigured:false, stuckCount:11},
+  {name:'Customer Onboarding',           type:'Case',  area:'Operations',          total:426,  totalDelta:3.9, compRate:85.0, compRateDelta:1.6,  cycleTime:3.5, cycleTimeDelta:-0.4, excRate:4.5, excRateDelta:-0.4, timeSaved:280,  enterpriseValue:15400, enterpriseValueDelta:8.3,  fte:0.5, runs:426,  roiConfigured:true,  stuckCount:5},
+  {name:'Warranty Claims Intake',        type:'Case',  area:'Operations',          total:312,  totalDelta:1.8, compRate:81.7, compRateDelta:0.7,  cycleTime:4.9, cycleTimeDelta:-0.2, excRate:6.0, excRateDelta:-0.3, timeSaved:210,  enterpriseValue:11800, enterpriseValueDelta:6.5,  fte:0.4, runs:312,  roiConfigured:false, stuckCount:7},
+  {name:'PO Intake & Order Sync',        type:'Flow',  area:'Supply Chain',        total:1840, totalDelta:6.5, compRate:96.2, compRateDelta:0.4,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:1.8, excRateDelta:-0.2, timeSaved:640,  enterpriseValue:24800, enterpriseValueDelta:12.4, fte:0.8, runs:1840, roiConfigured:true,  stuckCount:3},
+  {name:'Invoice Data Extraction',       type:'Flow',  area:'IT / Platform',       total:1275, totalDelta:4.0, compRate:94.8, compRateDelta:0.8,  cycleTime:0.1, cycleTimeDelta:0.0,  excRate:2.4, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:16900, enterpriseValueDelta:9.1,  fte:0.5, runs:1275, roiConfigured:false, stuckCount:4},
 ];
 
 const OPEN_RATIO = 727/4903; // matches original mock ratio of open:total instances
@@ -1781,6 +1855,72 @@ function renderBizKpis(agg) {
   excTrend.className = 'kpi-t ' + trendClassGoodLow(agg.excRateDelta);
 }
 
+// Illustrative tenant-wide stuck instances, shown filtered to whichever
+// processes are currently in scope (Type filter).
+const TENANT_STUCK_INSTANCES = [
+  { idn: 'INS-2024-1932',  process: 'Invoice Approval Process',      step: 'Manager Approval',      duration: '21.4 days' },
+  { idn: 'INS-2024-0892',  process: 'Claim Processing',              step: 'Document Verification', duration: '18.3 days' },
+  { idn: 'CASE-2024-0451', process: 'Mortgage Origination',          step: 'Underwriting Review',   duration: '16.7 days' },
+  { idn: 'INS-2024-1147',  process: 'Claim Processing',              step: 'Fraud Review',           duration: '14.7 days' },
+  { idn: 'INS-2024-0745',  process: 'Loan Processing',               step: 'Credit Check',           duration: '12.1 days' },
+  { idn: 'CASE-2024-0298', process: 'Warranty Claims Intake',        step: 'Parts Verification',     duration: '10.9 days' },
+];
+
+function renderTenantWidgets(rows) {
+  const inScope = new Set(rows.map(r => r.name));
+
+  const stuckRows = TENANT_STUCK_INSTANCES.filter(s => inScope.has(s.process));
+  document.getElementById('tenant-stuck-instances-rows').innerHTML = stuckRows.map(s => `
+    <tr><td class="mono">${s.idn}</td><td class="cell-muted">${s.process}</td><td class="cell-muted">${s.step}</td><td class="duration-val">${s.duration}</td></tr>
+  `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No stuck instances in this scope.</td></tr>`;
+
+  const byStuck = [...rows].sort((a, b) => b.stuckCount - a.stuckCount).slice(0, 6);
+  drawBnTable('tenant-stuck-by-process-rows', byStuck.map(r => ({ name: r.name, queued: r.type, wait: r.stuckCount, label: String(r.stuckCount) })));
+
+  // Severity = stuckCount x cycleTime, a proxy for combined backlog + aging contribution.
+  const bySeverity = [...rows].map(r => ({ ...r, severity: r.stuckCount * r.cycleTime })).sort((a, b) => b.severity - a.severity).slice(0, 6);
+  drawBnTable('tenant-bottleneck-severity-rows', bySeverity.map(r => ({ name: r.name, queued: r.type, wait: r.severity, label: r.severity.toFixed(1) })));
+
+  const trendingWrong = rows.filter(r => r.compRateDelta < 0 || r.excRateDelta > 0)
+    .sort((a, b) => (a.compRateDelta - a.excRateDelta) - (b.compRateDelta - b.excRateDelta));
+  document.getElementById('tenant-trending-wrong-rows').innerHTML = trendingWrong.map(r => `
+    <tr>
+      <td><strong style="font-size:13px;">${r.name}</strong></td>
+      <td><span class="chip ${typeChipClass(r.type)}">${r.type}</span></td>
+      <td><span class="${r.compRateDelta < 0 ? 'tb' : 'tg'}">${fmtDelta(r.compRateDelta, 'pp')}</span></td>
+      <td><span class="${r.excRateDelta > 0 ? 'tb' : 'tg'}">${fmtDelta(r.excRateDelta, 'pp')}</span></td>
+    </tr>
+  `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No processes trending the wrong way in this scope.</td></tr>`;
+}
+
+function renderProcessLevelWidgets(row) {
+  const isCase = row.type === 'Case';
+  document.getElementById('biz-single-stuck-title').textContent = isCase ? 'Stuck case instances' : 'Stuck process instances';
+  document.getElementById('biz-single-stuck-hdr').innerHTML = (isCase ? 'Case ID' : 'Instance ID') + '<span class="si">⇅</span>';
+  document.getElementById('biz-single-stuck-help').textContent =
+    `${isCase ? 'Case instances' : 'Instances'} that are taking noticeably longer than usual at ${isCase ? 'their current stage' : 'their current step'}, compared to how long that ${isCase ? 'stage' : 'step'} normally takes. These are the best ones to check on first.`;
+  document.getElementById('biz-single-bottleneck-title').textContent = isCase ? 'Bottleneck stages' : 'Bottleneck steps';
+  document.getElementById('biz-single-bottleneck-hdr').innerHTML = (isCase ? 'Stage name' : 'Step name') + '<span class="si">⇅</span>';
+  document.getElementById('biz-single-bottleneck-help').textContent =
+    `The top 3 ${isCase ? 'stages' : 'steps'} causing the most delays and backlog right now. These are the best places to focus improvement efforts.`;
+
+  const idPrefix = isCase ? 'CASE' : 'INS';
+  const stuckRows = [
+    { idn: `${idPrefix}-2024-0892`, step: 'Document Verification', duration: '18.3 days', avg: '0.8 d' },
+    { idn: `${idPrefix}-2024-1147`, step: 'Fraud Review',          duration: '14.7 days', avg: '2.1 d' },
+    { idn: `${idPrefix}-2024-1203`, step: 'Approval Gate',         duration: '12.1 days', avg: '0.5 d' },
+  ].slice(0, Math.max(1, Math.min(3, row.stuckCount)));
+  document.getElementById('biz-single-stuck-rows').innerHTML = stuckRows.map(r => `
+    <tr><td class="mono">${r.idn}</td><td class="cell-muted">${r.step}</td><td><div class="duration-val">${r.duration}</div><div class="duration-avg">avg: ${r.avg}</div></td></tr>
+  `).join('');
+
+  drawBnTable('biz-single-bottleneck-rows', [
+    { name: 'Document Verification', queued: Math.max(3, Math.round(row.stuckCount * 2)),   wait: 11.2, label: '11.2 h' },
+    { name: 'Fraud Review',          queued: Math.max(2, Math.round(row.stuckCount * 0.8)), wait: 4.3,  label: '4.3 h' },
+    { name: 'Approval Gate',         queued: Math.max(1, Math.round(row.stuckCount * 0.6)), wait: 2.7,  label: '2.7 h' },
+  ]);
+}
+
 function renderBizProcTable() {
   const rows = getBizFilteredRows();
   document.getElementById('biz-proc-rows').innerHTML = rows.map(r => {
@@ -1893,6 +2033,8 @@ function refreshBizViews() {
   const single = !!bizNameFilter;
   document.getElementById('biz-table-card').style.display = single ? 'none' : '';
   document.getElementById('biz-single-summary').style.display = single ? '' : 'none';
+  document.getElementById('biz-single-widgets').style.display = single ? 'grid' : 'none';
+  document.getElementById('biz-tenant-widgets').style.display = single ? 'none' : '';
   if (single) {
     const row = BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter);
     document.getElementById('biz-single-name').textContent = row ? `${row.name} (${row.type})` : '';
@@ -1904,6 +2046,9 @@ function refreshBizViews() {
     } else {
       link.style.display = 'none';
     }
+    if (row) renderProcessLevelWidgets(row);
+  } else {
+    renderTenantWidgets(rows);
   }
 
   drawAggCharts();
