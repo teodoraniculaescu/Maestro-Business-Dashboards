@@ -523,29 +523,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
       </div>
 
-      <!-- Process breakdown table -->
-      <div class="card" id="biz-table-card">
-        <div class="card-hd"><span class="card-title">Performance by process</span>
-          <div class="card-hd-actions">
-            <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-          </div>
-        <div class="help-bar">Key business metrics for each process, case app, and flow. Click any row to filter this dashboard by that item.</div>
-        </div>
-        <table class="biz-proc-tbl">
-          <thead><tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Total instances<span class="si">⇅</span></th>
-            <th>Completion rate<span class="si">⇅</span></th>
-            <th>Median cycle time<span class="si">⇅</span></th>
-            <th>Exception rate<span class="si">⇅</span></th>
-            <th>Completion trend <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Shows whether each item's completion rate improved or declined vs. the previous period.</span></span></th>
-            <th></th>
-          </tr></thead>
-          <tbody id="biz-proc-rows"></tbody>
-        </table>
-      </div>
-
       <!-- Tenant-wide: is anything stuck / where should leaders intervene (Table 1) -->
       <div id="biz-tenant-widgets">
         <div class="row2t">
@@ -570,30 +547,30 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <tbody id="tenant-stuck-by-process-rows"></tbody></table>
           </div>
         </div>
-
-        <div class="row2t">
-          <div class="card">
-            <div class="card-hd"><span class="card-title">Top processes by bottleneck severity</span>
-              <div class="card-hd-actions">
-                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-              </div>
-            <div class="help-bar">The processes most in need of attention right now, ranked by how much backlog and delay they are contributing tenant-wide.</div>
-            </div>
-            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Severity<span class="si">⇅</span></th></tr></thead>
-            <tbody id="tenant-bottleneck-severity-rows"></tbody></table>
-          </div>
-          <div class="card">
-            <div class="card-hd"><span class="card-title">Processes trending the wrong way</span>
-              <div class="card-hd-actions">
-                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-              </div>
-            <div class="help-bar">Processes where completion rate dropped or exception rate rose versus the prior period. Worth checking first.</div>
-            </div>
-            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Completion rate Δ<span class="si">⇅</span></th><th>Exception rate Δ<span class="si">⇅</span></th></tr></thead>
-            <tbody id="tenant-trending-wrong-rows"></tbody></table>
-          </div>
-        </div>
       </div><!-- /biz-tenant-widgets -->
+
+      <!-- Process breakdown table -->
+      <div class="card" id="biz-table-card">
+        <div class="card-hd"><span class="card-title">Performance by process</span>
+          <div class="card-hd-actions">
+            <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+          </div>
+        <div class="help-bar">Key business metrics for each process, case app, and flow. Click any row to filter this dashboard by that item.</div>
+        </div>
+        <table class="biz-proc-tbl">
+          <thead><tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Total instances<span class="si">⇅</span></th>
+            <th>Completion rate<span class="si">⇅</span></th>
+            <th>Median cycle time<span class="si">⇅</span></th>
+            <th>Exception rate<span class="si">⇅</span></th>
+            <th>Completion trend <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Shows whether each item's completion rate improved or declined vs. the previous period.</span></span></th>
+            <th></th>
+          </tr></thead>
+          <tbody id="biz-proc-rows"></tbody>
+        </table>
+      </div>
 
     </div><!-- /biz-view-business -->
 
@@ -1869,28 +1846,13 @@ const TENANT_STUCK_INSTANCES = [
 function renderTenantWidgets(rows) {
   const inScope = new Set(rows.map(r => r.name));
 
-  const stuckRows = TENANT_STUCK_INSTANCES.filter(s => inScope.has(s.process));
+  const stuckRows = TENANT_STUCK_INSTANCES.filter(s => inScope.has(s.process)).slice(0, 5);
   document.getElementById('tenant-stuck-instances-rows').innerHTML = stuckRows.map(s => `
     <tr><td class="mono">${s.idn}</td><td class="cell-muted">${s.process}</td><td class="cell-muted">${s.step}</td><td class="duration-val">${s.duration}</td></tr>
   `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No stuck instances in this scope.</td></tr>`;
 
-  const byStuck = [...rows].sort((a, b) => b.stuckCount - a.stuckCount).slice(0, 6);
+  const byStuck = [...rows].sort((a, b) => b.stuckCount - a.stuckCount).slice(0, 5);
   drawBnTable('tenant-stuck-by-process-rows', byStuck.map(r => ({ name: r.name, queued: r.type, wait: r.stuckCount, label: String(r.stuckCount) })));
-
-  // Severity = stuckCount x cycleTime, a proxy for combined backlog + aging contribution.
-  const bySeverity = [...rows].map(r => ({ ...r, severity: r.stuckCount * r.cycleTime })).sort((a, b) => b.severity - a.severity).slice(0, 6);
-  drawBnTable('tenant-bottleneck-severity-rows', bySeverity.map(r => ({ name: r.name, queued: r.type, wait: r.severity, label: r.severity.toFixed(1) })));
-
-  const trendingWrong = rows.filter(r => r.compRateDelta < 0 || r.excRateDelta > 0)
-    .sort((a, b) => (a.compRateDelta - a.excRateDelta) - (b.compRateDelta - b.excRateDelta));
-  document.getElementById('tenant-trending-wrong-rows').innerHTML = trendingWrong.map(r => `
-    <tr>
-      <td><strong style="font-size:13px;">${r.name}</strong></td>
-      <td><span class="chip ${typeChipClass(r.type)}">${r.type}</span></td>
-      <td><span class="${r.compRateDelta < 0 ? 'tb' : 'tg'}">${fmtDelta(r.compRateDelta, 'pp')}</span></td>
-      <td><span class="${r.excRateDelta > 0 ? 'tb' : 'tg'}">${fmtDelta(r.excRateDelta, 'pp')}</span></td>
-    </tr>
-  `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No processes trending the wrong way in this scope.</td></tr>`;
 }
 
 function renderProcessLevelWidgets(row) {
