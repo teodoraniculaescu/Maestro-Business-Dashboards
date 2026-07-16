@@ -415,6 +415,12 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     <!-- ═ BUSINESS VIEW ═ -->
     <div class="dash-page view-panel active" id="biz-view-business">
 
+      <!-- Single-item title (shown instead of the aggregate title when a specific process/case/flow is selected) -->
+      <div id="biz-single-summary" style="display:none;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <span style="font-size:16px;font-weight:600;color:var(--text);">Viewing <span id="biz-single-name" style="color:var(--tab-blue);"></span></span>
+        <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">See process instances →</a>
+      </div>
+
       <!-- Aggregate KPI cards -->
       <div class="kpi-grid">
         <div class="kpi-card">
@@ -488,14 +494,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           <div class="help-bar" id="agg-chart2-help">Weighted average of median cycle time within all processes.</div>
           </div>
           <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-agg-cy"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-cy" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-cy"></div></div></div>
-        </div>
-      </div>
-
-      <!-- Single-item summary (shown instead of the table when a specific process/case/flow is selected) -->
-      <div class="card" id="biz-single-summary" style="display:none;">
-        <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:13px;color:var(--muted);">Viewing <strong id="biz-single-name" style="color:var(--text);"></strong></span>
-          <a href="#" id="biz-single-link" style="color:var(--tab-blue);font-size:13px;font-weight:500;text-decoration:none;">See process instances →</a>
         </div>
       </div>
 
@@ -1994,7 +1992,7 @@ function refreshBizViews() {
 
   const single = !!bizNameFilter;
   document.getElementById('biz-table-card').style.display = single ? 'none' : '';
-  document.getElementById('biz-single-summary').style.display = single ? '' : 'none';
+  document.getElementById('biz-single-summary').style.display = single ? 'flex' : 'none';
   document.getElementById('biz-single-widgets').style.display = single ? 'grid' : 'none';
   document.getElementById('biz-tenant-widgets').style.display = single ? 'none' : '';
   if (single) {
