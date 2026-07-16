@@ -1165,6 +1165,19 @@ const AGG_RANGE_CHARTS = {
 const RANGES = ['Last month', 'Last 3 months', 'Last 6 months'];
 let currentRange = 'Last month';
 
+// Longer look-back periods naturally accumulate more instances, so KPI totals
+// scale up with the selected range. Ratios mirror the instCounts sums used in
+// RANGE_CHARTS (317 / 886 / 1539) to stay consistent with the trend charts.
+const RANGE_FACTOR = { 'Last month': 1, 'Last 3 months': 2.8, 'Last 6 months': 4.86 };
+
+// A longer window also folds in older, less-optimized periods, so the
+// averaged rate metrics tick up slightly for longer ranges.
+const RANGE_RATE_ADJ = {
+  'Last month':     { compRate: 0,   excRate: 0,   cycleTime: 0 },
+  'Last 3 months':  { compRate: 0.6, excRate: 0.3, cycleTime: 0.2 },
+  'Last 6 months':  { compRate: 1.1, excRate: 0.6, cycleTime: 0.4 },
+};
+
 // June 2026 daily data (30 days, total=317). Weekends show near-zero traffic.
 const RANGE_CHARTS = {
   'Last month': {
@@ -1741,18 +1754,20 @@ function getBizFilteredRows() {
 }
 
 function aggregateBiz(rows) {
-  const totalSum = rows.reduce((s, r) => s + r.total, 0);
-  const wavg = key => totalSum ? rows.reduce((s, r) => s + r[key] * r.total, 0) / totalSum : 0;
+  const factor = RANGE_FACTOR[currentRange] || 1;
+  const adj = RANGE_RATE_ADJ[currentRange] || { compRate: 0, excRate: 0, cycleTime: 0 };
+  const totalSum = rows.reduce((s, r) => s + r.total, 0) * factor;
+  const wavg = key => totalSum ? rows.reduce((s, r) => s + r[key] * r.total, 0) / (totalSum / factor) : 0;
   return {
-    total: totalSum,
+    total: Math.round(totalSum),
     totalDelta: wavg('totalDelta'),
-    completed: Math.round(rows.reduce((s, r) => s + r.total * r.compRate / 100, 0)),
-    open: Math.round(totalSum * OPEN_RATIO),
-    compRate: wavg('compRate'),
+    completed: Math.round(rows.reduce((s, r) => s + r.total * r.compRate / 100, 0) * factor),
+    open: Math.round(rows.reduce((s, r) => s + r.total, 0) * OPEN_RATIO),
+    compRate: Math.min(99.5, wavg('compRate') + adj.compRate),
     compRateDelta: wavg('compRateDelta'),
-    cycleTime: wavg('cycleTime'),
+    cycleTime: wavg('cycleTime') + adj.cycleTime,
     cycleTimeDelta: wavg('cycleTimeDelta'),
-    excRate: wavg('excRate'),
+    excRate: Math.max(0, wavg('excRate') + adj.excRate),
     excRateDelta: wavg('excRateDelta'),
     timeSaved: rows.reduce((s, r) => s + r.timeSaved, 0),
     enterpriseValue: rows.reduce((s, r) => s + r.enterpriseValue, 0),
