@@ -481,27 +481,25 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="card">
           <div class="card-hd"><span class="card-title" id="agg-chart1-title">Instances over time in all processes</span>
             <div class="card-hd-actions">
-              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="agg-chart1-help">Total instances started within all processes during the selected period.</span></span>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
-          <div class="help-bar" id="agg-chart1-help">Total instances started within all processes during the selected period.</div>
           </div>
           <div class="chart-wrap"><div class="y-label-rot">Instance count</div><div class="y-label-nums" id="yl-agg-ni"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-ni" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-ni"></div></div></div>
         </div>
         <div class="card">
           <div class="card-hd"><span class="card-title" id="agg-chart2-title">Avg median cycle time in all processes</span>
             <div class="card-hd-actions">
-              <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="agg-chart2-help">Weighted average of median cycle time within all processes.</span></span>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
-          <div class="help-bar" id="agg-chart2-help">Weighted average of median cycle time within all processes.</div>
           </div>
           <div class="chart-wrap"><div class="y-label-rot">Days</div><div class="y-label-nums" id="yl-agg-cy"></div><div class="chart-inner-wrap"><svg class="chart-svg" id="ch-agg-cy" height="140" viewBox="0 0 400 140" preserveAspectRatio="none"></svg><div class="x-labels" id="xl-agg-cy"></div></div></div>
         </div>
       </div>
 
       <!-- Process-level: stuck instances / bottleneck steps for the selected item (Table 2) -->
-      <div class="row2t" id="biz-single-widgets" style="display:none;">
+      <div class="row2" id="biz-single-widgets" style="display:none;">
         <div class="card">
           <div class="card-hd"><span class="card-title" id="biz-single-stuck-title">Stuck process instances</span>
             <div class="card-hd-actions">
@@ -548,9 +546,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <div class="card" id="biz-table-card">
         <div class="card-hd"><span class="card-title">Performance by process</span>
           <div class="card-hd-actions">
-            <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Key business metrics for each process, case app, and flow. Click any row to filter this dashboard by that item.</span></span>
           </div>
-        <div class="help-bar">Key business metrics for each process, case app, and flow. Click any row to filter this dashboard by that item.</div>
         </div>
         <table class="biz-proc-tbl">
           <thead><tr>
