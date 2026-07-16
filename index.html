@@ -223,6 +223,9 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .ca-tab.active{color:var(--tab-blue);border-bottom-color:var(--tab-blue);}
 .biz-proc-tbl{width:100%;border-collapse:collapse;}
 .biz-proc-tbl th{font-size:12px;font-weight:500;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);background:var(--th);white-space:nowrap;}
+.biz-proc-tbl th[data-sort-col]{cursor:pointer;user-select:none;}
+.biz-proc-tbl th[data-sort-col]:hover{color:var(--text);}
+.biz-proc-tbl th .si.si-active{color:var(--tab-blue);font-weight:700;}
 .biz-proc-tbl td{padding:10px 12px;border-bottom:1px solid var(--border-inner);font-size:13px;vertical-align:middle;}
 .biz-proc-tbl tr:hover td{background:var(--ground);cursor:pointer;}
 .biz-proc-tbl tr:last-child td{border-bottom:none;}
@@ -523,7 +526,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
       <!-- Tenant-wide: is anything stuck / where should leaders intervene (Table 1) -->
       <div id="biz-tenant-widgets">
-        <div class="row2t">
+        <div class="row2">
           <div class="card">
             <div class="card-hd"><span class="card-title">Stuck instances (tenant-wide)</span>
               <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">The instances taking noticeably longer than usual anywhere in the tenant, regardless of which process they belong to.</span></span>
@@ -551,13 +554,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
         <table class="biz-proc-tbl">
           <thead><tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Total instances<span class="si">⇅</span></th>
-            <th>Completion rate<span class="si">⇅</span></th>
-            <th>Median cycle time<span class="si">⇅</span></th>
-            <th>Exception rate<span class="si">⇅</span></th>
-            <th>Completion trend <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Shows whether each item's completion rate improved or declined vs. the previous period.</span></span></th>
+            <th data-sort-col="name" onclick="sortBizProcTable('name')">Name<span class="si">⇅</span></th>
+            <th data-sort-col="type" onclick="sortBizProcTable('type')">Type<span class="si">⇅</span></th>
+            <th data-sort-col="total" onclick="sortBizProcTable('total')">Total instances<span class="si">⇅</span></th>
+            <th data-sort-col="compRate" onclick="sortBizProcTable('compRate')">Completion rate<span class="si">⇅</span></th>
+            <th data-sort-col="cycleTime" onclick="sortBizProcTable('cycleTime')">Median cycle time<span class="si">⇅</span></th>
+            <th data-sort-col="excRate" onclick="sortBizProcTable('excRate')">Exception rate<span class="si">⇅</span></th>
+            <th data-sort-col="trend" onclick="sortBizProcTable('trend')">Completion trend<span class="si">⇅</span> <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Shows whether each item's completion rate improved or declined vs. the previous period.</span></span></th>
             <th></th>
           </tr></thead>
           <tbody id="biz-proc-rows"></tbody>
@@ -1875,8 +1878,55 @@ function renderProcessLevelWidgets(row) {
   ]);
 }
 
+let bizSortCol = 'total';
+let bizSortDir = 'desc';
+
+function bizSortValue(r, col) {
+  switch (col) {
+    case 'name': return r.name.toLowerCase();
+    case 'type': return r.type.toLowerCase();
+    case 'total': return r.total;
+    case 'compRate': return r.compRate;
+    case 'cycleTime': return r.cycleTime;
+    case 'excRate': return r.excRate;
+    case 'trend': return r.compRateDelta;
+    default: return r.total;
+  }
+}
+
+function sortBizProcTable(col) {
+  if (bizSortCol === col) {
+    bizSortDir = bizSortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    bizSortCol = col;
+    bizSortDir = (col === 'name' || col === 'type') ? 'asc' : 'desc';
+  }
+  renderBizProcTable();
+}
+
+function updateBizSortIndicators() {
+  document.querySelectorAll('.biz-proc-tbl th[data-sort-col]').forEach(th => {
+    const icon = th.querySelector('.si');
+    if (!icon) return;
+    if (th.getAttribute('data-sort-col') === bizSortCol) {
+      icon.textContent = bizSortDir === 'asc' ? '↑' : '↓';
+      icon.classList.add('si-active');
+    } else {
+      icon.textContent = '⇅';
+      icon.classList.remove('si-active');
+    }
+  });
+}
+
 function renderBizProcTable() {
-  const rows = [...getBizFilteredRows()].sort((a, b) => b.total - a.total);
+  const dir = bizSortDir === 'asc' ? 1 : -1;
+  const rows = [...getBizFilteredRows()].sort((a, b) => {
+    const av = bizSortValue(a, bizSortCol), bv = bizSortValue(b, bizSortCol);
+    if (av < bv) return -1 * dir;
+    if (av > bv) return 1 * dir;
+    return 0;
+  });
+  updateBizSortIndicators();
   document.getElementById('biz-proc-rows').innerHTML = rows.map(r => {
     const up = r.compRateDelta >= 0;
     const trendTxt = `${up ? '↑' : '↓'} ${up ? '+' : ''}${r.compRateDelta.toFixed(1)}pp`;
