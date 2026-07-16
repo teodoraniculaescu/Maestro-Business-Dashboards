@@ -526,20 +526,14 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="row2t">
           <div class="card">
             <div class="card-hd"><span class="card-title">Stuck instances (tenant-wide)</span>
-              <div class="card-hd-actions">
-                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-              </div>
-            <div class="help-bar">The instances taking noticeably longer than usual anywhere in the tenant, regardless of which process they belong to.</div>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">The instances taking noticeably longer than usual anywhere in the tenant, regardless of which process they belong to.</span></span>
             </div>
             <table class="tbl"><thead><tr><th>Instance ID<span class="si">⇅</span></th><th>Process<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-instances-rows"></tbody></table>
           </div>
           <div class="card">
             <div class="card-hd"><span class="card-title">Processes with the most stuck instances</span>
-              <div class="card-hd-actions">
-                <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
-              </div>
-            <div class="help-bar">Which processes have the highest concentration of stuck instances right now.</div>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Which processes have the highest concentration of stuck instances right now.</span></span>
             </div>
             <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Stuck instances<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-by-process-rows"></tbody></table>
@@ -1882,7 +1876,7 @@ function renderProcessLevelWidgets(row) {
 }
 
 function renderBizProcTable() {
-  const rows = getBizFilteredRows();
+  const rows = [...getBizFilteredRows()].sort((a, b) => b.total - a.total);
   document.getElementById('biz-proc-rows').innerHTML = rows.map(r => {
     const up = r.compRateDelta >= 0;
     const trendTxt = `${up ? '↑' : '↓'} ${up ? '+' : ''}${r.compRateDelta.toFixed(1)}pp`;
