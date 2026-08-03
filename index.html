@@ -135,6 +135,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 /* ── KPI GRID ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px;}
 .kpi-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+.kpi-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
 .kpi-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 14px 10px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0;}
 .kpi-card-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:6px;}
 .kpi-card-name{font-size:11px;color:var(--muted);font-weight:500;line-height:1.4;flex:1;}
@@ -269,8 +270,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .vc-bar-real{background:#22C55E;}
 
 @media(max-width:1100px){.kpi-grid,.kpi-grid-5{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-grid,.kpi-grid-5{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){.kpi-grid,.kpi-grid-5{grid-template-columns:1fr;}}
+@media(max-width:960px){.row2,.row2t{grid-template-columns:1fr;}.kpi-grid,.kpi-grid-5,.kpi-grid-3{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.kpi-grid,.kpi-grid-5,.kpi-grid-3{grid-template-columns:1fr;}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 
@@ -473,6 +474,37 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="biz-kpi-exc">–</span><span class="kpi-t" id="biz-kpi-exc-trend"></span></div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+        </div>
+      </div>
+
+      <!-- SLA overview (shown only when Type is filtered to Case) -->
+      <div id="biz-sla-section" style="display:none;">
+        <div class="ca-section-lbl">SLA overview</div>
+        <div class="kpi-grid-3">
+          <div class="kpi-card">
+            <div class="kpi-card-hd">
+              <span class="kpi-card-name">SLA-breached cases</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Cases that have already missed their SLA deadline.</span></span>
+            </div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val ca-sla-red" id="biz-kpi-sla-breached">–</span></div>
+            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-hd">
+              <span class="kpi-card-name">SLA compliance rate</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Percentage of cases resolved within their SLA deadline.</span></span>
+            </div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="biz-kpi-sla-compliance">–</span></div>
+            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-hd">
+              <span class="kpi-card-name">SLA at risk</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Open cases on track to breach their SLA soon if nothing changes.</span></span>
+            </div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val ca-sla-orange" id="biz-kpi-sla-atrisk">–</span></div>
+            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+          </div>
         </div>
       </div>
 
@@ -1118,6 +1150,12 @@ const BIZ_ALL_DATA = [
 
 const OPEN_RATIO = 727/4903; // matches original mock ratio of open:total instances
 
+// SLA mock ratios, matching the Case app page's example numbers (27 open,
+// 3 breached, 5 at risk, 84.8% compliance) so both pages stay consistent.
+const SLA_BREACH_RATIO = 3/27;
+const SLA_ATRISK_RATIO = 5/27;
+const SLA_COMPLIANCE_BASE = 84.8;
+
 const ROI_RANGE_CHARTS = {
   'Last month': {
     estimated: [30,55,80,105,130,155,180,205,230,255,280,305,330,355,380,405,430,455,480,505,530,555,580,605,630,655,680,705,730,755],
@@ -1753,11 +1791,12 @@ function aggregateBiz(rows) {
   const adj = RANGE_RATE_ADJ[currentRange] || { compRate: 0, excRate: 0, cycleTime: 0 };
   const totalSum = rows.reduce((s, r) => s + r.total, 0) * factor;
   const wavg = key => totalSum ? rows.reduce((s, r) => s + r[key] * r.total, 0) / (totalSum / factor) : 0;
+  const openCount = Math.round(rows.reduce((s, r) => s + r.total, 0) * OPEN_RATIO);
   return {
     total: Math.round(totalSum),
     totalDelta: wavg('totalDelta'),
     completed: Math.round(rows.reduce((s, r) => s + r.total * r.compRate / 100, 0) * factor),
-    open: Math.round(rows.reduce((s, r) => s + r.total, 0) * OPEN_RATIO),
+    open: openCount,
     compRate: Math.min(99.5, wavg('compRate') + adj.compRate),
     compRateDelta: wavg('compRateDelta'),
     cycleTime: wavg('cycleTime') + adj.cycleTime,
@@ -1769,6 +1808,9 @@ function aggregateBiz(rows) {
     enterpriseValueDelta: wavg('enterpriseValueDelta'),
     fte: rows.reduce((s, r) => s + r.fte, 0),
     runs: rows.reduce((s, r) => s + r.runs, 0),
+    slaBreached: Math.round(openCount * SLA_BREACH_RATIO),
+    slaAtRisk: Math.round(openCount * SLA_ATRISK_RATIO),
+    slaCompliance: Math.min(99.5, SLA_COMPLIANCE_BASE + adj.compRate),
   };
 }
 
@@ -1835,6 +1877,12 @@ function renderBizKpis(agg) {
   const excTrend = document.getElementById('biz-kpi-exc-trend');
   excTrend.textContent = fmtDelta(agg.excRateDelta, 'pp');
   excTrend.className = 'kpi-t ' + trendClassGoodLow(agg.excRateDelta);
+}
+
+function renderBizSlaCards(agg) {
+  document.getElementById('biz-kpi-sla-breached').textContent = agg.slaBreached.toLocaleString();
+  document.getElementById('biz-kpi-sla-compliance').textContent = agg.slaCompliance.toFixed(1) + '%';
+  document.getElementById('biz-kpi-sla-atrisk').textContent = agg.slaAtRisk.toLocaleString();
 }
 
 // Illustrative tenant-wide stuck instances, shown filtered to whichever
@@ -2038,6 +2086,9 @@ function refreshBizViews() {
   document.getElementById('biz-name-val').textContent = nameRow ? nameRow.name : 'All';
 
   renderBizKpis(agg);
+  const showSla = bizTypeFilter === 'Case' || (nameRow && nameRow.type === 'Case');
+  document.getElementById('biz-sla-section').style.display = showSla ? '' : 'none';
+  if (showSla) renderBizSlaCards(agg);
   document.getElementById('biz-scope-label').innerHTML = scopeLabel() + ' · <span class="range-disp">' + currentRange + '</span>';
   document.getElementById('agg-chart1-title').textContent = 'Instances over time in ' + scopeText();
   document.getElementById('agg-chart2-title').textContent = 'Avg median cycle time in ' + scopeText();
