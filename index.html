@@ -320,7 +320,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     </button>
     <button class="sn-i active" data-key="biz-dash" onclick="navTo('biz-dash')">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="sn-ico"><rect x="2" y="9" width="3" height="5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="6.5" y="6" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2.5" width="3" height="11.5" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>
-      <span class="sn-label">Insights</span>
+      <span class="sn-label">Performance</span>
     </button>
   </nav>
 </aside>
@@ -399,7 +399,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
     <div class="list-hdr">
       <div>
-        <div class="list-title">Insights</div>
+        <div class="list-title">Performance</div>
         <div class="list-sub" id="biz-scope-label">All processes · <span class="range-disp">Last month</span></div>
       </div>
       <div class="list-hdr-r">
@@ -412,7 +412,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
     </div>
 
     <div class="dash-tabnav">
-      <button class="dash-tab active" onclick="switchBizViewTab('business',this)">Business</button>
+      <button class="dash-tab active" onclick="switchBizViewTab('business',this)">Process Health</button>
       <button class="dash-tab" onclick="switchBizViewTab('roi',this)">ROI</button>
     </div>
 
@@ -705,7 +705,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       </div>
       <div class="ca-tabnav">
         <button class="ca-tab" onclick="switchCaTab('active',this)">Active cases</button>
-        <button class="ca-tab active" onclick="switchCaTab('biz',this)">Business Insights</button>
+        <button class="ca-tab active" onclick="switchCaTab('biz',this)">Business Performance</button>
       </div>
     </div>
 
@@ -900,7 +900,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
     <div class="tab-ph" id="tab-ph" style="display:none;">
       <strong id="tab-ph-name"></strong>
-      This tab is not part of the prototype. <a href="#" onclick="switchToDashboardsFromDetail();return false;" style="color:var(--tab-blue);">Switch to Insights →</a>
+      This tab is not part of the prototype. <a href="#" onclick="switchToDashboardsFromDetail();return false;" style="color:var(--tab-blue);">Switch to Performance →</a>
     </div>
 
     <div class="dash-page" id="im-page" style="display:none;">
@@ -1101,7 +1101,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
   <div id="pg-ph" style="display:none;flex:1;" class="pg-ph">
     <strong id="pg-ph-name"></strong>
     <p>This section is not part of the prototype.</p>
-    <a onclick="navTo('biz-dash');return false;">Switch to Insights →</a>
+    <a onclick="navTo('biz-dash');return false;">Switch to Performance →</a>
   </div>
 
 </div><!-- /main -->
@@ -1465,13 +1465,13 @@ function updateTopbar(page, name) {
       <button class="btn btn-primary">Run</button>
       <button class="ico-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.3" r="1.1" fill="currentColor"/><circle cx="7" cy="7" r="1.1" fill="currentColor"/><circle cx="7" cy="11.7" r="1.1" fill="currentColor"/></svg></button>`;
   } else if (page === 'biz-dash') {
-    bc.innerHTML = '<span class="bc-cur">Insights</span>';
+    bc.innerHTML = '<span class="bc-cur">Performance</span>';
     tr.innerHTML = '';
   } else if (page === 'proc-detail') {
     const n = name || detailName;
     const fromBiz = detailFrom === 'biz-dash';
     const backFn  = fromBiz ? "navTo('biz-dash')" : "navTo('proc-list')";
-    const listLbl = fromBiz ? 'Insights' : 'Process Instances';
+    const listLbl = fromBiz ? 'Performance' : 'Process Instances';
     bc.innerHTML = `
       <a href="#" onclick="${backFn};return false;">← Back</a>
       <span class="bc-sep">|</span>
@@ -1486,7 +1486,7 @@ function updateTopbar(page, name) {
     const n = name || detailName;
     const fromBiz = detailFrom === 'biz-dash';
     const backFn  = fromBiz ? "navTo('biz-dash')" : "navTo('case-list')";
-    const listLbl = fromBiz ? 'Insights' : 'Case Instances';
+    const listLbl = fromBiz ? 'Performance' : 'Case Instances';
     bc.innerHTML = `
       <a href="#" onclick="${backFn};return false;">← Back</a>
       <span class="bc-sep">|</span>
