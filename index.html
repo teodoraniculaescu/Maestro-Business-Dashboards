@@ -243,6 +243,25 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .sla-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .sla-on{color:#10B981;}.sla-risk{color:#F97316;}.sla-breach{color:#EF4444;}
 
+/* ── SLA CARD DRILL-DOWN ── */
+.kpi-card-click{cursor:pointer;transition:border-color .12s,box-shadow .12s;}
+.kpi-card-click:hover{border-color:var(--tab-blue);box-shadow:0 2px 10px rgba(29,78,216,.14);}
+.kpi-card-click:hover .kpi-card-val{text-decoration:underline;text-underline-offset:3px;}
+.kpi-card-click .kpi-drill-cue{font-size:12px;font-weight:500;color:var(--tab-blue);margin-left:auto;}
+.biz-drill-back{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--tab-blue);background:none;border:none;padding:0;cursor:pointer;font-family:var(--font);margin-bottom:14px;}
+.biz-drill-back:hover{text-decoration:underline;}
+.biz-drill-title{display:flex;align-items:baseline;gap:9px;margin-bottom:12px;}
+.biz-drill-title h2{font-size:16px;font-weight:600;color:var(--text);margin:0;}
+.biz-drill-count{font-size:13px;color:var(--muted);}
+.biz-drill-filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.drill-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text);background:#EFF6FF;border:1px solid #BFDBFE;border-radius:14px;padding:4px 6px 4px 11px;}
+.drill-chip .drill-chip-lbl{color:var(--muted);}
+.drill-chip-x{background:none;border:none;color:var(--muted);cursor:pointer;font-family:var(--font);font-size:12px;line-height:1;padding:2px 4px;border-radius:50%;}
+.drill-chip-x:hover{background:#DBEAFE;color:var(--text);}
+.drill-chip-static{background:#fff;border-color:var(--border);padding:4px 11px;}
+.tbl-static tbody tr{cursor:default;}
+.biz-drill-empty{padding:26px 14px;text-align:center;font-size:13px;color:var(--muted);}
+
 /* ── ROI VIEW ── */
 .roi-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-family:var(--font);}
 .roi-chip:hover{color:var(--text);}
@@ -411,7 +430,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       </div>
     </div>
 
-    <div class="dash-tabnav">
+    <div class="dash-tabnav" id="biz-tabnav">
       <button class="dash-tab active" onclick="switchBizViewTab('business',this)">Process Health</button>
       <button class="dash-tab" onclick="switchBizViewTab('roi',this)">ROI</button>
     </div>
@@ -481,13 +500,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       <div id="biz-sla-section" style="display:none;">
         <div class="ca-section-lbl">SLA overview</div>
         <div class="kpi-grid-3">
-          <div class="kpi-card">
+          <div class="kpi-card kpi-card-click" onclick="openSlaDrill('breached')" title="See these cases">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">SLA-breached cases</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Cases that have already missed their SLA deadline.</span></span>
+              <span class="kpi-tw" onclick="event.stopPropagation()"><button class="kpi-ib">ⓘ</button><span class="kpi-tt">Cases that have already missed their SLA deadline. Select this card to see them.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val ca-sla-red" id="biz-kpi-sla-breached">–</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val ca-sla-red" id="biz-kpi-sla-breached">–</span><span class="kpi-drill-cue">View cases →</span></div>
+            <div class="kpi-card-ft" onclick="event.stopPropagation()"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
           <div class="kpi-card">
             <div class="kpi-card-hd">
@@ -497,13 +516,13 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="biz-kpi-sla-compliance">–</span></div>
             <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
-          <div class="kpi-card">
+          <div class="kpi-card kpi-card-click" onclick="openSlaDrill('at-risk')" title="See these cases">
             <div class="kpi-card-hd">
               <span class="kpi-card-name">SLA at risk</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Open cases on track to breach their SLA soon if nothing changes.</span></span>
+              <span class="kpi-tw" onclick="event.stopPropagation()"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r">Open cases on track to breach their SLA soon if nothing changes. Select this card to see them.</span></span>
             </div>
-            <div class="kpi-card-val-row"><span class="kpi-card-val ca-sla-orange" id="biz-kpi-sla-atrisk">–</span></div>
-            <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
+            <div class="kpi-card-val-row"><span class="kpi-card-val ca-sla-orange" id="biz-kpi-sla-atrisk">–</span><span class="kpi-drill-cue">View cases →</span></div>
+            <div class="kpi-card-ft" onclick="event.stopPropagation()"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
           </div>
         </div>
       </div>
@@ -591,6 +610,28 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
       </div>
 
     </div><!-- /biz-view-business -->
+
+    <!-- ═ SLA CASE DRILL-DOWN ═ -->
+    <!-- Reached by selecting the SLA-breached / SLA at risk cards. Mirrors the
+         Maestro Case app list: same columns, SLA status as a removable filter. -->
+    <div class="dash-page view-panel" id="biz-view-cases">
+      <button class="biz-drill-back" onclick="closeSlaDrill()">← Back to Process Health</button>
+      <div class="biz-drill-title">
+        <h2 id="biz-drill-title-txt">SLA-breached cases</h2>
+        <span class="biz-drill-count" id="biz-drill-count"></span>
+      </div>
+      <div class="biz-drill-filters">
+        <span class="drill-chip"><span class="drill-chip-lbl">SLA status:</span><b id="biz-drill-chip-val">Breached</b><button class="drill-chip-x" onclick="closeSlaDrill()" title="Clear filter">✕</button></span>
+        <span class="drill-chip drill-chip-static"><span class="drill-chip-lbl">Case type:</span>&nbsp;<b id="biz-drill-chip-scope">All case apps</b></span>
+      </div>
+      <table class="list-tbl tbl-static">
+        <thead><tr>
+          <th>Case ID</th><th>Case type</th><th>Last modified</th>
+          <th>Stage</th><th>Case SLA</th><th>SLA status</th><th>Case state</th>
+        </tr></thead>
+        <tbody id="biz-drill-rows"></tbody>
+      </table>
+    </div>
 
     <!-- ═ ROI VIEW ═ -->
     <div class="dash-page view-panel" id="biz-view-roi">
@@ -1151,6 +1192,75 @@ const OPEN_RATIO = 727/4903; // matches original mock ratio of open:total instan
 const SLA_BREACH_RATIO = 3/27;
 const SLA_ATRISK_RATIO = 5/27;
 const SLA_COMPLIANCE_BASE = 84.8;
+
+// ── SLA CASE ROWS (drill-down data) ──
+// The SLA cards used to be bare percentages of the open-case count with no rows
+// behind them, so "3 breached" could not be opened. We now generate the breached
+// and at-risk cases once, from those same ratios, and the cards count *these*
+// rows. Card number and drill-down row count therefore agree at every filter
+// scope. On-track cases are not materialised: nothing on this page drills into
+// them, and the compliance rate stays a derived percentage.
+const SLA_CASE_APP_META = {
+  'Mortgage Origination':   {prefix:'MTG', stages:['Document Collection','Credit Assessment','Underwriting Review','Valuation','Conditions Clearance','Closing & Funding']},
+  'Customer Onboarding':    {prefix:'COB', stages:['Identity Verification','KYC Review','Account Setup','Product Selection','Activation']},
+  'Warranty Claims Intake': {prefix:'WCI', stages:['Intake','Document Validation','Eligibility Check','Parts Approval','Resolution']},
+};
+
+// Fixed "today" for the mock data, in step with the dates used elsewhere in the
+// prototype, so the generated SLA dates do not drift as the real date moves.
+const SLA_NOW = new Date(2026, 6, 7);
+const SLA_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function slaDateAt(dayOffset) {
+  const d = new Date(SLA_NOW);
+  d.setDate(d.getDate() + dayOffset);
+  return `${SLA_MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+}
+
+// Seeded so the list is identical on every render and every page load.
+function slaRand(seed) {
+  let s = seed;
+  return () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
+}
+
+const SLA_CASES = (() => {
+  const out = [];
+  BIZ_ALL_DATA.filter(r => r.type === 'Case').forEach((row, appIdx) => {
+    const meta = SLA_CASE_APP_META[row.name];
+    if (!meta) return;
+    const rand = slaRand(97 + appIdx * 131);
+    const openN = Math.round(row.total * OPEN_RATIO);
+    let seq = 1000;
+    [['breached', Math.round(openN * SLA_BREACH_RATIO)],
+     ['at-risk',  Math.round(openN * SLA_ATRISK_RATIO)]].forEach(([status, count]) => {
+      for (let i = 0; i < count; i++) {
+        const breached = status === 'breached';
+        // Breached: deadline 1-9 days past. At risk: deadline within 3 days.
+        const slaOffset = breached ? -(1 + Math.floor(rand() * 9)) : Math.floor(rand() * 4);
+        const stage = meta.stages[Math.floor(rand() * meta.stages.length)];
+        const modified = slaDateAt(-Math.floor(rand() * 5));
+        const roll = rand();
+        out.push({
+          id: `${meta.prefix}-2026-${++seq}`,
+          app: row.name,
+          stage, modified, slaOffset,
+          sla: slaDateAt(slaOffset),
+          slaStatus: status,
+          state: breached ? (roll < 0.25 ? 'Faulted' : 'Open')
+                          : (roll < 0.15 ? 'Paused' : 'Open'),
+        });
+      }
+    });
+  });
+  return out;
+})();
+
+// The SLA cards only ever show for Case-type scopes, so anything non-Case in
+// `rows` simply contributes no cases.
+function slaCasesInScope(rows) {
+  const names = new Set(rows.filter(r => r.type === 'Case').map(r => r.name));
+  return SLA_CASES.filter(c => names.has(c.app));
+}
 
 const ROI_RANGE_CHARTS = {
   'Last month': {
@@ -1788,6 +1898,7 @@ function aggregateBiz(rows) {
   const totalSum = rows.reduce((s, r) => s + r.total, 0) * factor;
   const wavg = key => totalSum ? rows.reduce((s, r) => s + r[key] * r.total, 0) / (totalSum / factor) : 0;
   const openCount = Math.round(rows.reduce((s, r) => s + r.total, 0) * OPEN_RATIO);
+  const slaCases = slaCasesInScope(rows);
   return {
     total: Math.round(totalSum),
     totalDelta: wavg('totalDelta'),
@@ -1804,8 +1915,9 @@ function aggregateBiz(rows) {
     enterpriseValueDelta: wavg('enterpriseValueDelta'),
     fte: rows.reduce((s, r) => s + r.fte, 0),
     runs: rows.reduce((s, r) => s + r.runs, 0),
-    slaBreached: Math.round(openCount * SLA_BREACH_RATIO),
-    slaAtRisk: Math.round(openCount * SLA_ATRISK_RATIO),
+    // Counted from the generated case rows so each card matches its drill-down.
+    slaBreached: slaCases.filter(c => c.slaStatus === 'breached').length,
+    slaAtRisk: slaCases.filter(c => c.slaStatus === 'at-risk').length,
     slaCompliance: Math.min(99.5, SLA_COMPLIANCE_BASE + adj.compRate),
   };
 }
@@ -1841,10 +1953,70 @@ function updateBizHelperText() {
 }
 
 function switchBizViewTab(tab, el) {
+  slaDrillStatus = null;
   document.querySelectorAll('#pg-biz-agg .dash-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  document.getElementById('biz-view-cases').classList.remove('active');
   document.getElementById('biz-view-business').classList.toggle('active', tab === 'business');
   document.getElementById('biz-view-roi').classList.toggle('active', tab === 'roi');
+}
+
+// ── SLA CARD DRILL-DOWN ──
+// Which SLA status the case list is filtered to, or null when we are on the
+// dashboard itself.
+let slaDrillStatus = null;
+
+function openSlaDrill(status) {
+  slaDrillStatus = status;
+  // The Process Health / ROI tabs would read as a broken third state here, so
+  // hide them; the back button is the way out.
+  document.getElementById('biz-tabnav').style.display = 'none';
+  document.getElementById('biz-view-business').classList.remove('active');
+  document.getElementById('biz-view-roi').classList.remove('active');
+  document.getElementById('biz-view-cases').classList.add('active');
+  renderSlaDrill();
+}
+
+function closeSlaDrill() {
+  slaDrillStatus = null;
+  document.getElementById('biz-tabnav').style.display = '';
+  document.getElementById('biz-view-cases').classList.remove('active');
+  document.getElementById('biz-view-business').classList.add('active');
+  document.querySelectorAll('#pg-biz-agg .dash-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+}
+
+function renderSlaDrill() {
+  if (!slaDrillStatus) return;
+  const breached = slaDrillStatus === 'breached';
+  const label = breached ? 'Breached' : 'At risk';
+  const cases = slaCasesInScope(getBizFilteredRows())
+    .filter(c => c.slaStatus === slaDrillStatus)
+    .sort((a, b) => a.slaOffset - b.slaOffset); // most overdue / soonest due first
+
+  document.getElementById('biz-drill-title-txt').textContent =
+    breached ? 'SLA-breached cases' : 'Cases at risk of breaching SLA';
+  document.getElementById('biz-drill-count').textContent =
+    cases.length === 1 ? '1 case' : cases.length + ' cases';
+  document.getElementById('biz-drill-chip-val').textContent = label;
+  const nameRow = bizNameFilter ? BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter) : null;
+  document.getElementById('biz-drill-chip-scope').textContent = nameRow ? nameRow.name : 'All case apps';
+
+  const body = document.getElementById('biz-drill-rows');
+  if (!cases.length) {
+    body.innerHTML = '<tr><td colspan="7" class="biz-drill-empty">No cases match this filter.</td></tr>';
+    return;
+  }
+  const stateBadge = {Open:'bg', Faulted:'br', Paused:'bb'};
+  body.innerHTML = cases.map(c => `
+    <tr>
+      <td class="mono">${c.id}</td>
+      <td>${c.app}</td>
+      <td class="cell-muted">${c.modified}</td>
+      <td class="cell-muted">${c.stage}</td>
+      <td class="cell-muted">${c.sla}</td>
+      <td><span class="sla-badge ${breached ? 'sla-breach' : 'sla-risk'}"><span class="sla-dot" style="background:currentColor"></span>${label}</span></td>
+      <td><span class="badge ${stateBadge[c.state]}">${c.state}</span></td>
+    </tr>`).join('');
 }
 
 function renderBizKpis(agg) {
@@ -2082,6 +2254,9 @@ function refreshBizViews() {
   const showSla = bizTypeFilter === 'Case' || (nameRow && nameRow.type === 'Case');
   document.getElementById('biz-sla-section').style.display = showSla ? '' : 'none';
   if (showSla) renderBizSlaCards(agg);
+  // Keep an open drill-down in step with the filters, and drop out of it if the
+  // scope moves off Case types, where SLA no longer applies.
+  if (slaDrillStatus) { if (showSla) renderSlaDrill(); else closeSlaDrill(); }
   document.getElementById('biz-scope-label').innerHTML = scopeLabel() + ' · <span class="range-disp">' + currentRange + '</span>';
   document.getElementById('agg-chart1-title').textContent = 'Instances over time in ' + scopeText();
   document.getElementById('agg-chart2-title').textContent = 'Avg median cycle time in ' + scopeText();
