@@ -446,7 +446,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Open</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="biz-tt-open">Instances currently running within all processes, regardless of when they started.</span></span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="biz-tt-open">Instances currently open in Running, Paused, or Transitioning status, across all processes and regardless of start date.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-blue" id="biz-kpi-open">–</span></div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
@@ -454,7 +454,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Avg completion rate</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="biz-tt-comp">Weighted average completion rate across all processes. A sustained drop is an early warning sign.</span></span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt" id="biz-tt-comp">Percentage of instances that finished successfully during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val kpi-cv-green" id="biz-kpi-comp">–</span><span class="kpi-t" id="biz-kpi-comp-trend"></span></div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
@@ -462,7 +462,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Avg median cycle time</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="biz-tt-cycle">Weighted average of median cycle time across all processes.</span></span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="biz-tt-cycle">Typical time from start to finish for completed instances in the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="biz-kpi-cycle">–</span><span class="kpi-t" id="biz-kpi-cycle-trend"></span></div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
@@ -470,7 +470,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="kpi-card">
           <div class="kpi-card-hd">
             <span class="kpi-card-name">Avg exception rate</span>
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="biz-tt-exc">Weighted average percentage of instances that needed human intervention within all processes.</span></span>
+            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r" id="biz-tt-exc">Percentage of instances that faulted and needed human intervention during the selected period.</span></span>
           </div>
           <div class="kpi-card-val-row"><span class="kpi-card-val" id="biz-kpi-exc">–</span><span class="kpi-t" id="biz-kpi-exc-trend"></span></div>
           <div class="kpi-card-ft"><div class="bell-wrap"><button class="bell"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div></div>
@@ -513,7 +513,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="card">
           <div class="card-hd"><span class="card-title" id="agg-chart1-title">Instances over time in all processes</span>
             <div class="card-hd-actions">
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="agg-chart1-help">Total instances started within all processes during the selected period.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="agg-chart1-help">Count of instances that finished (completed, faulted, or cancelled), grouped by start date.</span></span>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
           </div>
@@ -522,7 +522,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="card">
           <div class="card-hd"><span class="card-title" id="agg-chart2-title">Avg median cycle time in all processes</span>
             <div class="card-hd-actions">
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="agg-chart2-help">Weighted average of median cycle time within all processes.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="agg-chart2-help">Average duration of instances completed, grouped by completion date.</span></span>
               <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
             </div>
           </div>
@@ -557,14 +557,14 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <div class="row2">
           <div class="card">
             <div class="card-hd"><span class="card-title">Stuck instances (tenant-wide)</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">The instances taking noticeably longer than usual anywhere in the tenant, regardless of which process they belong to.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 instances taking noticeably longer than usual anywhere in the tenant, regardless of process, not limited by the date range.</span></span>
             </div>
             <table class="tbl"><thead><tr><th>Instance ID<span class="si">⇅</span></th><th>Process<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-instances-rows"></tbody></table>
           </div>
           <div class="card">
             <div class="card-hd"><span class="card-title">Processes with the most stuck instances</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Which processes have the highest concentration of stuck instances right now.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 processes that have the highest concentration of stuck instances right now.</span></span>
             </div>
             <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Stuck instances<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-by-process-rows"></tbody></table>
@@ -574,11 +574,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
       <!-- Process breakdown table -->
       <div class="card" id="biz-table-card">
-        <div class="card-hd"><span class="card-title">Performance by process</span>
-          <div class="card-hd-actions">
-            <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Key business metrics for each process, case app, and flow. Click any row to filter this view by that item.</span></span>
-          </div>
-        </div>
+        <div class="card-hd"><span class="card-title">Performance by process</span></div>
         <table class="biz-proc-tbl">
           <thead><tr>
             <th data-sort-col="name" onclick="sortBizProcTable('name')">Name<span class="si">⇅</span></th>
@@ -1838,13 +1834,10 @@ function updateBizHelperText() {
   const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
   set('biz-tt-total',     `Total instances started across ${scope} during the selected period.`);
   set('biz-tt-completed', `Total instances successfully completed across ${scope} during the selected period.`);
-  set('biz-tt-open',      `Instances currently running within ${scope}, regardless of when they started.`);
-  set('biz-tt-comp',      `Weighted average completion rate across ${scope}. A sustained drop is an early warning sign.`);
-  set('biz-tt-cycle',     `Weighted average of median cycle time across ${scope}.`);
-  set('biz-tt-exc',       `Weighted average percentage of instances that needed human intervention within ${scope}.`);
-  set('agg-chart1-help',  `Total instances started within ${scope} during the selected period.`);
-  set('agg-chart2-help',  `Weighted average of median cycle time within ${scope}.`);
+  set('biz-tt-open',      `Instances currently open in Running, Paused, or Transitioning status, across ${scope} and regardless of start date.`);
   set('roi-chart-help',   `Estimated and realized automation value across ${scope} and the selected period.`);
+  // biz-tt-comp / -cycle / -exc and agg-chart1-help / agg-chart2-help use the fixed
+  // helper text from the spec (Table 1), so they stay as authored in the markup.
 }
 
 function switchBizViewTab(tab, el) {
