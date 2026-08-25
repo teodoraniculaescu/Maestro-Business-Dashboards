@@ -621,7 +621,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <span class="biz-drill-count" id="biz-drill-count"></span>
       </div>
       <div class="biz-drill-filters">
-        <span class="drill-chip"><span class="drill-chip-lbl">SLA status:</span><b id="biz-drill-chip-val">Breached</b><button class="drill-chip-x" onclick="closeSlaDrill()" title="Clear filter">✕</button></span>
+        <span class="drill-chip"><span class="drill-chip-lbl">SLA status:</span><b id="biz-drill-chip-val">Overdue</b><button class="drill-chip-x" onclick="closeSlaDrill()" title="Clear filter">✕</button></span>
         <span class="drill-chip drill-chip-static"><span class="drill-chip-lbl">Case type:</span>&nbsp;<b id="biz-drill-chip-scope">All case apps</b></span>
       </div>
       <table class="list-tbl tbl-static">
@@ -1759,7 +1759,7 @@ const CA_CASES = [
 
 function renderCaCases() {
   const slaMap = {'on-track':'sla-on','at-risk':'sla-risk','breached':'sla-breach'};
-  const slaLabel = {'on-track':'On track','at-risk':'At risk','breached':'Breached'};
+  const slaLabel = {'on-track':'On track','at-risk':'At risk','breached':'Overdue'};
   document.getElementById('ca-cases-body').innerHTML = CA_CASES.map(c => `
     <tr>
       <td class="mono">${c.id}</td>
@@ -1988,7 +1988,7 @@ function closeSlaDrill() {
 function renderSlaDrill() {
   if (!slaDrillStatus) return;
   const breached = slaDrillStatus === 'breached';
-  const label = breached ? 'Breached' : 'At risk';
+  const label = breached ? 'Overdue' : 'At risk';
   const cases = slaCasesInScope(getBizFilteredRows())
     .filter(c => c.slaStatus === slaDrillStatus)
     .sort((a, b) => a.slaOffset - b.slaOffset); // most overdue / soonest due first
