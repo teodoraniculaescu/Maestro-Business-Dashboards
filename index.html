@@ -1350,6 +1350,14 @@ const OPEN_STEPS = {
   ontrack: ['Data Validation','Record Update','Notification Dispatch','Routing'],
 };
 
+// Stand-in assignees for the work queue. Only the "needs a person" segment is
+// waiting on a named someone; the others wait on an event, a system, or nothing.
+const OPEN_ASSIGNEES = [
+  'Amara Osei','Ben Halvorsen','Chen Wei','Diego Ramos','Elena Petrova','Farid Haddad',
+  'Grace Mbeki','Hannah Lindqvist','Ivan Kovac','Julia Moreau','Kenji Watanabe',
+  'Lucia Ferrari','Marcus Adeyemi','Nadia Rahman','Omar Farouk','Priya Nair',
+];
+
 // Flows are integration plumbing — business step names like "Underwriting
 // Review" read as wrong against a process called "Invoice Data Extraction".
 const OPEN_STEPS_FLOW = {
@@ -2157,7 +2165,9 @@ function buildOpenInstances(rows, key, count) {
         process: r.name,
         type: r.type,
         step: steps[Math.floor(rand() * steps.length)],
-        waitingOn: seg.waitingOn,
+        waitingOn: key === 'person'
+          ? OPEN_ASSIGNEES[Math.floor(rand() * OPEN_ASSIGNEES.length)]
+          : seg.waitingOn,
         hours,
       });
     }
@@ -2174,7 +2184,9 @@ function renderOpenInstances() {
   const list = buildOpenInstances(rows, openDrillKey, seg.count).sort((a, b) => b.hours - a.hours);
   const shown = list.slice(0, OPEN_DRILL_CAP);
 
-  document.getElementById('biz-open-inst-title').textContent = seg.label;
+  // The person segment is a queue of work assigned to people, not a status list.
+  document.getElementById('biz-open-inst-title').textContent =
+    openDrillKey === 'person' ? 'Work queue' : seg.label;
   document.getElementById('biz-open-inst-count').textContent =
     list.length === 1 ? '1 instance' : list.length.toLocaleString() + ' instances';
 
