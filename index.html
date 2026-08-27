@@ -250,6 +250,9 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .kpi-card-click .kpi-drill-cue{font-size:12px;font-weight:500;color:var(--tab-blue);margin-left:auto;}
 /* margin-right:auto keeps the count next to the title; .card-hd is space-between. */
 .biz-drill-count{font-size:12px;color:var(--muted);margin-left:8px;margin-right:auto;}
+/* Bare .card has no margin (the 16px rhythm comes from .row2 / .kpi-grid
+   wrappers), so these two stacked cards would otherwise butt together. */
+#biz-table-card{margin-bottom:16px;}
 .sla-seg{font-size:12px;font-weight:500;font-family:var(--font);color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:4px;padding:4px 11px;cursor:pointer;margin-left:6px;}
 .sla-seg:hover{color:var(--text);border-color:#C7CEDB;}
 .sla-seg.active{background:#EFF6FF;border-color:var(--tab-blue);color:var(--tab-blue);}
