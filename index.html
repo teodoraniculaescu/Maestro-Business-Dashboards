@@ -275,8 +275,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 /* Only "needs a person" gets the attention colour; the rest stay quiet so a
    healthy process does not read as an emergency. */
 .seg-person{background:#F97316;}
-.seg-event{background:#94A3B8;}
-.seg-system{background:#64748B;}
+.seg-external{background:#94A3B8;}
 .seg-ontrack{background:#DCE3EF;}
 .open-legend{font-size:11px;color:var(--muted);line-height:1.5;margin-top:13px;}
 .open-legend b{color:#C2410C;font-weight:600;}
@@ -1334,26 +1333,30 @@ function slaCasesInScope(rows) {
 // instance needs a person, the instance counts as needing a person. Actionability
 // beats precision, and it is what makes the tile trustworthy — if it says 3,
 // there are 3 to look at.
+// A system task in flight — an API, robot or agent step running normally — is
+// the automation doing its job without anyone, so it counts as progressing
+// rather than as waiting. Only work blocked on something outside the process
+// counts as waiting on external input.
 const OPEN_SEGMENTS = [
-  {key:'person',  cls:'seg-person',  label:'Needs a person',               waitingOn:'A person'},
-  {key:'event',   cls:'seg-event',   label:'Waiting on an external event', waitingOn:'External event'},
-  {key:'system',  cls:'seg-system',  label:'Waiting on a system',          waitingOn:'A system'},
-  {key:'ontrack', cls:'seg-ontrack', label:'On track',                     waitingOn:'Progressing'},
+  {key:'person',   cls:'seg-person',   label:'Needs a person',            waitingOn:'A person'},
+  {key:'external', cls:'seg-external', label:'Waiting on external input', waitingOn:'External input'},
+  {key:'ontrack',  cls:'seg-ontrack',  label:'Progressing on their own',  waitingOn:'Progressing'},
 ];
 
 // Share of open instances in each state, by process type: case work leans human,
 // flows are almost entirely automated.
 const OPEN_MIX = {
-  BPMN: {person:0.09, event:0.11, system:0.14, ontrack:0.66},
-  Case: {person:0.23, event:0.17, system:0.09, ontrack:0.51},
-  Flow: {person:0.02, event:0.05, system:0.13, ontrack:0.80},
+  BPMN: {person:0.09, external:0.11, ontrack:0.80},
+  Case: {person:0.23, external:0.17, ontrack:0.60},
+  Flow: {person:0.02, external:0.05, ontrack:0.93},
 };
 
 const OPEN_STEPS = {
-  person:  ['Manager Approval','Underwriting Review','Exception Handling','Document Review','Credit Decision'],
-  event:   ['Awaiting Customer Response','Awaiting Payment Confirmation','Scheduled Follow-up','Awaiting Third-party Data'],
-  system:  ['Credit Bureau Call','Document Extraction','ERP Sync','Fraud Screening Service'],
-  ontrack: ['Data Validation','Record Update','Notification Dispatch','Routing'],
+  person:   ['Manager Approval','Underwriting Review','Exception Handling','Document Review','Credit Decision'],
+  external: ['Awaiting Customer Response','Awaiting Payment Confirmation','Scheduled Follow-up','Awaiting Third-party Data'],
+  // Includes system steps in flight — those are progressing, not waiting.
+  ontrack:  ['Data Validation','Record Update','Notification Dispatch','Routing',
+             'Credit Bureau Call','Document Extraction','ERP Sync','Fraud Screening Service'],
 };
 
 // Stand-in assignees for the work queue. Only the "needs a person" segment is
@@ -1367,10 +1370,10 @@ const OPEN_ASSIGNEES = [
 // Flows are integration plumbing — business step names like "Underwriting
 // Review" read as wrong against a process called "Invoice Data Extraction".
 const OPEN_STEPS_FLOW = {
-  person:  ['Manual Review','Exception Handling','Approval Gate'],
-  event:   ['Awaiting Source File','Scheduled Window','Awaiting Third-party Data'],
-  system:  ['Endpoint Retry','Document Extraction','ERP Sync','Rate-limited Call'],
-  ontrack: ['Data Validation','Record Update','Payload Mapping','Routing'],
+  person:   ['Manual Review','Exception Handling','Approval Gate'],
+  external: ['Awaiting Source File','Scheduled Window','Awaiting Third-party Data'],
+  ontrack:  ['Data Validation','Record Update','Payload Mapping','Routing',
+             'Endpoint Retry','Document Extraction','ERP Sync'],
 };
 
 // Largest-remainder split, so the segments always add up to the headline number
@@ -1408,11 +1411,13 @@ function renderOpenCard(rows, openTotal) {
     `<span class="open-seg ${s.cls}" data-seg="${s.key}" style="flex:${s.count} 1 0"
        onclick="openSegDrill('${s.key}')"></span>`).join('');
 
-  const person = segs.find(s => s.key === 'person').count;
-  const rest = openTotal - person;
+  const n = k => segs.find(s => s.key === k).count;
+  const person = n('person');
   legend.innerHTML =
     `<span class="ol-link" onclick="openSegDrill('person')"><b>${person.toLocaleString()}</b> ` +
-    `need${person === 1 ? 's' : ''} a person</span> · ${rest.toLocaleString()} progressing on their own`;
+    `need${person === 1 ? 's' : ''} a person</span> · ` +
+    `<span class="ol-link" onclick="openSegDrill('external')">${n('external').toLocaleString()} waiting on external input</span> · ` +
+    `<span class="ol-link" onclick="openSegDrill('ontrack')">${n('ontrack').toLocaleString()} progressing on their own</span>`;
 
   // One shared tooltip repositioned per segment: the bar is only 7px tall, so
   // per-segment tooltip elements would fight the rounded clipping.
@@ -2158,7 +2163,7 @@ function buildOpenInstances(rows, key, count) {
   const seg = OPEN_SEGMENTS.find(s => s.key === key);
   const weights = rows.map(r => (OPEN_MIX[r.type] || OPEN_MIX.BPMN)[key] * r.total);
   const per = allocateWhole(count, weights);
-  const span = {person:[4, 72], event:[6, 120], system:[0.5, 12], ontrack:[0.2, 8]}[key];
+  const span = {person:[4, 72], external:[6, 120], ontrack:[0.2, 10]}[key];
   const out = [];
   rows.forEach((r, ri) => {
     if (!per[ri]) return;
