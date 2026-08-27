@@ -248,19 +248,16 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 .kpi-card-click:hover{border-color:var(--tab-blue);box-shadow:0 2px 10px rgba(29,78,216,.14);}
 .kpi-card-click:hover .kpi-card-val{text-decoration:underline;text-underline-offset:3px;}
 .kpi-card-click .kpi-drill-cue{font-size:12px;font-weight:500;color:var(--tab-blue);margin-left:auto;}
-.biz-drill-back{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--tab-blue);background:none;border:none;padding:0;cursor:pointer;font-family:var(--font);margin-bottom:14px;}
-.biz-drill-back:hover{text-decoration:underline;}
-.biz-drill-title{display:flex;align-items:baseline;gap:9px;margin-bottom:12px;}
-.biz-drill-title h2{font-size:16px;font-weight:600;color:var(--text);margin:0;}
-.biz-drill-count{font-size:13px;color:var(--muted);}
-.biz-drill-filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.drill-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text);background:#EFF6FF;border:1px solid #BFDBFE;border-radius:14px;padding:4px 6px 4px 11px;}
-.drill-chip .drill-chip-lbl{color:var(--muted);}
-.drill-chip-x{background:none;border:none;color:var(--muted);cursor:pointer;font-family:var(--font);font-size:12px;line-height:1;padding:2px 4px;border-radius:50%;}
-.drill-chip-x:hover{background:#DBEAFE;color:var(--text);}
-.drill-chip-static{background:#fff;border-color:var(--border);padding:4px 11px;}
+/* margin-right:auto keeps the count next to the title; .card-hd is space-between. */
+.biz-drill-count{font-size:12px;color:var(--muted);margin-left:8px;margin-right:auto;}
+.sla-seg{font-size:12px;font-weight:500;font-family:var(--font);color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:4px;padding:4px 11px;cursor:pointer;margin-left:6px;}
+.sla-seg:hover{color:var(--text);border-color:#C7CEDB;}
+.sla-seg.active{background:#EFF6FF;border-color:var(--tab-blue);color:var(--tab-blue);}
 .tbl-static tbody tr{cursor:default;}
 .biz-drill-empty{padding:26px 14px;text-align:center;font-size:13px;color:var(--muted);}
+/* Brief flash so the jump to the table is legible when a card scrolls here. */
+@keyframes slaFlash{0%{box-shadow:0 0 0 3px rgba(29,78,216,.35);}100%{box-shadow:0 0 0 3px rgba(29,78,216,0);}}
+.sla-flash{animation:slaFlash 1.1s ease-out;}
 
 /* ── ROI VIEW ── */
 .roi-chip{font-size:11px;font-weight:500;padding:3px 9px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-family:var(--font);}
@@ -609,29 +606,29 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </table>
       </div>
 
-    </div><!-- /biz-view-business -->
+      <!-- SLA case list (shown alongside the SLA overview, i.e. Case scopes only).
+           The SLA cards scroll here and set the status filter, rather than
+           navigating away. Column set matches the Maestro Case app list. -->
+      <div class="card" id="biz-sla-cases-card" style="display:none;">
+        <div class="card-hd">
+          <span class="card-title">SLA cases</span>
+          <span class="biz-drill-count" id="biz-sla-cases-count"></span>
+          <div class="card-hd-actions">
+            <button class="sla-seg" id="sla-seg-all" onclick="setSlaCaseFilter('all')">All</button>
+            <button class="sla-seg" id="sla-seg-breached" onclick="setSlaCaseFilter('breached')">Overdue</button>
+            <button class="sla-seg" id="sla-seg-at-risk" onclick="setSlaCaseFilter('at-risk')">At risk</button>
+          </div>
+        </div>
+        <table class="list-tbl tbl-static">
+          <thead><tr>
+            <th>Case ID</th><th>Case type</th><th>Last modified</th>
+            <th>Stage</th><th>Case SLA</th><th>SLA status</th><th>Case state</th>
+          </tr></thead>
+          <tbody id="biz-sla-cases-rows"></tbody>
+        </table>
+      </div>
 
-    <!-- ═ SLA CASE DRILL-DOWN ═ -->
-    <!-- Reached by selecting the SLA-breached / SLA at risk cards. Mirrors the
-         Maestro Case app list: same columns, SLA status as a removable filter. -->
-    <div class="dash-page view-panel" id="biz-view-cases">
-      <button class="biz-drill-back" onclick="closeSlaDrill()">← Back to Process Health</button>
-      <div class="biz-drill-title">
-        <h2 id="biz-drill-title-txt">SLA-breached cases</h2>
-        <span class="biz-drill-count" id="biz-drill-count"></span>
-      </div>
-      <div class="biz-drill-filters">
-        <span class="drill-chip"><span class="drill-chip-lbl">SLA status:</span><b id="biz-drill-chip-val">Overdue</b><button class="drill-chip-x" onclick="closeSlaDrill()" title="Clear filter">✕</button></span>
-        <span class="drill-chip drill-chip-static"><span class="drill-chip-lbl">Case type:</span>&nbsp;<b id="biz-drill-chip-scope">All case apps</b></span>
-      </div>
-      <table class="list-tbl tbl-static">
-        <thead><tr>
-          <th>Case ID</th><th>Case type</th><th>Last modified</th>
-          <th>Stage</th><th>Case SLA</th><th>SLA status</th><th>Case state</th>
-        </tr></thead>
-        <tbody id="biz-drill-rows"></tbody>
-      </table>
-    </div>
+    </div><!-- /biz-view-business -->
 
     <!-- ═ ROI VIEW ═ -->
     <div class="dash-page view-panel" id="biz-view-roi">
@@ -1953,60 +1950,76 @@ function updateBizHelperText() {
 }
 
 function switchBizViewTab(tab, el) {
-  slaDrillStatus = null;
   document.querySelectorAll('#pg-biz-agg .dash-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('biz-view-cases').classList.remove('active');
   document.getElementById('biz-view-business').classList.toggle('active', tab === 'business');
   document.getElementById('biz-view-roi').classList.toggle('active', tab === 'roi');
 }
 
-// ── SLA CARD DRILL-DOWN ──
-// Which SLA status the case list is filtered to, or null when we are on the
-// dashboard itself.
-let slaDrillStatus = null;
+// ── SLA CASE LIST ──
+// Which SLA status the list at the bottom of the page is filtered to:
+// 'all' | 'breached' | 'at-risk'.
+let slaCaseFilter = 'all';
 
-function openSlaDrill(status) {
-  slaDrillStatus = status;
-  // The Process Health / ROI tabs would read as a broken third state here, so
-  // hide them; the back button is the way out.
-  document.getElementById('biz-tabnav').style.display = 'none';
-  document.getElementById('biz-view-business').classList.remove('active');
-  document.getElementById('biz-view-roi').classList.remove('active');
-  document.getElementById('biz-view-cases').classList.add('active');
-  renderSlaDrill();
+// Called by the SLA overview cards. Filters the list and scrolls to it rather
+// than navigating away, so the cards keep their dashboard context.
+function openSlaDrill(status) { setSlaCaseFilter(status, true); }
+
+// Nearest ancestor that actually scrolls, or null if none does.
+function scrollParentOf(el) {
+  let p = el.parentElement;
+  while (p && !(p.scrollHeight > p.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(p).overflowY))) p = p.parentElement;
+  return p;
 }
 
-function closeSlaDrill() {
-  slaDrillStatus = null;
-  document.getElementById('biz-tabnav').style.display = '';
-  document.getElementById('biz-view-cases').classList.remove('active');
-  document.getElementById('biz-view-business').classList.add('active');
-  document.querySelectorAll('#pg-biz-agg .dash-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+function setSlaCaseFilter(status, scroll) {
+  slaCaseFilter = status;
+  renderSlaCases();
+  if (!scroll) return;
+  const card = document.getElementById('biz-sla-cases-card');
+  // The page scrolls inside .main, not the document. Two things follow:
+  // `behavior: 'smooth'` on that nested container silently does nothing, and
+  // scrollIntoView('start') leaves the card's own header tucked under the app
+  // bar. So position the container directly, with a margin above the card.
+  const sc = scrollParentOf(card);
+  if (sc) {
+    // The sticky topbar sits inside the scroller and would cover the card's
+    // own header, so clear its height plus a little breathing room.
+    const bar = sc.querySelector('.topbar');
+    const offset = (bar ? bar.getBoundingClientRect().height : 0) + 12;
+    const top = sc.scrollTop + card.getBoundingClientRect().top - sc.getBoundingClientRect().top - offset;
+    sc.scrollTop = Math.max(0, top);
+  } else {
+    card.scrollIntoView({block: 'start'});
+  }
+  card.classList.remove('sla-flash');
+  void card.offsetWidth; // restart the animation if the same card is clicked twice
+  card.classList.add('sla-flash');
 }
 
-function renderSlaDrill() {
-  if (!slaDrillStatus) return;
-  const breached = slaDrillStatus === 'breached';
-  const label = breached ? 'Overdue' : 'At risk';
+function renderSlaCases() {
+  const card = document.getElementById('biz-sla-cases-card');
+  if (!card || card.style.display === 'none') return;
+
+  ['all','breached','at-risk'].forEach(s =>
+    document.getElementById('sla-seg-' + s).classList.toggle('active', s === slaCaseFilter));
+
   const cases = slaCasesInScope(getBizFilteredRows())
-    .filter(c => c.slaStatus === slaDrillStatus)
-    .sort((a, b) => a.slaOffset - b.slaOffset); // most overdue / soonest due first
+    .filter(c => slaCaseFilter === 'all' || c.slaStatus === slaCaseFilter)
+    // Overdue ahead of at-risk, then most overdue / soonest due first.
+    .sort((a, b) => a.slaOffset - b.slaOffset);
 
-  document.getElementById('biz-drill-title-txt').textContent =
-    breached ? 'SLA-breached cases' : 'Cases at risk of breaching SLA';
-  document.getElementById('biz-drill-count').textContent =
+  document.getElementById('biz-sla-cases-count').textContent =
     cases.length === 1 ? '1 case' : cases.length + ' cases';
-  document.getElementById('biz-drill-chip-val').textContent = label;
-  const nameRow = bizNameFilter ? BIZ_ALL_DATA.find(r => bizKey(r) === bizNameFilter) : null;
-  document.getElementById('biz-drill-chip-scope').textContent = nameRow ? nameRow.name : 'All case apps';
 
-  const body = document.getElementById('biz-drill-rows');
+  const body = document.getElementById('biz-sla-cases-rows');
   if (!cases.length) {
     body.innerHTML = '<tr><td colspan="7" class="biz-drill-empty">No cases match this filter.</td></tr>';
     return;
   }
   const stateBadge = {Open:'bg', Faulted:'br', Paused:'bb'};
+  const slaCls = {breached:'sla-breach', 'at-risk':'sla-risk'};
+  const slaLbl = {breached:'Overdue', 'at-risk':'At risk'};
   body.innerHTML = cases.map(c => `
     <tr>
       <td class="mono">${c.id}</td>
@@ -2014,7 +2027,7 @@ function renderSlaDrill() {
       <td class="cell-muted">${c.modified}</td>
       <td class="cell-muted">${c.stage}</td>
       <td class="cell-muted">${c.sla}</td>
-      <td><span class="sla-badge ${breached ? 'sla-breach' : 'sla-risk'}"><span class="sla-dot" style="background:currentColor"></span>${label}</span></td>
+      <td><span class="sla-badge ${slaCls[c.slaStatus]}"><span class="sla-dot" style="background:currentColor"></span>${slaLbl[c.slaStatus]}</span></td>
       <td><span class="badge ${stateBadge[c.state]}">${c.state}</span></td>
     </tr>`).join('');
 }
@@ -2254,9 +2267,9 @@ function refreshBizViews() {
   const showSla = bizTypeFilter === 'Case' || (nameRow && nameRow.type === 'Case');
   document.getElementById('biz-sla-section').style.display = showSla ? '' : 'none';
   if (showSla) renderBizSlaCards(agg);
-  // Keep an open drill-down in step with the filters, and drop out of it if the
-  // scope moves off Case types, where SLA no longer applies.
-  if (slaDrillStatus) { if (showSla) renderSlaDrill(); else closeSlaDrill(); }
+  // The SLA case list rides with the SLA cards: same Case-only scopes.
+  document.getElementById('biz-sla-cases-card').style.display = showSla ? '' : 'none';
+  if (showSla) renderSlaCases();
   document.getElementById('biz-scope-label').innerHTML = scopeLabel() + ' · <span class="range-disp">' + currentRange + '</span>';
   document.getElementById('agg-chart1-title').textContent = 'Instances over time in ' + scopeText();
   document.getElementById('agg-chart2-title').textContent = 'Avg median cycle time in ' + scopeText();
