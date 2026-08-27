@@ -660,7 +660,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         <table class="list-tbl tbl-static">
           <thead><tr>
             <th>Instance ID</th><th>Process</th><th>Type</th>
-            <th>Current step</th><th>Waiting on</th><th>Waiting for</th>
+            <th>Current step</th><th id="biz-open-th-on">Waiting on</th><th id="biz-open-th-for">Waiting for</th>
           </tr></thead>
           <tbody id="biz-open-inst-rows"></tbody>
         </table>
@@ -2198,6 +2198,12 @@ function renderOpenInstances() {
   // The person segment is a queue of work assigned to people, not a status list.
   document.getElementById('biz-open-inst-title').textContent =
     openDrillKey === 'person' ? 'Work queue' : seg.label;
+
+  // Progressing instances are not waiting on anything — the duration is how long
+  // they have been in their current step, which is a different claim.
+  const progressing = openDrillKey === 'ontrack';
+  document.getElementById('biz-open-th-on').textContent = progressing ? 'Status' : 'Waiting on';
+  document.getElementById('biz-open-th-for').textContent = progressing ? 'In step for' : 'Waiting for';
   document.getElementById('biz-open-inst-count').textContent =
     list.length === 1 ? '1 instance' : list.length.toLocaleString() + ' instances';
 
