@@ -586,12 +586,12 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
       </div>
 
-      <!-- Process-level: stuck instances / bottleneck steps for the selected item (Table 2) -->
+      <!-- Process-level: duration outliers / bottleneck steps for the selected item (Table 2) -->
       <div class="row2" id="biz-single-widgets" style="display:none;">
         <div class="card">
-          <div class="card-hd"><span class="card-title" id="biz-single-stuck-title">Stuck process instances</span>
+          <div class="card-hd"><span class="card-title" id="biz-single-stuck-title">Duration outliers</span>
             <div class="card-hd-actions">
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="biz-single-stuck-help">Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</span></span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b" id="biz-single-stuck-help">Instances whose active duration at their current step deviates noticeably from that step’s average. These are the best ones to check on first.</span></span>
             </div>
           </div>
           <table class="tbl"><thead><tr><th id="biz-single-stuck-hdr">Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
@@ -608,21 +608,21 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
         </div>
       </div>
 
-      <!-- Tenant-wide: is anything stuck / where should leaders intervene (Table 1) -->
+      <!-- Tenant-wide: what is running long / where should leaders intervene (Table 1) -->
       <div id="biz-tenant-widgets">
         <div class="row2">
           <div class="card">
-            <div class="card-hd"><span class="card-title">Stuck instances (tenant-wide)</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 instances taking noticeably longer than usual anywhere in the tenant, regardless of process, not limited by the date range.</span></span>
+            <div class="card-hd"><span class="card-title">Duration outliers (tenant-wide)</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 instances with the largest deviation from their step’s average duration anywhere in the tenant, regardless of process, not limited by the date range.</span></span>
             </div>
             <table class="tbl"><thead><tr><th>Instance ID<span class="si">⇅</span></th><th>Process<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-instances-rows"></tbody></table>
           </div>
           <div class="card">
-            <div class="card-hd"><span class="card-title">Processes with the most stuck instances</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 processes that have the highest concentration of stuck instances right now.</span></span>
+            <div class="card-hd"><span class="card-title">Processes with the most duration outliers</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 processes that have the highest concentration of duration outliers right now.</span></span>
             </div>
-            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Stuck instances<span class="si">⇅</span></th></tr></thead>
+            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Duration outliers<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-by-process-rows"></tbody></table>
           </div>
         </div>
@@ -926,12 +926,12 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
           </div>
           <div class="row2t">
             <div class="card">
-              <div class="card-hd"><span class="card-title">Cases stuck in stage</span>
+              <div class="card-hd"><span class="card-title">Cases with duration outliers by stage</span>
                 <div class="card-hd-actions">
                   <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                   <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
                 </div>
-              <div class="help-bar">Cases that are taking noticeably longer than usual in their current stage, compared to how long that stage normally takes. These are the best ones to check on first.</div>
+              <div class="help-bar">Cases whose active duration in their current stage deviates noticeably from that stage’s average. These are the best ones to check on first.</div>
               </div>
               <table class="tbl"><thead><tr><th>Case ID<span class="si">⇅</span></th><th>Current stage<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
               <tbody>
@@ -1158,12 +1158,12 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
 
         <div class="row2t">
           <div class="card">
-            <div class="card-hd"><span class="card-title" id="det-tbl1-title">Stuck process instances</span>
+            <div class="card-hd"><span class="card-title" id="det-tbl1-title">Duration outliers</span>
               <div class="card-hd-actions">
                 <button class="info-btn"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M6.5 5.8v3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="6.5" cy="4.2" r="0.7" fill="currentColor"/></svg></button>
                 <div class="bell-wrap"><button class="bell"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4v3l-1 1v1h10v-1l-1-1V6a4 4 0 00-4-4zm0 11a1.5 1.5 0 003 0H5a1.5 1.5 0 003 0z" stroke="currentColor" stroke-width="1.2"/></svg></button><span class="bell-tip">Create alert</span></div>
               </div>
-            <div class="help-bar" id="det-tbl1-help">Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.</div>
+            <div class="help-bar" id="det-tbl1-help">Instances whose active duration at their current step deviates noticeably from that step’s average. These are the best ones to check on first.</div>
             </div>
             <table class="tbl"><thead><tr><th id="det-tbl1-hdr">Instance ID<span class="si">⇅</span></th><th>Current step<span class="si">⇅</span></th><th>Active duration<span class="si">⇅</span></th></tr></thead>
             <tbody>
@@ -1228,7 +1228,7 @@ const CHIP = {BPMN:'chip-bpmn',Flow:'chip-flow',Case:'chip-case',CaseApp:'chip-c
 
 // Unified rollup across Processes (BPMN), Case apps, and Flows.
 // compRateDelta/cycleTimeDelta/excRateDelta/totalDelta/enterpriseValueDelta are change vs. previous period.
-// stuckCount is a point-in-time snapshot of currently-stuck instances for that item.
+// stuckCount is a point-in-time snapshot of current duration outliers for that item.
 const BIZ_ALL_DATA = [
   {name:'Claim Processing',              type:'BPMN', area:'Finance & Accounting', total:1003, totalDelta:4.2, compRate:84.2, compRateDelta:1.4,  cycleTime:3.8, cycleTimeDelta:-0.4, excRate:14.2, excRateDelta:-0.5, timeSaved:920,  enterpriseValue:41200, enterpriseValueDelta:9.5,  fte:1.4, runs:1003, roiConfigured:true,  stuckCount:14},
   {name:'Employee Onboarding',           type:'BPMN', area:'HR',                  total:593,  totalDelta:2.1, compRate:82.5, compRateDelta:0.9,  cycleTime:5.2, cycleTimeDelta:-0.2, excRate:11.2, excRateDelta:-0.3, timeSaved:410,  enterpriseValue:22800, enterpriseValueDelta:6.2,  fte:0.9, runs:593,  roiConfigured:true,  stuckCount:6},
@@ -1816,8 +1816,8 @@ const DET_TEXTS = {
     kpi1Tip:     'How many new instances of this process started during the selected period.',
     chart1Title: 'Process instances over time',
     chart1Help:  'How many new instances of this process started during the selected period.',
-    tbl1Title:   'Stuck process instances',
-    tbl1Help:    'Instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.',
+    tbl1Title:   'Duration outliers',
+    tbl1Help:    'Instances whose active duration at their current step deviates noticeably from that step’s average. These are the best ones to check on first.',
     tbl1Hdr:     'Instance ID',
   },
   case: {
@@ -1825,8 +1825,8 @@ const DET_TEXTS = {
     kpi1Tip:     'How many new case instances started during the selected period.',
     chart1Title: 'Case instances over time',
     chart1Help:  'How many new case instances started during the selected period.',
-    tbl1Title:   'Stuck case instances',
-    tbl1Help:    'Case instances that are taking noticeably longer than usual at their current step, compared to how long that step normally takes. These are the best ones to check on first.',
+    tbl1Title:   'Case duration outliers',
+    tbl1Help:    'Case instances whose active duration in their current stage deviates noticeably from that stage’s average. These are the best ones to check on first.',
     tbl1Hdr:     'Case ID',
   },
 };
@@ -2327,7 +2327,7 @@ function renderBizSlaCards(agg) {
   document.getElementById('biz-kpi-sla-atrisk').textContent = agg.slaAtRisk.toLocaleString();
 }
 
-// Illustrative tenant-wide stuck instances, shown filtered to whichever
+// Illustrative tenant-wide duration outliers, shown filtered to whichever
 // processes are currently in scope (Type filter).
 const TENANT_STUCK_INSTANCES = [
   { idn: 'INS-2024-1932',  process: 'Invoice Approval Process',      step: 'Manager Approval',      duration: '21.4 days' },
@@ -2344,7 +2344,7 @@ function renderTenantWidgets(rows) {
   const stuckRows = TENANT_STUCK_INSTANCES.filter(s => inScope.has(s.process)).slice(0, 5);
   document.getElementById('tenant-stuck-instances-rows').innerHTML = stuckRows.map(s => `
     <tr><td class="mono">${s.idn}</td><td class="cell-muted">${s.process}</td><td class="cell-muted">${s.step}</td><td class="duration-val">${s.duration}</td></tr>
-  `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No stuck instances in this scope.</td></tr>`;
+  `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No duration outliers in this scope.</td></tr>`;
 
   const byStuck = [...rows].sort((a, b) => b.stuckCount - a.stuckCount).slice(0, 5);
   drawBnTable('tenant-stuck-by-process-rows', byStuck.map(r => ({ name: r.name, queued: r.type, wait: r.stuckCount, label: String(r.stuckCount) })));
@@ -2352,10 +2352,10 @@ function renderTenantWidgets(rows) {
 
 function renderProcessLevelWidgets(row) {
   const isCase = row.type === 'Case';
-  document.getElementById('biz-single-stuck-title').textContent = isCase ? 'Stuck case instances' : 'Stuck process instances';
+  document.getElementById('biz-single-stuck-title').textContent = isCase ? 'Case duration outliers' : 'Duration outliers';
   document.getElementById('biz-single-stuck-hdr').innerHTML = (isCase ? 'Case ID' : 'Instance ID') + '<span class="si">⇅</span>';
   document.getElementById('biz-single-stuck-help').textContent =
-    `${isCase ? 'Case instances' : 'Instances'} that are taking noticeably longer than usual at ${isCase ? 'their current stage' : 'their current step'}, compared to how long that ${isCase ? 'stage' : 'step'} normally takes. These are the best ones to check on first.`;
+    `${isCase ? 'Case instances' : 'Instances'} whose active duration ${isCase ? 'in their current stage' : 'at their current step'} deviates noticeably from that ${isCase ? 'stage' : 'step'}’s average. These are the best ones to check on first.`;
   document.getElementById('biz-single-bottleneck-title').textContent = isCase ? 'Bottleneck stages' : 'Bottleneck steps';
   document.getElementById('biz-single-bottleneck-hdr').innerHTML = (isCase ? 'Stage name' : 'Step name') + '<span class="si">⇅</span>';
   document.getElementById('biz-single-bottleneck-help').textContent =
