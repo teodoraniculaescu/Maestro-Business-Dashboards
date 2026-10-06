@@ -619,10 +619,10 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);ba
             <tbody id="tenant-stuck-instances-rows"></tbody></table>
           </div>
           <div class="card">
-            <div class="card-hd"><span class="card-title">Top 5 processes by long-running instances</span>
-              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 processes that have the highest concentration of duration outliers right now.</span></span>
+            <div class="card-hd"><span class="card-title">Top 5 processes by open instances</span>
+              <span class="kpi-tw"><button class="kpi-ib">ⓘ</button><span class="kpi-tt kpi-tt-r kpi-tt-b">Top 5 processes with the most open instances right now.</span></span>
             </div>
-            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Long-running instances<span class="si">⇅</span></th></tr></thead>
+            <table class="tbl"><thead><tr><th>Process<span class="si">⇅</span></th><th>Type<span class="si">⇅</span></th><th>Open instances<span class="si">⇅</span></th></tr></thead>
             <tbody id="tenant-stuck-by-process-rows"></tbody></table>
           </div>
         </div>
@@ -2346,8 +2346,9 @@ function renderTenantWidgets(rows) {
     <tr><td class="mono">${s.idn}</td><td class="cell-muted">${s.process}</td><td class="cell-muted">${s.step}</td><td class="duration-val">${s.duration}</td></tr>
   `).join('') || `<tr><td colspan="4" class="cell-muted" style="text-align:center;padding:16px;">No duration outliers in this scope.</td></tr>`;
 
-  const byStuck = [...rows].sort((a, b) => b.stuckCount - a.stuckCount).slice(0, 5);
-  drawBnTable('tenant-stuck-by-process-rows', byStuck.map(r => ({ name: r.name, queued: r.type, wait: r.stuckCount, label: String(r.stuckCount) })));
+  const byOpen = rows.map(r => ({ r, open: Math.round(r.total * OPEN_RATIO) }))
+    .sort((a, b) => b.open - a.open).slice(0, 5);
+  drawBnTable('tenant-stuck-by-process-rows', byOpen.map(({ r, open }) => ({ name: r.name, queued: r.type, wait: open, label: open.toLocaleString() })));
 }
 
 function renderProcessLevelWidgets(row) {
